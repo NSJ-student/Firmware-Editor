@@ -32,21 +32,24 @@ namespace Firmware_Editor
             this.label1 = new System.Windows.Forms.Label();
             this.txtFixedArea = new System.Windows.Forms.TextBox();
             this.workPanel = new System.Windows.Forms.Panel();
+            this.progressCheckFixedArea = new System.Windows.Forms.ProgressBar();
+            this.txtCompareResult = new System.Windows.Forms.RichTextBox();
+            this.btnSaveUpdateArea = new System.Windows.Forms.Button();
+            this.btnCheckFixedArea = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtUpdateArea = new System.Windows.Forms.TextBox();
             this.txtFirmwareBinPath = new System.Windows.Forms.TextBox();
             this.btnOpenFirmware = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtUpdateArea = new System.Windows.Forms.TextBox();
-            this.btnCheckFixedArea = new System.Windows.Forms.Button();
-            this.btnSaveUpdateArea = new System.Windows.Forms.Button();
             this.txtReferencePath = new System.Windows.Forms.TextBox();
             this.btnOpenReference = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtCompareResult = new System.Windows.Forms.RichTextBox();
-            this.progressCheckFixedArea = new System.Windows.Forms.ProgressBar();
-            this.progressSaveUpdateArea = new System.Windows.Forms.ProgressBar();
+            this.btnCancelCheck = new System.Windows.Forms.Button();
+            this.cbShowDifference = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtMismatchedNumber = new System.Windows.Forms.TextBox();
             this.workPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,7 +73,10 @@ namespace Firmware_Editor
             // 
             // workPanel
             // 
-            this.workPanel.Controls.Add(this.progressSaveUpdateArea);
+            this.workPanel.Controls.Add(this.txtMismatchedNumber);
+            this.workPanel.Controls.Add(this.label7);
+            this.workPanel.Controls.Add(this.cbShowDifference);
+            this.workPanel.Controls.Add(this.btnCancelCheck);
             this.workPanel.Controls.Add(this.progressCheckFixedArea);
             this.workPanel.Controls.Add(this.txtCompareResult);
             this.workPanel.Controls.Add(this.btnSaveUpdateArea);
@@ -84,8 +90,83 @@ namespace Firmware_Editor
             this.workPanel.Enabled = false;
             this.workPanel.Location = new System.Drawing.Point(14, 81);
             this.workPanel.Name = "workPanel";
-            this.workPanel.Size = new System.Drawing.Size(596, 254);
+            this.workPanel.Size = new System.Drawing.Size(596, 265);
             this.workPanel.TabIndex = 2;
+            // 
+            // progressCheckFixedArea
+            // 
+            this.progressCheckFixedArea.Location = new System.Drawing.Point(215, 11);
+            this.progressCheckFixedArea.Name = "progressCheckFixedArea";
+            this.progressCheckFixedArea.Size = new System.Drawing.Size(163, 23);
+            this.progressCheckFixedArea.TabIndex = 6;
+            // 
+            // txtCompareResult
+            // 
+            this.txtCompareResult.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtCompareResult.Location = new System.Drawing.Point(18, 115);
+            this.txtCompareResult.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.txtCompareResult.Name = "txtCompareResult";
+            this.txtCompareResult.ReadOnly = true;
+            this.txtCompareResult.Size = new System.Drawing.Size(562, 136);
+            this.txtCompareResult.TabIndex = 5;
+            this.txtCompareResult.Text = "";
+            this.txtCompareResult.WordWrap = false;
+            // 
+            // btnSaveUpdateArea
+            // 
+            this.btnSaveUpdateArea.Location = new System.Drawing.Point(384, 43);
+            this.btnSaveUpdateArea.Name = "btnSaveUpdateArea";
+            this.btnSaveUpdateArea.Size = new System.Drawing.Size(196, 25);
+            this.btnSaveUpdateArea.TabIndex = 4;
+            this.btnSaveUpdateArea.Text = "Save Update Area";
+            this.btnSaveUpdateArea.UseVisualStyleBackColor = true;
+            this.btnSaveUpdateArea.Click += new System.EventHandler(this.btnSaveUpdateArea_Click);
+            // 
+            // btnCheckFixedArea
+            // 
+            this.btnCheckFixedArea.Location = new System.Drawing.Point(384, 9);
+            this.btnCheckFixedArea.Name = "btnCheckFixedArea";
+            this.btnCheckFixedArea.Size = new System.Drawing.Size(119, 25);
+            this.btnCheckFixedArea.TabIndex = 4;
+            this.btnCheckFixedArea.Text = "Check Fixed Area";
+            this.btnCheckFixedArea.UseVisualStyleBackColor = true;
+            this.btnCheckFixedArea.Click += new System.EventHandler(this.btnCheckFixedArea_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 49);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 12);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Update Area";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 15);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 12);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Fixed Area";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(112, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(18, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "0x";
+            // 
+            // txtUpdateArea
+            // 
+            this.txtUpdateArea.Location = new System.Drawing.Point(136, 46);
+            this.txtUpdateArea.Name = "txtUpdateArea";
+            this.txtUpdateArea.Size = new System.Drawing.Size(73, 21);
+            this.txtUpdateArea.TabIndex = 1;
+            this.txtUpdateArea.Text = "20000";
+            this.txtUpdateArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtFirmwareBinPath
             // 
@@ -114,62 +195,6 @@ namespace Firmware_Editor
             this.label2.TabIndex = 5;
             this.label2.Text = "Open Firmware Binary";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 15);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 12);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Fixed Area";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 49);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 12);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Update Area";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(112, 49);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(18, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "0x";
-            // 
-            // txtUpdateArea
-            // 
-            this.txtUpdateArea.Location = new System.Drawing.Point(136, 46);
-            this.txtUpdateArea.Name = "txtUpdateArea";
-            this.txtUpdateArea.Size = new System.Drawing.Size(73, 21);
-            this.txtUpdateArea.TabIndex = 1;
-            this.txtUpdateArea.Text = "20000";
-            this.txtUpdateArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // btnCheckFixedArea
-            // 
-            this.btnCheckFixedArea.Location = new System.Drawing.Point(405, 9);
-            this.btnCheckFixedArea.Name = "btnCheckFixedArea";
-            this.btnCheckFixedArea.Size = new System.Drawing.Size(175, 25);
-            this.btnCheckFixedArea.TabIndex = 4;
-            this.btnCheckFixedArea.Text = "Check Fixed Area";
-            this.btnCheckFixedArea.UseVisualStyleBackColor = true;
-            this.btnCheckFixedArea.Click += new System.EventHandler(this.btnCheckFixedArea_Click);
-            // 
-            // btnSaveUpdateArea
-            // 
-            this.btnSaveUpdateArea.Location = new System.Drawing.Point(405, 43);
-            this.btnSaveUpdateArea.Name = "btnSaveUpdateArea";
-            this.btnSaveUpdateArea.Size = new System.Drawing.Size(175, 25);
-            this.btnSaveUpdateArea.TabIndex = 4;
-            this.btnSaveUpdateArea.Text = "Save Update Area";
-            this.btnSaveUpdateArea.UseVisualStyleBackColor = true;
-            this.btnSaveUpdateArea.Click += new System.EventHandler(this.btnSaveUpdateArea_Click);
-            // 
             // txtReferencePath
             // 
             this.txtReferencePath.Location = new System.Drawing.Point(150, 44);
@@ -197,37 +222,51 @@ namespace Firmware_Editor
             this.label6.TabIndex = 5;
             this.label6.Text = "Refence Binary";
             // 
-            // txtCompareResult
+            // btnCancelCheck
             // 
-            this.txtCompareResult.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtCompareResult.Location = new System.Drawing.Point(18, 81);
-            this.txtCompareResult.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.txtCompareResult.Name = "txtCompareResult";
-            this.txtCompareResult.ReadOnly = true;
-            this.txtCompareResult.Size = new System.Drawing.Size(562, 160);
-            this.txtCompareResult.TabIndex = 5;
-            this.txtCompareResult.Text = "";
-            this.txtCompareResult.WordWrap = false;
+            this.btnCancelCheck.Location = new System.Drawing.Point(509, 9);
+            this.btnCancelCheck.Name = "btnCancelCheck";
+            this.btnCancelCheck.Size = new System.Drawing.Size(71, 25);
+            this.btnCancelCheck.TabIndex = 7;
+            this.btnCancelCheck.Text = "Cancel";
+            this.btnCancelCheck.UseVisualStyleBackColor = true;
+            this.btnCancelCheck.Click += new System.EventHandler(this.btnCancelCheck_Click);
             // 
-            // progressCheckFixedArea
+            // cbShowDifference
             // 
-            this.progressCheckFixedArea.Location = new System.Drawing.Point(215, 11);
-            this.progressCheckFixedArea.Name = "progressCheckFixedArea";
-            this.progressCheckFixedArea.Size = new System.Drawing.Size(184, 23);
-            this.progressCheckFixedArea.TabIndex = 6;
+            this.cbShowDifference.AutoSize = true;
+            this.cbShowDifference.Checked = true;
+            this.cbShowDifference.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbShowDifference.Location = new System.Drawing.Point(525, 87);
+            this.cbShowDifference.Name = "cbShowDifference";
+            this.cbShowDifference.Size = new System.Drawing.Size(55, 16);
+            this.cbShowDifference.TabIndex = 8;
+            this.cbShowDifference.Text = "show";
+            this.cbShowDifference.UseVisualStyleBackColor = true;
             // 
-            // progressSaveUpdateArea
+            // label7
             // 
-            this.progressSaveUpdateArea.Location = new System.Drawing.Point(215, 44);
-            this.progressSaveUpdateArea.Name = "progressSaveUpdateArea";
-            this.progressSaveUpdateArea.Size = new System.Drawing.Size(184, 23);
-            this.progressSaveUpdateArea.TabIndex = 6;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(18, 88);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(132, 12);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Mismatched Number: ";
+            // 
+            // txtMismatchedNumber
+            // 
+            this.txtMismatchedNumber.Location = new System.Drawing.Point(156, 85);
+            this.txtMismatchedNumber.Name = "txtMismatchedNumber";
+            this.txtMismatchedNumber.ReadOnly = true;
+            this.txtMismatchedNumber.Size = new System.Drawing.Size(100, 21);
+            this.txtMismatchedNumber.TabIndex = 10;
+            this.txtMismatchedNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 347);
+            this.ClientSize = new System.Drawing.Size(626, 358);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnOpenReference);
             this.Controls.Add(this.label2);
@@ -265,8 +304,11 @@ namespace Firmware_Editor
         private System.Windows.Forms.Button btnOpenReference;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RichTextBox txtCompareResult;
-        private System.Windows.Forms.ProgressBar progressSaveUpdateArea;
         private System.Windows.Forms.ProgressBar progressCheckFixedArea;
+        private System.Windows.Forms.Button btnCancelCheck;
+        private System.Windows.Forms.CheckBox cbShowDifference;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtMismatchedNumber;
     }
 }
 
