@@ -32,6 +32,12 @@ namespace Firmware_Editor
             this.label1 = new System.Windows.Forms.Label();
             this.txtFixedArea = new System.Windows.Forms.TextBox();
             this.workPanel = new System.Windows.Forms.Panel();
+            this.btnCRC32 = new System.Windows.Forms.Button();
+            this.txtCRC32 = new System.Windows.Forms.TextBox();
+            this.txtMismatchedNumber = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbShowDifference = new System.Windows.Forms.CheckBox();
+            this.btnCancelCheck = new System.Windows.Forms.Button();
             this.progressCheckFixedArea = new System.Windows.Forms.ProgressBar();
             this.txtCompareResult = new System.Windows.Forms.RichTextBox();
             this.btnSaveUpdateArea = new System.Windows.Forms.Button();
@@ -46,10 +52,6 @@ namespace Firmware_Editor
             this.txtReferencePath = new System.Windows.Forms.TextBox();
             this.btnOpenReference = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnCancelCheck = new System.Windows.Forms.Button();
-            this.cbShowDifference = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtMismatchedNumber = new System.Windows.Forms.TextBox();
             this.workPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +66,7 @@ namespace Firmware_Editor
             // 
             // txtFixedArea
             // 
-            this.txtFixedArea.Location = new System.Drawing.Point(136, 12);
+            this.txtFixedArea.Location = new System.Drawing.Point(136, 11);
             this.txtFixedArea.Name = "txtFixedArea";
             this.txtFixedArea.Size = new System.Drawing.Size(73, 21);
             this.txtFixedArea.TabIndex = 1;
@@ -73,6 +75,8 @@ namespace Firmware_Editor
             // 
             // workPanel
             // 
+            this.workPanel.Controls.Add(this.btnCRC32);
+            this.workPanel.Controls.Add(this.txtCRC32);
             this.workPanel.Controls.Add(this.txtMismatchedNumber);
             this.workPanel.Controls.Add(this.label7);
             this.workPanel.Controls.Add(this.cbShowDifference);
@@ -92,6 +96,65 @@ namespace Firmware_Editor
             this.workPanel.Name = "workPanel";
             this.workPanel.Size = new System.Drawing.Size(596, 265);
             this.workPanel.TabIndex = 2;
+            // 
+            // btnCRC32
+            // 
+            this.btnCRC32.Location = new System.Drawing.Point(277, 83);
+            this.btnCRC32.Name = "btnCRC32";
+            this.btnCRC32.Size = new System.Drawing.Size(75, 23);
+            this.btnCRC32.TabIndex = 11;
+            this.btnCRC32.Text = "CRC32";
+            this.btnCRC32.UseVisualStyleBackColor = true;
+            this.btnCRC32.Click += new System.EventHandler(this.btnCRC32_Click);
+            // 
+            // txtCRC32
+            // 
+            this.txtCRC32.Location = new System.Drawing.Point(358, 85);
+            this.txtCRC32.Name = "txtCRC32";
+            this.txtCRC32.ReadOnly = true;
+            this.txtCRC32.Size = new System.Drawing.Size(100, 21);
+            this.txtCRC32.TabIndex = 10;
+            this.txtCRC32.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtMismatchedNumber
+            // 
+            this.txtMismatchedNumber.Location = new System.Drawing.Point(156, 85);
+            this.txtMismatchedNumber.Name = "txtMismatchedNumber";
+            this.txtMismatchedNumber.ReadOnly = true;
+            this.txtMismatchedNumber.Size = new System.Drawing.Size(100, 21);
+            this.txtMismatchedNumber.TabIndex = 10;
+            this.txtMismatchedNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(18, 88);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(132, 12);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Mismatched Number: ";
+            // 
+            // cbShowDifference
+            // 
+            this.cbShowDifference.AutoSize = true;
+            this.cbShowDifference.Checked = true;
+            this.cbShowDifference.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbShowDifference.Location = new System.Drawing.Point(525, 87);
+            this.cbShowDifference.Name = "cbShowDifference";
+            this.cbShowDifference.Size = new System.Drawing.Size(55, 16);
+            this.cbShowDifference.TabIndex = 8;
+            this.cbShowDifference.Text = "show";
+            this.cbShowDifference.UseVisualStyleBackColor = true;
+            // 
+            // btnCancelCheck
+            // 
+            this.btnCancelCheck.Location = new System.Drawing.Point(509, 9);
+            this.btnCancelCheck.Name = "btnCancelCheck";
+            this.btnCancelCheck.Size = new System.Drawing.Size(71, 25);
+            this.btnCancelCheck.TabIndex = 7;
+            this.btnCancelCheck.Text = "Cancel";
+            this.btnCancelCheck.UseVisualStyleBackColor = true;
+            this.btnCancelCheck.Click += new System.EventHandler(this.btnCancelCheck_Click);
             // 
             // progressCheckFixedArea
             // 
@@ -222,46 +285,6 @@ namespace Firmware_Editor
             this.label6.TabIndex = 5;
             this.label6.Text = "Refence Binary";
             // 
-            // btnCancelCheck
-            // 
-            this.btnCancelCheck.Location = new System.Drawing.Point(509, 9);
-            this.btnCancelCheck.Name = "btnCancelCheck";
-            this.btnCancelCheck.Size = new System.Drawing.Size(71, 25);
-            this.btnCancelCheck.TabIndex = 7;
-            this.btnCancelCheck.Text = "Cancel";
-            this.btnCancelCheck.UseVisualStyleBackColor = true;
-            this.btnCancelCheck.Click += new System.EventHandler(this.btnCancelCheck_Click);
-            // 
-            // cbShowDifference
-            // 
-            this.cbShowDifference.AutoSize = true;
-            this.cbShowDifference.Checked = true;
-            this.cbShowDifference.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbShowDifference.Location = new System.Drawing.Point(525, 87);
-            this.cbShowDifference.Name = "cbShowDifference";
-            this.cbShowDifference.Size = new System.Drawing.Size(55, 16);
-            this.cbShowDifference.TabIndex = 8;
-            this.cbShowDifference.Text = "show";
-            this.cbShowDifference.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 88);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(132, 12);
-            this.label7.TabIndex = 9;
-            this.label7.Text = "Mismatched Number: ";
-            // 
-            // txtMismatchedNumber
-            // 
-            this.txtMismatchedNumber.Location = new System.Drawing.Point(156, 85);
-            this.txtMismatchedNumber.Name = "txtMismatchedNumber";
-            this.txtMismatchedNumber.ReadOnly = true;
-            this.txtMismatchedNumber.Size = new System.Drawing.Size(100, 21);
-            this.txtMismatchedNumber.TabIndex = 10;
-            this.txtMismatchedNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -309,6 +332,8 @@ namespace Firmware_Editor
         private System.Windows.Forms.CheckBox cbShowDifference;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtMismatchedNumber;
+        private System.Windows.Forms.TextBox txtCRC32;
+        private System.Windows.Forms.Button btnCRC32;
     }
 }
 

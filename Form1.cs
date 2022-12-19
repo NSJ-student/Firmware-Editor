@@ -13,6 +13,7 @@ namespace Firmware_Editor
 {
     public partial class Form1 : Form
     {
+        UInt32[] l_ulCRCtable;
         OpenFileDialog open_dialog;
         SaveFileDialog save_dialog;
         byte[] workingData;
@@ -22,9 +23,13 @@ namespace Firmware_Editor
         bool cancelCheck;
         int mismatchedNumber;
 
+
         public Form1()
         {
             InitializeComponent();
+
+            l_ulCRCtable = new UInt32[256];
+            makeCRC_32_Table(0x04C11DB7);
 
             open_dialog = new OpenFileDialog();
             open_dialog.Filter = "Bin Files(*.bin)|*.bin";
@@ -56,7 +61,10 @@ namespace Firmware_Editor
         {
             mismatchedNumber = 0;
             WorkArg args = (WorkArg)arg.Argument;
-            Color textcolor;
+            Color textcolor = Color.Black;
+            Color prev_color = Color.Black;
+            string text = "";
+            UInt32 refresh_cnt = 0;
 
             for (int pos = 0; pos < 0x00020000; pos++)
             {
@@ -68,7 +76,7 @@ namespace Firmware_Editor
                 }
                 if(cbShowDifference.Checked)
                 {
-                    string text = "";
+                    refresh_cnt++;
                     if ((pos % 16) == 0)
                     {
                         if (pos != 0)
@@ -77,17 +85,23 @@ namespace Firmware_Editor
                         }
 
                         textcolor = Color.Black;
-                        text += (pos & 0xFFFFFFF0).ToString("X8") + ": ";
-                        args.setProperty(textcolor, text);
 
-                        this.Invoke(new Action(() =>
+                        if (prev_color != textcolor)
                         {
-                            txtCompareResult.SelectionColor = userArg.textColor;
-                            txtCompareResult.AppendText(userArg.textContent);
-                        }));
+                            args.setProperty(textcolor, text);
+                            this.Invoke(new Action(() =>
+                            {
+                                txtCompareResult.SelectionColor = userArg.textColor;
+                                txtCompareResult.AppendText(userArg.textContent);
+                                txtMismatchedNumber.Text = mismatchedNumber.ToString();
+                            }));
+                            prev_color = textcolor;
+                            refresh_cnt = 0;
+                            text = "";
+                        }
 
+                        text += (pos & 0xFFFFFFF0).ToString("X8") + ": ";
                         LoadWorker.ReportProgress((int)(pos * 100 / 0x00020000));
-                        text = "";
                     }
 
                     if (referenceData[pos] != workingData[pos])
@@ -100,13 +114,34 @@ namespace Firmware_Editor
                         textcolor = Color.Black;
                     }
 
-                    text += workingData[pos].ToString("X2") + " ";
-                    args.setProperty(textcolor, text);
-                    this.Invoke(new Action(() =>
+                    if(prev_color != textcolor)
                     {
-                        txtCompareResult.SelectionColor = userArg.textColor;
-                        txtCompareResult.AppendText(userArg.textContent);
-                    }));
+                        args.setProperty(prev_color, text);
+                        this.Invoke(new Action(() =>
+                        {
+                            txtCompareResult.SelectionColor = userArg.textColor;
+                            txtCompareResult.AppendText(userArg.textContent);
+                            txtMismatchedNumber.Text = mismatchedNumber.ToString();
+                        }));
+                        prev_color = textcolor;
+                        refresh_cnt = 0;
+                        text = "";
+                    }
+
+                    text += workingData[pos].ToString("X2") + " ";
+
+                    if(refresh_cnt > 128)
+                    {
+                        args.setProperty(textcolor, text);
+                        this.Invoke(new Action(() =>
+                        {
+                            txtCompareResult.SelectionColor = userArg.textColor;
+                            txtCompareResult.AppendText(userArg.textContent);
+                            txtMismatchedNumber.Text = mismatchedNumber.ToString();
+                        }));
+                        refresh_cnt = 0;
+                        text = "";
+                    }
                 }
                 else
                 {
@@ -118,6 +153,15 @@ namespace Firmware_Editor
 
             }
 
+            if (cbShowDifference.Checked)
+            {
+                args.setProperty(textcolor, text);
+                this.Invoke(new Action(() =>
+                {
+                    txtCompareResult.SelectionColor = userArg.textColor;
+                    txtCompareResult.AppendText(userArg.textContent);
+                }));
+            }
             LoadWorker.ReportProgress(100);
         }
 
@@ -132,6 +176,7 @@ namespace Firmware_Editor
             if (DialogResult.OK == open_dialog.ShowDialog())
             {
                 txtFirmwareBinPath.Text = open_dialog.FileName;
+                txtFirmwareBinPath.Select(txtFirmwareBinPath.Text.Length, 0);
 
                 workPanel.Enabled = true;
 
@@ -148,6 +193,7 @@ namespace Firmware_Editor
             if (DialogResult.OK == open_dialog.ShowDialog())
             {
                 txtReferencePath.Text = open_dialog.FileName;
+                txtReferencePath.Select(txtReferencePath.Text.Length, 0);
 
                 FileStream file = File.OpenRead(open_dialog.FileName);
                 BinaryReader reader = new BinaryReader(file);
@@ -176,6 +222,7 @@ namespace Firmware_Editor
                     return;
                 }
 
+                progressCheckFixedArea.Value = 0;
                 txtCompareResult.Clear();
                 userArg.setProperty(referenceData.Length, start_pos, end_pos);
                 LoadWorker.RunWorkerAsync(userArg);
@@ -213,6 +260,49 @@ namespace Firmware_Editor
             }
         }
 
+        private void makeCRC_32_Table(UInt32 polynomial)
+        {
+            const UInt32 V = (0x80000000);
+            UInt32 i, j;
+            UInt32 c;
+
+            l_ulCRCtable[0] = 0;
+
+            for (i = 0; i < 256; i++)
+            {
+                for (c = i << 24, j = 8; j > 0; --j)
+                    c = ((c & V)>0) ? ((c << 1) ^ 0x04c11db7) : (c << 1);
+                l_ulCRCtable[i] = c;
+            }
+
+        }
+
+        UInt32 update_CRC_32(UInt32 p_ulCRC, byte[] p_cpBuffer, int p_uiLen)
+        {
+            UInt32 crc = p_ulCRC;
+            UInt32 pos = 0;
+
+	        while ((p_uiLen--)>0)
+	        {
+		        crc = (crc << 8) ^ l_ulCRCtable[((crc >> 24) ^ p_cpBuffer[pos]) & 255];
+		        pos++;
+	        }
+	        return crc;
+        }
+
+        private void btnCRC32_Click(object sender, EventArgs e)
+        {
+            int end_pos = Convert.ToInt32(txtUpdateArea.Text, 16);
+
+            if (workingData.Length < end_pos)
+            {
+                MessageBox.Show("working data length is too short");
+                return;
+            }
+
+            UInt32 result = update_CRC_32(0, workingData, workingData.Length);
+            txtCRC32.Text = result.ToString("X8");
+        }
     }
 
     public class WorkArg
