@@ -29,7 +29,7 @@ namespace Firmware_Editor
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtFixedArea = new System.Windows.Forms.TextBox();
+            this.txtCompareStartAddr = new System.Windows.Forms.TextBox();
             this.btnCRC32 = new System.Windows.Forms.Button();
             this.txtCRC32 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -38,7 +38,7 @@ namespace Firmware_Editor
             this.btnSaveUpdateArea = new System.Windows.Forms.Button();
             this.btnCompareDatas = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtUpdateArea = new System.Windows.Forms.TextBox();
+            this.txtCompareStopAddr = new System.Windows.Forms.TextBox();
             this.txtFirmwareBinPath = new System.Windows.Forms.TextBox();
             this.btnOpenFirmware = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -56,6 +56,8 @@ namespace Firmware_Editor
             this.workPanel = new System.Windows.Forms.TableLayoutPanel();
             this.txtMismatchedNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.customCompareRange = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label4 = new System.Windows.Forms.Label();
@@ -64,15 +66,52 @@ namespace Firmware_Editor
             this.tabMainControl = new System.Windows.Forms.TabControl();
             this.tabELF = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.dgvProgramHeader = new System.Windows.Forms.TabControl();
+            this.tabElfParse = new System.Windows.Forms.TabControl();
             this.tabElfHeader = new System.Windows.Forms.TabPage();
             this.dgvElfHeader = new System.Windows.Forms.DataGridView();
             this.colElfName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colElfContents = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSectionHeader = new System.Windows.Forms.TabPage();
+            this.dgvSectionHeader = new System.Windows.Forms.DataGridView();
+            this.colSectionIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionFlags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSectionLink = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabProgramHeader = new System.Windows.Forms.TabPage();
+            this.dgvProgramHeader = new System.Windows.Forms.DataGridView();
+            this.colProgramType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramPhyAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramFileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramMemorySize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProgramFlags = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rtbElfHeader = new System.Windows.Forms.RichTextBox();
             this.tabFirmwareBinary = new System.Windows.Forms.TabPage();
+            this.cbMakeFileSizeFormat = new System.Windows.Forms.CheckBox();
+            this.txtMakeFileSize = new System.Windows.Forms.TextBox();
+            this.panelMakePadding = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.btnMakeBinary = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtBinaryNamePrefix = new System.Windows.Forms.TextBox();
+            this.cbBinaryPadding = new System.Windows.Forms.CheckBox();
+            this.dgvMakeBinary = new System.Windows.Forms.DataGridView();
+            this.colMakeSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colMakeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMakeOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMakeAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMakeSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabCompare = new System.Windows.Forms.TabPage();
             this.tabParameter = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -84,27 +123,10 @@ namespace Firmware_Editor
             this.txtConfigPath = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progressWork = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.dgvSectionHeader = new System.Windows.Forms.DataGridView();
-            this.colSectionIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionFlags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSectionLink = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.colProgramType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProgramOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProgramVA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProgramPhyAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProgramFileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProgramMemorySize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProgramFlags = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.workPanel.SuspendLayout();
+            this.customCompareRange.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -116,32 +138,34 @@ namespace Firmware_Editor
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.dgvProgramHeader.SuspendLayout();
+            this.tabElfParse.SuspendLayout();
             this.tabElfHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvElfHeader)).BeginInit();
             this.tabSectionHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSectionHeader)).BeginInit();
             this.tabProgramHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProgramHeader)).BeginInit();
+            this.tabFirmwareBinary.SuspendLayout();
+            this.panelMakePadding.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMakeBinary)).BeginInit();
             this.tabCompare.SuspendLayout();
             this.tabParameter.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSectionHeader)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtFixedArea
+            // txtCompareStartAddr
             // 
-            this.txtFixedArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFixedArea.Location = new System.Drawing.Point(97, 13);
-            this.txtFixedArea.Name = "txtFixedArea";
-            this.txtFixedArea.Size = new System.Drawing.Size(64, 21);
-            this.txtFixedArea.TabIndex = 1;
-            this.txtFixedArea.Text = "0";
-            this.txtFixedArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtCompareStartAddr.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtCompareStartAddr.Location = new System.Drawing.Point(3, 3);
+            this.txtCompareStartAddr.Name = "txtCompareStartAddr";
+            this.txtCompareStartAddr.Size = new System.Drawing.Size(65, 21);
+            this.txtCompareStartAddr.TabIndex = 1;
+            this.txtCompareStartAddr.Text = "0";
+            this.txtCompareStartAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnCRC32
             // 
@@ -150,7 +174,7 @@ namespace Firmware_Editor
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCRC32.Location = new System.Drawing.Point(167, 44);
             this.btnCRC32.Name = "btnCRC32";
-            this.btnCRC32.Size = new System.Drawing.Size(64, 23);
+            this.btnCRC32.Size = new System.Drawing.Size(94, 23);
             this.btnCRC32.TabIndex = 11;
             this.btnCRC32.Text = "CRC32";
             this.btnCRC32.UseVisualStyleBackColor = true;
@@ -211,7 +235,7 @@ namespace Firmware_Editor
             // 
             this.btnSaveUpdateArea.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSaveUpdateArea.Location = new System.Drawing.Point(337, 13);
+            this.btnSaveUpdateArea.Location = new System.Drawing.Point(451, 13);
             this.btnSaveUpdateArea.Name = "btnSaveUpdateArea";
             this.btnSaveUpdateArea.Size = new System.Drawing.Size(94, 25);
             this.btnSaveUpdateArea.TabIndex = 4;
@@ -224,7 +248,7 @@ namespace Firmware_Editor
             this.btnCompareDatas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCompareDatas.Location = new System.Drawing.Point(237, 13);
+            this.btnCompareDatas.Location = new System.Drawing.Point(351, 13);
             this.btnCompareDatas.Name = "btnCompareDatas";
             this.btnCompareDatas.Size = new System.Drawing.Size(94, 25);
             this.btnCompareDatas.TabIndex = 4;
@@ -243,17 +267,15 @@ namespace Firmware_Editor
             this.label3.Text = "Range (hex)";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // txtUpdateArea
+            // txtCompareStopAddr
             // 
-            this.txtUpdateArea.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUpdateArea.Location = new System.Drawing.Point(167, 13);
-            this.txtUpdateArea.Name = "txtUpdateArea";
-            this.txtUpdateArea.Size = new System.Drawing.Size(64, 21);
-            this.txtUpdateArea.TabIndex = 1;
-            this.txtUpdateArea.Text = "18000";
-            this.txtUpdateArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtCompareStopAddr.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.txtCompareStopAddr.Location = new System.Drawing.Point(94, 3);
+            this.txtCompareStopAddr.Name = "txtCompareStopAddr";
+            this.txtCompareStopAddr.Size = new System.Drawing.Size(65, 21);
+            this.txtCompareStopAddr.TabIndex = 1;
+            this.txtCompareStopAddr.Text = "18000";
+            this.txtCompareStopAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtFirmwareBinPath
             // 
@@ -428,22 +450,21 @@ namespace Firmware_Editor
             this.tableLayoutPanel1.SetColumnSpan(this.workPanel, 3);
             this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.workPanel.Controls.Add(this.label3, 0, 0);
             this.workPanel.Controls.Add(this.label7, 0, 2);
-            this.workPanel.Controls.Add(this.txtFixedArea, 1, 0);
             this.workPanel.Controls.Add(this.txtMismatchedNumber, 1, 2);
-            this.workPanel.Controls.Add(this.txtUpdateArea, 2, 0);
-            this.workPanel.Controls.Add(this.btnSaveUpdateArea, 4, 0);
             this.workPanel.Controls.Add(this.txtCRC32, 1, 1);
             this.workPanel.Controls.Add(this.txtCompareResult, 0, 3);
-            this.workPanel.Controls.Add(this.btnCompareDatas, 3, 0);
             this.workPanel.Controls.Add(this.label1, 0, 1);
             this.workPanel.Controls.Add(this.btnCRC32, 2, 1);
             this.workPanel.Controls.Add(this.cbShowDifference, 4, 2);
+            this.workPanel.Controls.Add(this.customCompareRange, 1, 0);
+            this.workPanel.Controls.Add(this.btnSaveUpdateArea, 5, 0);
+            this.workPanel.Controls.Add(this.btnCompareDatas, 4, 0);
             this.workPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.workPanel.Location = new System.Drawing.Point(8, 66);
             this.workPanel.Name = "workPanel";
@@ -453,7 +474,6 @@ namespace Firmware_Editor
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.workPanel.Size = new System.Drawing.Size(558, 399);
             this.workPanel.TabIndex = 13;
             // 
@@ -479,6 +499,27 @@ namespace Firmware_Editor
             this.label1.TabIndex = 2;
             this.label1.Text = "CRC32 (hex)";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // customCompareRange
+            // 
+            this.workPanel.SetColumnSpan(this.customCompareRange, 2);
+            this.customCompareRange.Controls.Add(this.txtCompareStartAddr);
+            this.customCompareRange.Controls.Add(this.label5);
+            this.customCompareRange.Controls.Add(this.txtCompareStopAddr);
+            this.customCompareRange.Location = new System.Drawing.Point(97, 13);
+            this.customCompareRange.Name = "customCompareRange";
+            this.customCompareRange.Size = new System.Drawing.Size(164, 25);
+            this.customCompareRange.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(74, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(14, 12);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "~";
             // 
             // tableLayoutPanel2
             // 
@@ -525,19 +566,20 @@ namespace Firmware_Editor
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(3, 9);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 12);
+            this.label4.Size = new System.Drawing.Size(67, 12);
             this.label4.TabIndex = 18;
             this.label4.Text = "Load ELF";
             // 
             // txtElfFilePath
             // 
             this.txtElfFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtElfFilePath.Location = new System.Drawing.Point(68, 4);
+            this.txtElfFilePath.Location = new System.Drawing.Point(76, 4);
             this.txtElfFilePath.Name = "txtElfFilePath";
             this.txtElfFilePath.ReadOnly = true;
-            this.txtElfFilePath.Size = new System.Drawing.Size(713, 21);
+            this.txtElfFilePath.Size = new System.Drawing.Size(705, 21);
             this.txtElfFilePath.TabIndex = 16;
             // 
             // btnLoadELF
@@ -588,7 +630,7 @@ namespace Firmware_Editor
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.dgvProgramHeader);
+            this.splitContainer2.Panel1.Controls.Add(this.tabElfParse);
             // 
             // splitContainer2.Panel2
             // 
@@ -597,22 +639,23 @@ namespace Firmware_Editor
             this.splitContainer2.SplitterDistance = 526;
             this.splitContainer2.TabIndex = 1;
             // 
-            // dgvProgramHeader
+            // tabElfParse
             // 
-            this.dgvProgramHeader.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-            this.dgvProgramHeader.Controls.Add(this.tabElfHeader);
-            this.dgvProgramHeader.Controls.Add(this.tabSectionHeader);
-            this.dgvProgramHeader.Controls.Add(this.tabProgramHeader);
-            this.dgvProgramHeader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvProgramHeader.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dgvProgramHeader.ItemSize = new System.Drawing.Size(120, 30);
-            this.dgvProgramHeader.Location = new System.Drawing.Point(0, 0);
-            this.dgvProgramHeader.Name = "dgvProgramHeader";
-            this.dgvProgramHeader.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.dgvProgramHeader.SelectedIndex = 0;
-            this.dgvProgramHeader.Size = new System.Drawing.Size(526, 467);
-            this.dgvProgramHeader.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.dgvProgramHeader.TabIndex = 0;
+            this.tabElfParse.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+            this.tabElfParse.Controls.Add(this.tabElfHeader);
+            this.tabElfParse.Controls.Add(this.tabSectionHeader);
+            this.tabElfParse.Controls.Add(this.tabProgramHeader);
+            this.tabElfParse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabElfParse.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tabElfParse.ItemSize = new System.Drawing.Size(120, 30);
+            this.tabElfParse.Location = new System.Drawing.Point(0, 0);
+            this.tabElfParse.Name = "tabElfParse";
+            this.tabElfParse.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tabElfParse.SelectedIndex = 0;
+            this.tabElfParse.Size = new System.Drawing.Size(526, 467);
+            this.tabElfParse.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabElfParse.TabIndex = 0;
+            this.tabElfParse.SelectedIndexChanged += new System.EventHandler(this.tabElfParse_SelectedIndexChanged);
             // 
             // tabElfHeader
             // 
@@ -675,15 +718,192 @@ namespace Firmware_Editor
             this.tabSectionHeader.Text = "Section Header";
             this.tabSectionHeader.UseVisualStyleBackColor = true;
             // 
+            // dgvSectionHeader
+            // 
+            this.dgvSectionHeader.AllowUserToAddRows = false;
+            this.dgvSectionHeader.AllowUserToDeleteRows = false;
+            this.dgvSectionHeader.AllowUserToResizeColumns = false;
+            this.dgvSectionHeader.AllowUserToResizeRows = false;
+            this.dgvSectionHeader.ColumnHeadersHeight = 30;
+            this.dgvSectionHeader.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSectionIndex,
+            this.colSectionName,
+            this.colSectionType,
+            this.colSectionFlags,
+            this.colSectionVA,
+            this.colSectionOffset,
+            this.colSectionSize,
+            this.colSectionLink});
+            this.dgvSectionHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSectionHeader.Location = new System.Drawing.Point(3, 3);
+            this.dgvSectionHeader.MultiSelect = false;
+            this.dgvSectionHeader.Name = "dgvSectionHeader";
+            this.dgvSectionHeader.ReadOnly = true;
+            this.dgvSectionHeader.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dgvSectionHeader.RowHeadersVisible = false;
+            this.dgvSectionHeader.RowTemplate.Height = 23;
+            this.dgvSectionHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSectionHeader.Size = new System.Drawing.Size(512, 423);
+            this.dgvSectionHeader.TabIndex = 1;
+            // 
+            // colSectionIndex
+            // 
+            this.colSectionIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionIndex.HeaderText = "Index";
+            this.colSectionIndex.Name = "colSectionIndex";
+            this.colSectionIndex.ReadOnly = true;
+            this.colSectionIndex.Width = 61;
+            // 
+            // colSectionName
+            // 
+            this.colSectionName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionName.HeaderText = "Name";
+            this.colSectionName.Name = "colSectionName";
+            this.colSectionName.ReadOnly = true;
+            this.colSectionName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colSectionName.Width = 45;
+            // 
+            // colSectionType
+            // 
+            this.colSectionType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionType.HeaderText = "Type";
+            this.colSectionType.Name = "colSectionType";
+            this.colSectionType.ReadOnly = true;
+            this.colSectionType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.colSectionType.Width = 40;
+            // 
+            // colSectionFlags
+            // 
+            this.colSectionFlags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionFlags.HeaderText = "Flags";
+            this.colSectionFlags.Name = "colSectionFlags";
+            this.colSectionFlags.ReadOnly = true;
+            this.colSectionFlags.Width = 61;
+            // 
+            // colSectionVA
+            // 
+            this.colSectionVA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionVA.HeaderText = "Virtual Address";
+            this.colSectionVA.Name = "colSectionVA";
+            this.colSectionVA.ReadOnly = true;
+            this.colSectionVA.Width = 106;
+            // 
+            // colSectionOffset
+            // 
+            this.colSectionOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionOffset.HeaderText = "Offset";
+            this.colSectionOffset.Name = "colSectionOffset";
+            this.colSectionOffset.ReadOnly = true;
+            this.colSectionOffset.Width = 62;
+            // 
+            // colSectionSize
+            // 
+            this.colSectionSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionSize.HeaderText = "Size";
+            this.colSectionSize.Name = "colSectionSize";
+            this.colSectionSize.ReadOnly = true;
+            this.colSectionSize.Width = 55;
+            // 
+            // colSectionLink
+            // 
+            this.colSectionLink.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSectionLink.HeaderText = "Link";
+            this.colSectionLink.Name = "colSectionLink";
+            this.colSectionLink.ReadOnly = true;
+            this.colSectionLink.Width = 53;
+            // 
             // tabProgramHeader
             // 
-            this.tabProgramHeader.Controls.Add(this.dataGridView1);
+            this.tabProgramHeader.Controls.Add(this.dgvProgramHeader);
             this.tabProgramHeader.Location = new System.Drawing.Point(4, 4);
             this.tabProgramHeader.Name = "tabProgramHeader";
             this.tabProgramHeader.Size = new System.Drawing.Size(518, 429);
             this.tabProgramHeader.TabIndex = 2;
             this.tabProgramHeader.Text = "Program Header";
             this.tabProgramHeader.UseVisualStyleBackColor = true;
+            // 
+            // dgvProgramHeader
+            // 
+            this.dgvProgramHeader.AllowUserToAddRows = false;
+            this.dgvProgramHeader.AllowUserToDeleteRows = false;
+            this.dgvProgramHeader.AllowUserToResizeColumns = false;
+            this.dgvProgramHeader.AllowUserToResizeRows = false;
+            this.dgvProgramHeader.ColumnHeadersHeight = 30;
+            this.dgvProgramHeader.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colProgramType,
+            this.colProgramOffset,
+            this.colProgramVA,
+            this.colProgramPhyAddr,
+            this.colProgramFileSize,
+            this.colProgramMemorySize,
+            this.colProgramFlags});
+            this.dgvProgramHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvProgramHeader.Location = new System.Drawing.Point(0, 0);
+            this.dgvProgramHeader.MultiSelect = false;
+            this.dgvProgramHeader.Name = "dgvProgramHeader";
+            this.dgvProgramHeader.ReadOnly = true;
+            this.dgvProgramHeader.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dgvProgramHeader.RowHeadersVisible = false;
+            this.dgvProgramHeader.RowTemplate.Height = 23;
+            this.dgvProgramHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvProgramHeader.Size = new System.Drawing.Size(518, 429);
+            this.dgvProgramHeader.TabIndex = 2;
+            // 
+            // colProgramType
+            // 
+            this.colProgramType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramType.HeaderText = "Type";
+            this.colProgramType.Name = "colProgramType";
+            this.colProgramType.ReadOnly = true;
+            this.colProgramType.Width = 59;
+            // 
+            // colProgramOffset
+            // 
+            this.colProgramOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramOffset.HeaderText = "Offset";
+            this.colProgramOffset.Name = "colProgramOffset";
+            this.colProgramOffset.ReadOnly = true;
+            this.colProgramOffset.Width = 62;
+            // 
+            // colProgramVA
+            // 
+            this.colProgramVA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramVA.HeaderText = "Virtual Address";
+            this.colProgramVA.Name = "colProgramVA";
+            this.colProgramVA.ReadOnly = true;
+            this.colProgramVA.Width = 106;
+            // 
+            // colProgramPhyAddr
+            // 
+            this.colProgramPhyAddr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramPhyAddr.HeaderText = "Physical Address";
+            this.colProgramPhyAddr.Name = "colProgramPhyAddr";
+            this.colProgramPhyAddr.ReadOnly = true;
+            this.colProgramPhyAddr.Width = 119;
+            // 
+            // colProgramFileSize
+            // 
+            this.colProgramFileSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramFileSize.HeaderText = "File Size";
+            this.colProgramFileSize.Name = "colProgramFileSize";
+            this.colProgramFileSize.ReadOnly = true;
+            this.colProgramFileSize.Width = 73;
+            // 
+            // colProgramMemorySize
+            // 
+            this.colProgramMemorySize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramMemorySize.HeaderText = "Memory Size";
+            this.colProgramMemorySize.Name = "colProgramMemorySize";
+            this.colProgramMemorySize.ReadOnly = true;
+            this.colProgramMemorySize.Width = 97;
+            // 
+            // colProgramFlags
+            // 
+            this.colProgramFlags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colProgramFlags.HeaderText = "Flags";
+            this.colProgramFlags.Name = "colProgramFlags";
+            this.colProgramFlags.ReadOnly = true;
+            this.colProgramFlags.Width = 61;
             // 
             // rtbElfHeader
             // 
@@ -698,6 +918,17 @@ namespace Firmware_Editor
             // 
             // tabFirmwareBinary
             // 
+            this.tabFirmwareBinary.Controls.Add(this.cbMakeFileSizeFormat);
+            this.tabFirmwareBinary.Controls.Add(this.txtMakeFileSize);
+            this.tabFirmwareBinary.Controls.Add(this.panelMakePadding);
+            this.tabFirmwareBinary.Controls.Add(this.label14);
+            this.tabFirmwareBinary.Controls.Add(this.label16);
+            this.tabFirmwareBinary.Controls.Add(this.label12);
+            this.tabFirmwareBinary.Controls.Add(this.btnMakeBinary);
+            this.tabFirmwareBinary.Controls.Add(this.label11);
+            this.tabFirmwareBinary.Controls.Add(this.txtBinaryNamePrefix);
+            this.tabFirmwareBinary.Controls.Add(this.cbBinaryPadding);
+            this.tabFirmwareBinary.Controls.Add(this.dgvMakeBinary);
             this.tabFirmwareBinary.Location = new System.Drawing.Point(4, 24);
             this.tabFirmwareBinary.Name = "tabFirmwareBinary";
             this.tabFirmwareBinary.Padding = new System.Windows.Forms.Padding(3);
@@ -705,6 +936,194 @@ namespace Firmware_Editor
             this.tabFirmwareBinary.TabIndex = 1;
             this.tabFirmwareBinary.Text = "Make Binary";
             this.tabFirmwareBinary.UseVisualStyleBackColor = true;
+            // 
+            // cbMakeFileSizeFormat
+            // 
+            this.cbMakeFileSizeFormat.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cbMakeFileSizeFormat.AutoSize = true;
+            this.cbMakeFileSizeFormat.Location = new System.Drawing.Point(716, 140);
+            this.cbMakeFileSizeFormat.Name = "cbMakeFileSizeFormat";
+            this.cbMakeFileSizeFormat.Size = new System.Drawing.Size(47, 22);
+            this.cbMakeFileSizeFormat.TabIndex = 32;
+            this.cbMakeFileSizeFormat.Text = "BYTE";
+            this.cbMakeFileSizeFormat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cbMakeFileSizeFormat.UseVisualStyleBackColor = true;
+            this.cbMakeFileSizeFormat.CheckedChanged += new System.EventHandler(this.cbMakeFileSizeFormat_CheckedChanged);
+            // 
+            // txtMakeFileSize
+            // 
+            this.txtMakeFileSize.Location = new System.Drawing.Point(591, 142);
+            this.txtMakeFileSize.Name = "txtMakeFileSize";
+            this.txtMakeFileSize.ReadOnly = true;
+            this.txtMakeFileSize.Size = new System.Drawing.Size(118, 21);
+            this.txtMakeFileSize.TabIndex = 31;
+            this.txtMakeFileSize.Text = "0";
+            this.txtMakeFileSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // panelMakePadding
+            // 
+            this.panelMakePadding.Controls.Add(this.label13);
+            this.panelMakePadding.Controls.Add(this.label15);
+            this.panelMakePadding.Controls.Add(this.numericUpDown1);
+            this.panelMakePadding.Controls.Add(this.textBox1);
+            this.panelMakePadding.Enabled = false;
+            this.panelMakePadding.Location = new System.Drawing.Point(655, 38);
+            this.panelMakePadding.Name = "panelMakePadding";
+            this.panelMakePadding.Size = new System.Drawing.Size(136, 69);
+            this.panelMakePadding.TabIndex = 29;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(51, 12);
+            this.label13.TabIndex = 27;
+            this.label13.Text = "Padding";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(3, 44);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(38, 12);
+            this.label15.TabIndex = 27;
+            this.label15.Text = "Count";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(60, 42);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(62, 21);
+            this.numericUpDown1.TabIndex = 28;
+            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(60, 6);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(62, 21);
+            this.textBox1.TabIndex = 26;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(522, 47);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(94, 12);
+            this.label14.TabIndex = 25;
+            this.label14.Text = "Enable Padding";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(522, 145);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(54, 12);
+            this.label16.TabIndex = 23;
+            this.label16.Text = "File Size";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(522, 189);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(63, 12);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "File Name";
+            // 
+            // btnMakeBinary
+            // 
+            this.btnMakeBinary.Location = new System.Drawing.Point(716, 184);
+            this.btnMakeBinary.Name = "btnMakeBinary";
+            this.btnMakeBinary.Size = new System.Drawing.Size(75, 23);
+            this.btnMakeBinary.TabIndex = 22;
+            this.btnMakeBinary.Text = "Generate";
+            this.btnMakeBinary.UseVisualStyleBackColor = true;
+            this.btnMakeBinary.Click += new System.EventHandler(this.btnMakeBinary_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label11.Location = new System.Drawing.Point(17, 17);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(150, 12);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "Select Area for Binary";
+            // 
+            // txtBinaryNamePrefix
+            // 
+            this.txtBinaryNamePrefix.Location = new System.Drawing.Point(591, 186);
+            this.txtBinaryNamePrefix.Name = "txtBinaryNamePrefix";
+            this.txtBinaryNamePrefix.Size = new System.Drawing.Size(119, 21);
+            this.txtBinaryNamePrefix.TabIndex = 18;
+            // 
+            // cbBinaryPadding
+            // 
+            this.cbBinaryPadding.AutoSize = true;
+            this.cbBinaryPadding.Location = new System.Drawing.Point(622, 47);
+            this.cbBinaryPadding.Name = "cbBinaryPadding";
+            this.cbBinaryPadding.Size = new System.Drawing.Size(15, 14);
+            this.cbBinaryPadding.TabIndex = 16;
+            this.cbBinaryPadding.UseVisualStyleBackColor = true;
+            this.cbBinaryPadding.CheckedChanged += new System.EventHandler(this.cbBinaryPadding_CheckedChanged);
+            // 
+            // dgvMakeBinary
+            // 
+            this.dgvMakeBinary.AllowUserToAddRows = false;
+            this.dgvMakeBinary.AllowUserToDeleteRows = false;
+            this.dgvMakeBinary.AllowUserToResizeColumns = false;
+            this.dgvMakeBinary.AllowUserToResizeRows = false;
+            this.dgvMakeBinary.ColumnHeadersHeight = 30;
+            this.dgvMakeBinary.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colMakeSelect,
+            this.colMakeName,
+            this.colMakeOffset,
+            this.colMakeAddr,
+            this.colMakeSize});
+            this.dgvMakeBinary.Location = new System.Drawing.Point(19, 38);
+            this.dgvMakeBinary.Name = "dgvMakeBinary";
+            this.dgvMakeBinary.RowHeadersVisible = false;
+            this.dgvMakeBinary.RowTemplate.Height = 23;
+            this.dgvMakeBinary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvMakeBinary.Size = new System.Drawing.Size(481, 168);
+            this.dgvMakeBinary.TabIndex = 14;
+            this.dgvMakeBinary.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMakeBinary_CellValueChanged);
+            // 
+            // colMakeSelect
+            // 
+            this.colMakeSelect.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colMakeSelect.HeaderText = "Sel";
+            this.colMakeSelect.Name = "colMakeSelect";
+            this.colMakeSelect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.colMakeSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colMakeSelect.Width = 48;
+            // 
+            // colMakeName
+            // 
+            this.colMakeName.HeaderText = "Name";
+            this.colMakeName.Name = "colMakeName";
+            this.colMakeName.ReadOnly = true;
+            // 
+            // colMakeOffset
+            // 
+            this.colMakeOffset.HeaderText = "Offset";
+            this.colMakeOffset.Name = "colMakeOffset";
+            this.colMakeOffset.ReadOnly = true;
+            // 
+            // colMakeAddr
+            // 
+            this.colMakeAddr.HeaderText = "Address";
+            this.colMakeAddr.Name = "colMakeAddr";
+            this.colMakeAddr.ReadOnly = true;
+            // 
+            // colMakeSize
+            // 
+            this.colMakeSize.HeaderText = "Size";
+            this.colMakeSize.Name = "colMakeSize";
+            this.colMakeSize.ReadOnly = true;
             // 
             // tabCompare
             // 
@@ -808,8 +1227,7 @@ namespace Firmware_Editor
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.progressWork,
-            this.toolStripStatusLabel1});
+            this.progressWork});
             this.statusStrip1.Location = new System.Drawing.Point(0, 540);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -821,13 +1239,6 @@ namespace Firmware_Editor
             // 
             this.progressWork.Name = "progressWork";
             this.progressWork.Size = new System.Drawing.Size(100, 16);
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(46, 17);
-            this.toolStripStatusLabel1.Text = "Idle";
             // 
             // tableLayoutPanel4
             // 
@@ -846,183 +1257,6 @@ namespace Firmware_Editor
             this.tableLayoutPanel4.Size = new System.Drawing.Size(865, 30);
             this.tableLayoutPanel4.TabIndex = 22;
             // 
-            // dgvSectionHeader
-            // 
-            this.dgvSectionHeader.AllowUserToAddRows = false;
-            this.dgvSectionHeader.AllowUserToDeleteRows = false;
-            this.dgvSectionHeader.AllowUserToResizeColumns = false;
-            this.dgvSectionHeader.AllowUserToResizeRows = false;
-            this.dgvSectionHeader.ColumnHeadersHeight = 30;
-            this.dgvSectionHeader.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSectionIndex,
-            this.colSectionName,
-            this.colSectionType,
-            this.colSectionFlags,
-            this.colSectionVA,
-            this.colSectionOffset,
-            this.colSectionSize,
-            this.colSectionLink});
-            this.dgvSectionHeader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSectionHeader.Location = new System.Drawing.Point(3, 3);
-            this.dgvSectionHeader.MultiSelect = false;
-            this.dgvSectionHeader.Name = "dgvSectionHeader";
-            this.dgvSectionHeader.ReadOnly = true;
-            this.dgvSectionHeader.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dgvSectionHeader.RowHeadersVisible = false;
-            this.dgvSectionHeader.RowTemplate.Height = 23;
-            this.dgvSectionHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSectionHeader.Size = new System.Drawing.Size(512, 423);
-            this.dgvSectionHeader.TabIndex = 1;
-            // 
-            // colSectionIndex
-            // 
-            this.colSectionIndex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionIndex.HeaderText = "Index";
-            this.colSectionIndex.Name = "colSectionIndex";
-            this.colSectionIndex.ReadOnly = true;
-            this.colSectionIndex.Width = 61;
-            // 
-            // colSectionName
-            // 
-            this.colSectionName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionName.HeaderText = "Name";
-            this.colSectionName.Name = "colSectionName";
-            this.colSectionName.ReadOnly = true;
-            this.colSectionName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colSectionName.Width = 45;
-            // 
-            // colSectionType
-            // 
-            this.colSectionType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionType.HeaderText = "Type";
-            this.colSectionType.Name = "colSectionType";
-            this.colSectionType.ReadOnly = true;
-            this.colSectionType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colSectionType.Width = 40;
-            // 
-            // colSectionFlags
-            // 
-            this.colSectionFlags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionFlags.HeaderText = "Flags";
-            this.colSectionFlags.Name = "colSectionFlags";
-            this.colSectionFlags.ReadOnly = true;
-            this.colSectionFlags.Width = 61;
-            // 
-            // colSectionVA
-            // 
-            this.colSectionVA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionVA.HeaderText = "Virtual Address";
-            this.colSectionVA.Name = "colSectionVA";
-            this.colSectionVA.ReadOnly = true;
-            this.colSectionVA.Width = 106;
-            // 
-            // colSectionOffset
-            // 
-            this.colSectionOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionOffset.HeaderText = "Offset";
-            this.colSectionOffset.Name = "colSectionOffset";
-            this.colSectionOffset.ReadOnly = true;
-            this.colSectionOffset.Width = 62;
-            // 
-            // colSectionSize
-            // 
-            this.colSectionSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionSize.HeaderText = "Size";
-            this.colSectionSize.Name = "colSectionSize";
-            this.colSectionSize.ReadOnly = true;
-            this.colSectionSize.Width = 55;
-            // 
-            // colSectionLink
-            // 
-            this.colSectionLink.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colSectionLink.HeaderText = "Link";
-            this.colSectionLink.Name = "colSectionLink";
-            this.colSectionLink.ReadOnly = true;
-            this.colSectionLink.Width = 53;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.ColumnHeadersHeight = 30;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colProgramType,
-            this.colProgramOffset,
-            this.colProgramVA,
-            this.colProgramPhyAddr,
-            this.colProgramFileSize,
-            this.colProgramMemorySize,
-            this.colProgramFlags});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.MultiSelect = false;
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(518, 429);
-            this.dataGridView1.TabIndex = 2;
-            // 
-            // colProgramType
-            // 
-            this.colProgramType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramType.HeaderText = "Type";
-            this.colProgramType.Name = "colProgramType";
-            this.colProgramType.ReadOnly = true;
-            this.colProgramType.Width = 59;
-            // 
-            // colProgramOffset
-            // 
-            this.colProgramOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramOffset.HeaderText = "Offset";
-            this.colProgramOffset.Name = "colProgramOffset";
-            this.colProgramOffset.ReadOnly = true;
-            this.colProgramOffset.Width = 62;
-            // 
-            // colProgramVA
-            // 
-            this.colProgramVA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramVA.HeaderText = "Virtual Address";
-            this.colProgramVA.Name = "colProgramVA";
-            this.colProgramVA.ReadOnly = true;
-            this.colProgramVA.Width = 106;
-            // 
-            // colProgramPhyAddr
-            // 
-            this.colProgramPhyAddr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramPhyAddr.HeaderText = "Physical Address";
-            this.colProgramPhyAddr.Name = "colProgramPhyAddr";
-            this.colProgramPhyAddr.ReadOnly = true;
-            this.colProgramPhyAddr.Width = 119;
-            // 
-            // colProgramFileSize
-            // 
-            this.colProgramFileSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramFileSize.HeaderText = "File Size";
-            this.colProgramFileSize.Name = "colProgramFileSize";
-            this.colProgramFileSize.ReadOnly = true;
-            this.colProgramFileSize.Width = 73;
-            // 
-            // colProgramMemorySize
-            // 
-            this.colProgramMemorySize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramMemorySize.HeaderText = "Memory Size";
-            this.colProgramMemorySize.Name = "colProgramMemorySize";
-            this.colProgramMemorySize.ReadOnly = true;
-            this.colProgramMemorySize.Width = 97;
-            // 
-            // colProgramFlags
-            // 
-            this.colProgramFlags.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.colProgramFlags.HeaderText = "Flags";
-            this.colProgramFlags.Name = "colProgramFlags";
-            this.colProgramFlags.ReadOnly = true;
-            this.colProgramFlags.Width = 61;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1040,6 +1274,8 @@ namespace Firmware_Editor
             this.tableLayoutPanel1.PerformLayout();
             this.workPanel.ResumeLayout(false);
             this.workPanel.PerformLayout();
+            this.customCompareRange.ResumeLayout(false);
+            this.customCompareRange.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1052,11 +1288,19 @@ namespace Firmware_Editor
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.dgvProgramHeader.ResumeLayout(false);
+            this.tabElfParse.ResumeLayout(false);
             this.tabElfHeader.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvElfHeader)).EndInit();
             this.tabSectionHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSectionHeader)).EndInit();
             this.tabProgramHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProgramHeader)).EndInit();
+            this.tabFirmwareBinary.ResumeLayout(false);
+            this.tabFirmwareBinary.PerformLayout();
+            this.panelMakePadding.ResumeLayout(false);
+            this.panelMakePadding.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMakeBinary)).EndInit();
             this.tabCompare.ResumeLayout(false);
             this.tabParameter.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
@@ -1066,20 +1310,18 @@ namespace Firmware_Editor
             this.statusStrip1.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSectionHeader)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox txtFixedArea;
+        private System.Windows.Forms.TextBox txtCompareStartAddr;
         private System.Windows.Forms.TextBox txtFirmwareBinPath;
         private System.Windows.Forms.Button btnOpenFirmware;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtUpdateArea;
+        private System.Windows.Forms.TextBox txtCompareStopAddr;
         private System.Windows.Forms.Button btnSaveUpdateArea;
         private System.Windows.Forms.Button btnCompareDatas;
         private System.Windows.Forms.TextBox txtReferencePath;
@@ -1113,7 +1355,6 @@ namespace Firmware_Editor
         private System.Windows.Forms.TabPage tabParameter;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar progressWork;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.DataGridView dgvInformation;
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
@@ -1122,7 +1363,7 @@ namespace Firmware_Editor
         private System.Windows.Forms.Button btnParseConfig;
         private System.Windows.Forms.TextBox txtConfigPath;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TabControl dgvProgramHeader;
+        private System.Windows.Forms.TabControl tabElfParse;
         private System.Windows.Forms.TabPage tabElfHeader;
         private System.Windows.Forms.TabPage tabSectionHeader;
         private System.Windows.Forms.TabPage tabProgramHeader;
@@ -1140,7 +1381,7 @@ namespace Firmware_Editor
         private System.Windows.Forms.DataGridViewTextBoxColumn colSectionOffset;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSectionSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSectionLink;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvProgramHeader;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramOffset;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramVA;
@@ -1148,6 +1389,28 @@ namespace Firmware_Editor
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramFileSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramMemorySize;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramFlags;
+        private System.Windows.Forms.FlowLayoutPanel customCompareRange;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridView dgvMakeBinary;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colMakeSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeOffset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeAddr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeSize;
+        private System.Windows.Forms.CheckBox cbBinaryPadding;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtBinaryNamePrefix;
+        private System.Windows.Forms.Button btnMakeBinary;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel panelMakePadding;
+        private System.Windows.Forms.CheckBox cbMakeFileSizeFormat;
+        private System.Windows.Forms.TextBox txtMakeFileSize;
+        private System.Windows.Forms.Label label16;
     }
 }
 

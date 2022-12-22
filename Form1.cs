@@ -18,6 +18,10 @@ namespace Firmware_Editor
         List<ProgramHeader> listProgramHeader;
         BackgroundWorker WorkerElfParse;
         string elfDataTempString;
+        string sectionDataTempString;
+        string programDataTempString;
+        // Make Binary Tab
+        List<BinaryGenArg> listBinaryArea;
         // Compare Tab
         byte[] workingData;
         byte[] referenceData;
@@ -43,10 +47,13 @@ namespace Firmware_Editor
             WorkerBinaryComare.DoWork += new DoWorkEventHandler(CompareDatas_Work);
             WorkerBinaryComare.ProgressChanged += new ProgressChangedEventHandler(UpdateProgressBar);
 
+            // Make Binary Tab
+            listBinaryArea = new List<BinaryGenArg>();
+
             // ELF Parser Tab
             listElfHeader = new List<ElfHeader>();
-            listSectionHeader = new List<ElfHeader>();
-            listProgramHeader = new List<ElfHeader>();
+            listSectionHeader = new List<SectionHeader>();
+            listProgramHeader = new List<ProgramHeader>();
 
             WorkerElfParse = new BackgroundWorker();
             WorkerElfParse.WorkerReportsProgress = true;
@@ -65,6 +72,10 @@ namespace Firmware_Editor
         {
             progressWork.Value = arg.ProgressPercentage;
         }
+
+        ////////////////////////////////////////
+        // Compare Tab
+        ////////////////////////////////////////
 
         private void CompareDatas_Work(object obj, DoWorkEventArgs arg)
         {
@@ -244,8 +255,8 @@ namespace Firmware_Editor
             }
             if ((referenceData.Length > 0) && (workingData.Length > 0))
             {
-                int start_pos = Convert.ToInt32(txtFixedArea.Text, 16);
-                int end_pos = Convert.ToInt32(txtUpdateArea.Text, 16);
+                int start_pos = Convert.ToInt32(txtCompareStartAddr.Text, 16);
+                int end_pos = Convert.ToInt32(txtCompareStopAddr.Text, 16);
 
                 if (referenceData.Length < (end_pos - start_pos))
                 {
@@ -274,7 +285,7 @@ namespace Firmware_Editor
 
         private void btnSaveUpdateArea_Click(object sender, EventArgs e)
         {
-            int end_pos = Convert.ToInt32(txtUpdateArea.Text, 16);
+            int end_pos = Convert.ToInt32(txtCompareStopAddr.Text, 16);
 
             if (workingData == null)
             {
@@ -363,7 +374,7 @@ namespace Firmware_Editor
 
         private void btnCRC32_Click(object sender, EventArgs e)
         {
-            int end_pos = Convert.ToInt32(txtUpdateArea.Text, 16);
+            int end_pos = Convert.ToInt32(txtCompareStopAddr.Text, 16);
 
             if (workingData == null)
             {
@@ -449,6 +460,10 @@ namespace Firmware_Editor
             return false;
         }
 
+        ////////////////////////////////////////
+        // ELF Parser Tab
+        ////////////////////////////////////////
+
         /// <summary>
         /// Load ELF
         /// </summary>
@@ -478,6 +493,7 @@ namespace Firmware_Editor
                 elfData = new byte[file.Length];
                 reader.Read(elfData, 0, (int)file.Length);
 
+                txtBinaryNamePrefix.Text = Path.GetFileNameWithoutExtension(open_elf.FileName);
                 progressWork.Value = 0;
                 rtbElfHeader.Clear();
                 dgvElfHeader.Rows.Clear();
@@ -600,7 +616,6 @@ namespace Firmware_Editor
 
             this.Invoke(new Action(() =>
             {
-                rtbElfHeader.AppendText(elfDataTempString);
                 dgvElfHeader.Rows.Clear();
                 foreach (ElfHeader header in listElfHeader)
                 {
@@ -609,26 +624,222 @@ namespace Firmware_Editor
             }));
 
             // Parse Section Header
-            for(int cnt=0; cnt<section_entry_counts; cnt++)
+            int shstrtab = BitConverter.ToInt32(elfData, section_offset + (15 * section_entry_size) + 16);
+            for (int cnt=0; cnt<section_entry_counts; cnt++)
             {
-                SectionHeader s_component = new SectionHeader(elfData, cnt* section_entry_size, section_entry_size);
+                SectionHeader s_component = new SectionHeader(elfData, section_offset + cnt * section_entry_size, section_entry_size);
+                s_component.setSectionName(elfData, shstrtab);
                 listSectionHeader.Add(s_component);
             }
+
+            sectionDataTempString = "";
+            for (int pos = 0; pos < (section_entry_counts * section_entry_size); pos++)
+            {
+                if ((pos % 16) == 0)
+                {
+                    if (pos != 0)
+                    {
+                        sectionDataTempString += "\n";
+                    }
+
+                    sectionDataTempString += (pos & 0xFFFFFFF0).ToString("X8") + ": ";
+                    WorkerElfParse.ReportProgress((int)(pos * 100 / (section_entry_counts * section_entry_size)));
+
+                }
+
+                sectionDataTempString += elfData[section_offset + pos].ToString("X2") + " ";
+            }
+
+            this.Invoke(new Action(() =>
+            {
+                dgvSectionHeader.Rows.Clear();
+                int index = 0;
+                foreach (SectionHeader header in listSectionHeader)
+                {
+                    dgvSectionHeader.Rows.Add(index.ToString(),
+                        header.name, header.type, header.flags,
+                        header.virtual_address, header.offset, header.size, header.link) ;
+                    index++;
+                    if ((header.Type == 1) || (header.Type == 9))
+                    {
+                        dgvMakeBinary.Rows.Add(false,
+                            header.name, header.offset, header.virtual_address, header.size);
+                    }
+                }
+            }));
 
             // Parse Program Header
             for (int cnt = 0; cnt < program_entry_counts; cnt++)
             {
-                SectionHeader s_component = new SectionHeader(elfData, cnt * program_entry_size, program_entry_size);
-                listSectionHeader.Add(s_component);
+                ProgramHeader p_component = new ProgramHeader(elfData, program_offset + (cnt * program_entry_size), program_entry_size);
+                listProgramHeader.Add(p_component);
             }
+
+            programDataTempString = "";
+            for (int pos = 0; pos < (program_entry_counts * program_entry_size); pos++)
+            {
+                if ((pos % 16) == 0)
+                {
+                    if (pos != 0)
+                    {
+                        programDataTempString += "\n";
+                    }
+
+                    programDataTempString += (pos & 0xFFFFFFF0).ToString("X8") + ": ";
+                    WorkerElfParse.ReportProgress((int)(pos * 100 / (program_entry_counts * program_entry_size)));
+                }
+
+                programDataTempString += elfData[program_offset + pos].ToString("X2") + " ";
+            }
+
+            this.Invoke(new Action(() =>
+            {
+                dgvProgramHeader.Rows.Clear();
+                foreach (ProgramHeader header in listProgramHeader)
+                {
+                    dgvProgramHeader.Rows.Add(
+                        header.type, header.offset, header.virtual_address,
+                        header.physical_address, header.file_size, header.memory_size, header.flags);
+                }
+            }));
 
             WorkerElfParse.ReportProgress(100);
         }
 
         private void ElfParse_Work_Complete(object obj, RunWorkerCompletedEventArgs arg)
         {
+            if (tabElfParse.SelectedIndex == 0)
+            {
+                rtbElfHeader.Clear();
+                rtbElfHeader.AppendText(elfDataTempString);
+            }
+            else if (tabElfParse.SelectedIndex == 1)
+            {
+                rtbElfHeader.Clear();
+                rtbElfHeader.AppendText(sectionDataTempString);
+            }
+            else if (tabElfParse.SelectedIndex == 2)
+            {
+                rtbElfHeader.Clear();
+                rtbElfHeader.AppendText(programDataTempString);
+            }
+        }
+
+        private void tabElfParse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(tabElfParse.SelectedIndex == 0)
+            {
+                rtbElfHeader.Clear();
+                rtbElfHeader.AppendText(elfDataTempString);
+            }
+            else if(tabElfParse.SelectedIndex == 1)
+            {
+                rtbElfHeader.Clear();
+                rtbElfHeader.AppendText(sectionDataTempString);
+            }
+            else if (tabElfParse.SelectedIndex == 2)
+            {
+                rtbElfHeader.Clear();
+                rtbElfHeader.AppendText(programDataTempString);
+            }
+        }
+
+        ////////////////////////////////////////
+        // Make Binary Tab
+        ////////////////////////////////////////
+
+        private void btnMakeBinary_Click(object sender, EventArgs e)
+        {
 
         }
+
+        private void dgvMakeBinary_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex != 0)
+            {
+                return;
+            }
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
+
+            DataGridViewCheckBoxCell sel    = dgvMakeBinary.Rows[e.RowIndex].Cells[0] as DataGridViewCheckBoxCell;
+            string offset = dgvMakeBinary.Rows[e.RowIndex].Cells[2].Value.ToString();
+            string va_addr = dgvMakeBinary.Rows[e.RowIndex].Cells[3].Value.ToString();
+            string size   = dgvMakeBinary.Rows[e.RowIndex].Cells[4].Value.ToString();
+
+            int i_offset = Convert.ToInt32(offset, 16);
+            int v_addr = Convert.ToInt32(va_addr, 16);
+            ProgramHeader ph = listProgramHeader.Find(x => (Convert.ToInt32(x.virtual_address, 16) == v_addr));
+            int p_addr = Convert.ToInt32(ph.physical_address, 16);
+            int i_size = Convert.ToInt32(size);
+
+            if ((bool)sel.Value)
+            {
+                listBinaryArea.Add(new BinaryGenArg(i_offset, v_addr, p_addr, i_size));
+            }
+            else
+            {
+                BinaryGenArg exist = listBinaryArea.Find(x => (x.PhysicalAddress == p_addr));
+                listBinaryArea.Remove(exist);
+            }
+
+            txtMakeFileSize.Text = calculateGenerateBinarySize().ToString();
+        }
+
+        private int calculateGenerateBinarySize()
+        {
+            int size = 0;
+            int start_addr = 0x7FFFFFFF;
+            int end_addr = 0;
+            int end_size = 0;
+
+            foreach (BinaryGenArg arg in listBinaryArea)
+            {
+                if(arg.PhysicalAddress <= start_addr)
+                {
+                    start_addr = arg.PhysicalAddress;
+                }
+                if (arg.PhysicalAddress >= end_addr)
+                {
+                    end_addr = arg.PhysicalAddress;
+                    end_size = arg.Size;
+                }
+            }
+
+            if(end_addr < start_addr)
+            {
+                return 0;
+            }
+
+            size = (end_addr - start_addr) + end_size;
+            return size;
+        }
+
+        private void cbBinaryPadding_CheckedChanged(object sender, EventArgs e)
+        {
+            panelMakePadding.Enabled = cbBinaryPadding.Checked;
+        }
+
+        private void cbMakeFileSizeFormat_CheckedChanged(object sender, EventArgs e)
+        {
+            if(cbMakeFileSizeFormat.Checked)
+            {
+                cbMakeFileSizeFormat.Text = "KB";
+                int current = Convert.ToInt32(txtMakeFileSize.Text);
+                double converted = (double)current / (double)1024;
+                txtMakeFileSize.Text = converted.ToString("N2");
+            }
+            else
+            {
+                cbMakeFileSizeFormat.Text = "BYTE";
+                double current = Convert.ToDouble(txtMakeFileSize.Text);
+                int converted = (int)(current * 1024);
+                txtMakeFileSize.Text = converted.ToString("N");
+            }
+        }
+
     }
 
     public class CompareWorkArg
@@ -728,9 +939,127 @@ namespace Firmware_Editor
         public string offset;
         public string size;
         public string link;
+        private int name_offset;
+        private uint int_type;
+        private int int_flags;
 
-        public SectionHeader(byte[] section_header, int offset, int size)
+        public uint Type
         {
+            get
+            {
+                return int_type;
+            }
+        }
+        public int Flags
+        {
+            get
+            {
+                return int_flags;
+            }
+        }
+
+        public override string ToString()
+        {
+            return name;
+        }
+        public SectionHeader(byte[] section_header, int in_offset, int in_size)
+        {
+            name_offset = BitConverter.ToInt32(section_header, in_offset + 0);
+            name = "0x" + name_offset.ToString("X8");
+            int_type = BitConverter.ToUInt32(section_header, in_offset + 4);
+            type = sectionType(int_type);
+            int_flags = BitConverter.ToInt32(section_header, in_offset + 8);
+            flags = sectionFlag(int_flags);
+            int i_va = BitConverter.ToInt32(section_header, in_offset + 12);
+            virtual_address = "0x" + i_va.ToString("X8");
+            int i_offset = BitConverter.ToInt32(section_header, in_offset + 16);
+            offset = "0x" + i_offset.ToString("X8");
+            int i_size = BitConverter.ToInt32(section_header, in_offset + 20);
+            size = i_size.ToString();
+            int i_link = BitConverter.ToInt32(section_header, in_offset + 24);
+            link = i_link.ToString();
+            /*
+            int i_info = BitConverter.ToInt32(section_header, in_offset + 28);
+            name = "0x" + String.Format("X8", i_info);
+            int i_addr_align = BitConverter.ToInt32(section_header, in_offset + 32);
+            name = "0x" + String.Format("X8", i_addr_align);
+            int i_entry_size = BitConverter.ToInt32(section_header, in_offset + 36);
+            name = "0x" + String.Format("X8", i_entry_size);
+            */
+        }
+
+        public void setSectionName(byte[] shstrtab, int in_offset)
+        {
+            name = System.Text.Encoding.ASCII.GetString(
+                shstrtab, 
+                in_offset + name_offset, 
+                strlen(shstrtab, in_offset + name_offset, 64));
+        }
+
+        private int strlen(byte[] shstrtab, int in_offset, int max_len)
+        {
+            int cnt = 0;
+            for (cnt = 0; cnt < max_len; cnt++)
+            {
+                if(shstrtab[in_offset+cnt]==0)
+                {
+                    return cnt;
+                }
+            }
+
+            return cnt;
+        }
+
+        private string sectionFlag(int flags)
+        {
+            string result = "";
+
+            if((flags&0x01)>0)
+            {
+                result += "Write";
+            }
+            if ((flags & 0x04) > 0)
+            {
+                if (result.Length > 0)
+                {
+                    result += ", ";
+                }
+                result += "Exec";
+            }
+            if ((flags & 0x02) > 0)
+            {
+                if(result.Length>0)
+                {
+                    result += ", ";
+                }
+                result += "Alloc";
+            }
+
+            return result;
+        }
+
+        private string sectionType(uint type)
+        {
+            switch(type)
+            {
+                case 0: return "NULL";
+                case 1: return "PROGBITS";
+                case 2: return "SYMTAB";
+                case 3: return "STRTAB";
+                case 4: return "RELA";
+                case 5: return "HASH";
+                case 6: return "DYNAMIC";
+                case 7: return "NOTE";
+                case 8: return "NOBITS";
+                case 9: return "REL";
+                case 10: return "SHLIB";
+                case 11: return "DYNSYM";
+                case 0x70000000: return "LOPROC";
+                case 0x7fffffff: return "HIPROC";
+                case 0x80000000: return "LOUSER";
+                case 0xffffffff: return "HIUSER";
+                default: return "0x" + type.ToString("X8");
+            }
         }
     }
 
@@ -744,8 +1073,104 @@ namespace Firmware_Editor
         public string memory_size;
         public string flags;
 
-        public ProgramHeader(byte[] program_header, int offset, int size)
+        public ProgramHeader(byte[] program_header, int in_offset, int size)
         {
+            uint i_type = BitConverter.ToUInt32(program_header, in_offset + 0);
+            type = programType(i_type);
+            int i_offset = BitConverter.ToInt32(program_header, in_offset + 4);
+            offset = "0x" + i_offset.ToString("X8");
+            int i_va = BitConverter.ToInt32(program_header, in_offset + 8);
+            virtual_address = "0x" + i_va.ToString("X8");
+            int i_pa = BitConverter.ToInt32(program_header, in_offset + 12);
+            physical_address = "0x" + i_pa.ToString("X8");
+            int i_size = BitConverter.ToInt32(program_header, in_offset + 16);
+            file_size = i_size.ToString();
+            int i_msize = BitConverter.ToInt32(program_header, in_offset + 20);
+            memory_size = i_msize.ToString();
+            int i_flags = BitConverter.ToInt32(program_header, in_offset + 24);
+            flags = programFlag(i_flags);
+        }
+
+        private string programFlag(int flags)
+        {
+            string result = "";
+
+            if ((flags & 0x01) > 0)
+            {
+                result += "Exec";
+            }
+            if ((flags & 0x02) > 0)
+            {
+                if (result.Length > 0)
+                {
+                    result += ", ";
+                }
+                result += "Write";
+            }
+            if ((flags & 0x04) > 0)
+            {
+                if (result.Length > 0)
+                {
+                    result += ", ";
+                }
+                result += "Read";
+            }
+
+            return result;
+        }
+
+        private string programType(uint type)
+        {
+            switch (type)
+            {
+                case 0: return "NULL";
+                case 1: return "LOAD";
+                case 2: return "DYNAMIC";
+                case 3: return "INTERP";
+                case 4: return "NOTE";
+                case 5: return "SHLIB";
+                case 6: return "PHDR";
+                case 0x6ffffffa: return "LOSUNW";
+                case 0x6ffffffb: return "SUNWBSS";
+                case 0x6ffffffc: return "SUNWSTACK";
+                case 0x6fffffff: return "HISUNW";
+                case 0x70000000: return "LOPROC";
+                case 0x7fffffff: return "HIPROC";
+                default: return "0x" + type.ToString("X8");
+            }
         }
     }
+
+    public class BinaryGenArg
+    {
+        int _offset;
+        int _virtual_addr;
+        int _physical_addr;
+        int _size;
+
+        public BinaryGenArg(int offset, int v_addr, int p_addr, int size)
+        {
+            _offset = offset;
+            _virtual_addr = v_addr;
+            _physical_addr = p_addr;
+            _size = size;
+        }
+        public int Offset
+        {
+            get { return _offset; }
+        }
+        public int VirtualAddress
+        {
+            get { return _virtual_addr; }
+        }
+        public int PhysicalAddress
+        {
+            get { return _physical_addr; }
+        }
+        public int Size
+        {
+            get { return _size; }
+        }
+    }
+
 }
