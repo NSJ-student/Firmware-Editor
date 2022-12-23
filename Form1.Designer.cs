@@ -29,9 +29,8 @@ namespace Firmware_Editor
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtCompareStartAddr = new System.Windows.Forms.TextBox();
-            this.btnCRC32 = new System.Windows.Forms.Button();
-            this.txtCRC32 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbShowDifference = new System.Windows.Forms.CheckBox();
             this.txtCompareResult = new System.Windows.Forms.RichTextBox();
@@ -55,7 +54,6 @@ namespace Firmware_Editor
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.workPanel = new System.Windows.Forms.TableLayoutPanel();
             this.txtMismatchedNumber = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.customCompareRange = new System.Windows.Forms.FlowLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -92,6 +90,13 @@ namespace Firmware_Editor
             this.colProgramFlags = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rtbElfHeader = new System.Windows.Forms.RichTextBox();
             this.tabFirmwareBinary = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtEndOffsetCrc32 = new System.Windows.Forms.TextBox();
+            this.txtStartOffsetCrc32 = new System.Windows.Forms.TextBox();
+            this.txtResultCrc32 = new System.Windows.Forms.TextBox();
             this.cbMakeFileSizeFormat = new System.Windows.Forms.CheckBox();
             this.txtMakeFileSize = new System.Windows.Forms.TextBox();
             this.panelMakePadding = new System.Windows.Forms.Panel();
@@ -99,7 +104,7 @@ namespace Firmware_Editor
             this.label15 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.btnCalcultaeCrc32 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.btnMakeBinary = new System.Windows.Forms.Button();
@@ -110,7 +115,8 @@ namespace Firmware_Editor
             this.colMakeSelect = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colMakeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMakeOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMakeAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMakeVAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMakePAddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMakeSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabCompare = new System.Windows.Forms.TabPage();
             this.tabParameter = new System.Windows.Forms.TabPage();
@@ -124,6 +130,20 @@ namespace Firmware_Editor
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progressWork = new System.Windows.Forms.ToolStripProgressBar();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.workPanel.SuspendLayout();
             this.customCompareRange.SuspendLayout();
@@ -146,6 +166,7 @@ namespace Firmware_Editor
             this.tabProgramHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProgramHeader)).BeginInit();
             this.tabFirmwareBinary.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panelMakePadding.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMakeBinary)).BeginInit();
@@ -155,6 +176,9 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtCompareStartAddr
@@ -167,38 +191,13 @@ namespace Firmware_Editor
             this.txtCompareStartAddr.Text = "0";
             this.txtCompareStartAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnCRC32
-            // 
-            this.btnCRC32.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCRC32.Location = new System.Drawing.Point(167, 44);
-            this.btnCRC32.Name = "btnCRC32";
-            this.btnCRC32.Size = new System.Drawing.Size(94, 23);
-            this.btnCRC32.TabIndex = 11;
-            this.btnCRC32.Text = "CRC32";
-            this.btnCRC32.UseVisualStyleBackColor = true;
-            this.btnCRC32.Click += new System.EventHandler(this.btnCRC32_Click);
-            // 
-            // txtCRC32
-            // 
-            this.txtCRC32.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCRC32.Location = new System.Drawing.Point(97, 44);
-            this.txtCRC32.Name = "txtCRC32";
-            this.txtCRC32.ReadOnly = true;
-            this.txtCRC32.Size = new System.Drawing.Size(64, 21);
-            this.txtCRC32.TabIndex = 10;
-            this.txtCRC32.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 77);
+            this.label7.Location = new System.Drawing.Point(13, 48);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 12);
+            this.label7.Size = new System.Drawing.Size(76, 12);
             this.label7.TabIndex = 9;
             this.label7.Text = "Mismatched";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -210,7 +209,7 @@ namespace Firmware_Editor
             this.cbShowDifference.Checked = true;
             this.cbShowDifference.CheckState = System.Windows.Forms.CheckState.Checked;
             this.workPanel.SetColumnSpan(this.cbShowDifference, 2);
-            this.cbShowDifference.Location = new System.Drawing.Point(467, 75);
+            this.cbShowDifference.Location = new System.Drawing.Point(467, 46);
             this.cbShowDifference.Name = "cbShowDifference";
             this.cbShowDifference.Size = new System.Drawing.Size(78, 16);
             this.cbShowDifference.TabIndex = 8;
@@ -222,11 +221,11 @@ namespace Firmware_Editor
             this.workPanel.SetColumnSpan(this.txtCompareResult, 6);
             this.txtCompareResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCompareResult.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtCompareResult.Location = new System.Drawing.Point(14, 99);
+            this.txtCompareResult.Location = new System.Drawing.Point(14, 70);
             this.txtCompareResult.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.txtCompareResult.Name = "txtCompareResult";
             this.txtCompareResult.ReadOnly = true;
-            this.txtCompareResult.Size = new System.Drawing.Size(530, 288);
+            this.txtCompareResult.Size = new System.Drawing.Size(530, 317);
             this.txtCompareResult.TabIndex = 5;
             this.txtCompareResult.Text = "";
             this.txtCompareResult.WordWrap = false;
@@ -262,7 +261,7 @@ namespace Firmware_Editor
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 12);
+            this.label3.Size = new System.Drawing.Size(76, 12);
             this.label3.TabIndex = 2;
             this.label3.Text = "Range (hex)";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -455,13 +454,10 @@ namespace Firmware_Editor
             this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.workPanel.Controls.Add(this.label3, 0, 0);
-            this.workPanel.Controls.Add(this.label7, 0, 2);
-            this.workPanel.Controls.Add(this.txtMismatchedNumber, 1, 2);
-            this.workPanel.Controls.Add(this.txtCRC32, 1, 1);
-            this.workPanel.Controls.Add(this.txtCompareResult, 0, 3);
-            this.workPanel.Controls.Add(this.label1, 0, 1);
-            this.workPanel.Controls.Add(this.btnCRC32, 2, 1);
-            this.workPanel.Controls.Add(this.cbShowDifference, 4, 2);
+            this.workPanel.Controls.Add(this.label7, 0, 1);
+            this.workPanel.Controls.Add(this.txtMismatchedNumber, 1, 1);
+            this.workPanel.Controls.Add(this.txtCompareResult, 0, 2);
+            this.workPanel.Controls.Add(this.cbShowDifference, 4, 1);
             this.workPanel.Controls.Add(this.customCompareRange, 1, 0);
             this.workPanel.Controls.Add(this.btnSaveUpdateArea, 5, 0);
             this.workPanel.Controls.Add(this.btnCompareDatas, 4, 0);
@@ -469,11 +465,11 @@ namespace Firmware_Editor
             this.workPanel.Location = new System.Drawing.Point(8, 66);
             this.workPanel.Name = "workPanel";
             this.workPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.workPanel.RowCount = 4;
-            this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.workPanel.RowCount = 3;
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.workPanel.Size = new System.Drawing.Size(558, 399);
             this.workPanel.TabIndex = 13;
             // 
@@ -482,23 +478,12 @@ namespace Firmware_Editor
             this.txtMismatchedNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMismatchedNumber.Location = new System.Drawing.Point(97, 73);
+            this.txtMismatchedNumber.Location = new System.Drawing.Point(95, 44);
             this.txtMismatchedNumber.Name = "txtMismatchedNumber";
             this.txtMismatchedNumber.ReadOnly = true;
             this.txtMismatchedNumber.Size = new System.Drawing.Size(64, 21);
             this.txtMismatchedNumber.TabIndex = 10;
             this.txtMismatchedNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 49);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "CRC32 (hex)";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // customCompareRange
             // 
@@ -506,7 +491,7 @@ namespace Firmware_Editor
             this.customCompareRange.Controls.Add(this.txtCompareStartAddr);
             this.customCompareRange.Controls.Add(this.label5);
             this.customCompareRange.Controls.Add(this.txtCompareStopAddr);
-            this.customCompareRange.Location = new System.Drawing.Point(97, 13);
+            this.customCompareRange.Location = new System.Drawing.Point(95, 13);
             this.customCompareRange.Name = "customCompareRange";
             this.customCompareRange.Size = new System.Drawing.Size(164, 25);
             this.customCompareRange.TabIndex = 13;
@@ -918,16 +903,14 @@ namespace Firmware_Editor
             // 
             // tabFirmwareBinary
             // 
+            this.tabFirmwareBinary.Controls.Add(this.tableLayoutPanel5);
             this.tabFirmwareBinary.Controls.Add(this.cbMakeFileSizeFormat);
             this.tabFirmwareBinary.Controls.Add(this.txtMakeFileSize);
-            this.tabFirmwareBinary.Controls.Add(this.panelMakePadding);
-            this.tabFirmwareBinary.Controls.Add(this.label14);
             this.tabFirmwareBinary.Controls.Add(this.label16);
             this.tabFirmwareBinary.Controls.Add(this.label12);
             this.tabFirmwareBinary.Controls.Add(this.btnMakeBinary);
             this.tabFirmwareBinary.Controls.Add(this.label11);
             this.tabFirmwareBinary.Controls.Add(this.txtBinaryNamePrefix);
-            this.tabFirmwareBinary.Controls.Add(this.cbBinaryPadding);
             this.tabFirmwareBinary.Controls.Add(this.dgvMakeBinary);
             this.tabFirmwareBinary.Location = new System.Drawing.Point(4, 24);
             this.tabFirmwareBinary.Name = "tabFirmwareBinary";
@@ -937,11 +920,78 @@ namespace Firmware_Editor
             this.tabFirmwareBinary.Text = "Make Binary";
             this.tabFirmwareBinary.UseVisualStyleBackColor = true;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label19);
+            this.panel1.Controls.Add(this.label18);
+            this.panel1.Controls.Add(this.label17);
+            this.panel1.Controls.Add(this.txtEndOffsetCrc32);
+            this.panel1.Controls.Add(this.txtStartOffsetCrc32);
+            this.panel1.Controls.Add(this.txtResultCrc32);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(103, 67);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(212, 58);
+            this.panel1.TabIndex = 36;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(5, 36);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(48, 12);
+            this.label19.TabIndex = 37;
+            this.label19.Text = "Result: ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(5, 10);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(49, 12);
+            this.label18.TabIndex = 37;
+            this.label18.Text = "Range: ";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(110, 10);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(11, 12);
+            this.label17.TabIndex = 37;
+            this.label17.Text = "-";
+            // 
+            // txtEndOffsetCrc32
+            // 
+            this.txtEndOffsetCrc32.Location = new System.Drawing.Point(125, 6);
+            this.txtEndOffsetCrc32.Name = "txtEndOffsetCrc32";
+            this.txtEndOffsetCrc32.Size = new System.Drawing.Size(40, 21);
+            this.txtEndOffsetCrc32.TabIndex = 36;
+            // 
+            // txtStartOffsetCrc32
+            // 
+            this.txtStartOffsetCrc32.Location = new System.Drawing.Point(66, 6);
+            this.txtStartOffsetCrc32.Name = "txtStartOffsetCrc32";
+            this.txtStartOffsetCrc32.Size = new System.Drawing.Size(40, 21);
+            this.txtStartOffsetCrc32.TabIndex = 36;
+            // 
+            // txtResultCrc32
+            // 
+            this.txtResultCrc32.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtResultCrc32.Location = new System.Drawing.Point(66, 33);
+            this.txtResultCrc32.Name = "txtResultCrc32";
+            this.txtResultCrc32.ReadOnly = true;
+            this.txtResultCrc32.Size = new System.Drawing.Size(136, 21);
+            this.txtResultCrc32.TabIndex = 34;
+            this.txtResultCrc32.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // cbMakeFileSizeFormat
             // 
             this.cbMakeFileSizeFormat.Appearance = System.Windows.Forms.Appearance.Button;
             this.cbMakeFileSizeFormat.AutoSize = true;
-            this.cbMakeFileSizeFormat.Location = new System.Drawing.Point(716, 140);
+            this.cbMakeFileSizeFormat.Location = new System.Drawing.Point(218, 346);
             this.cbMakeFileSizeFormat.Name = "cbMakeFileSizeFormat";
             this.cbMakeFileSizeFormat.Size = new System.Drawing.Size(47, 22);
             this.cbMakeFileSizeFormat.TabIndex = 32;
@@ -952,7 +1002,7 @@ namespace Firmware_Editor
             // 
             // txtMakeFileSize
             // 
-            this.txtMakeFileSize.Location = new System.Drawing.Point(591, 142);
+            this.txtMakeFileSize.Location = new System.Drawing.Point(93, 348);
             this.txtMakeFileSize.Name = "txtMakeFileSize";
             this.txtMakeFileSize.ReadOnly = true;
             this.txtMakeFileSize.Size = new System.Drawing.Size(118, 21);
@@ -966,10 +1016,11 @@ namespace Firmware_Editor
             this.panelMakePadding.Controls.Add(this.label15);
             this.panelMakePadding.Controls.Add(this.numericUpDown1);
             this.panelMakePadding.Controls.Add(this.textBox1);
+            this.panelMakePadding.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMakePadding.Enabled = false;
-            this.panelMakePadding.Location = new System.Drawing.Point(655, 38);
+            this.panelMakePadding.Location = new System.Drawing.Point(103, 3);
             this.panelMakePadding.Name = "panelMakePadding";
-            this.panelMakePadding.Size = new System.Drawing.Size(136, 69);
+            this.panelMakePadding.Size = new System.Drawing.Size(212, 58);
             this.panelMakePadding.TabIndex = 29;
             // 
             // label13
@@ -984,7 +1035,7 @@ namespace Firmware_Editor
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 44);
+            this.label15.Location = new System.Drawing.Point(3, 37);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(38, 12);
             this.label15.TabIndex = 27;
@@ -992,7 +1043,7 @@ namespace Firmware_Editor
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(60, 42);
+            this.numericUpDown1.Location = new System.Drawing.Point(60, 33);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(62, 21);
             this.numericUpDown1.TabIndex = 28;
@@ -1006,19 +1057,21 @@ namespace Firmware_Editor
             this.textBox1.TabIndex = 26;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label14
+            // btnCalcultaeCrc32
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(522, 47);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(94, 12);
-            this.label14.TabIndex = 25;
-            this.label14.Text = "Enable Padding";
+            this.btnCalcultaeCrc32.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCalcultaeCrc32.Location = new System.Drawing.Point(3, 67);
+            this.btnCalcultaeCrc32.Name = "btnCalcultaeCrc32";
+            this.btnCalcultaeCrc32.Size = new System.Drawing.Size(94, 58);
+            this.btnCalcultaeCrc32.TabIndex = 35;
+            this.btnCalcultaeCrc32.Text = "CRC32";
+            this.btnCalcultaeCrc32.UseVisualStyleBackColor = true;
+            this.btnCalcultaeCrc32.Click += new System.EventHandler(this.btnCalcultaeCrc32_Click);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(522, 145);
+            this.label16.Location = new System.Drawing.Point(17, 351);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(54, 12);
             this.label16.TabIndex = 23;
@@ -1027,7 +1080,7 @@ namespace Firmware_Editor
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(522, 189);
+            this.label12.Location = new System.Drawing.Point(17, 382);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(63, 12);
             this.label12.TabIndex = 23;
@@ -1035,7 +1088,7 @@ namespace Firmware_Editor
             // 
             // btnMakeBinary
             // 
-            this.btnMakeBinary.Location = new System.Drawing.Point(716, 184);
+            this.btnMakeBinary.Location = new System.Drawing.Point(218, 377);
             this.btnMakeBinary.Name = "btnMakeBinary";
             this.btnMakeBinary.Size = new System.Drawing.Size(75, 23);
             this.btnMakeBinary.TabIndex = 22;
@@ -1055,18 +1108,20 @@ namespace Firmware_Editor
             // 
             // txtBinaryNamePrefix
             // 
-            this.txtBinaryNamePrefix.Location = new System.Drawing.Point(591, 186);
+            this.txtBinaryNamePrefix.Location = new System.Drawing.Point(93, 379);
             this.txtBinaryNamePrefix.Name = "txtBinaryNamePrefix";
             this.txtBinaryNamePrefix.Size = new System.Drawing.Size(119, 21);
             this.txtBinaryNamePrefix.TabIndex = 18;
             // 
             // cbBinaryPadding
             // 
+            this.cbBinaryPadding.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cbBinaryPadding.AutoSize = true;
-            this.cbBinaryPadding.Location = new System.Drawing.Point(622, 47);
+            this.cbBinaryPadding.Location = new System.Drawing.Point(3, 24);
             this.cbBinaryPadding.Name = "cbBinaryPadding";
-            this.cbBinaryPadding.Size = new System.Drawing.Size(15, 14);
+            this.cbBinaryPadding.Size = new System.Drawing.Size(70, 16);
             this.cbBinaryPadding.TabIndex = 16;
+            this.cbBinaryPadding.Text = "Padding";
             this.cbBinaryPadding.UseVisualStyleBackColor = true;
             this.cbBinaryPadding.CheckedChanged += new System.EventHandler(this.cbBinaryPadding_CheckedChanged);
             // 
@@ -1081,15 +1136,17 @@ namespace Firmware_Editor
             this.colMakeSelect,
             this.colMakeName,
             this.colMakeOffset,
-            this.colMakeAddr,
+            this.colMakeVAddr,
+            this.colMakePAddr,
             this.colMakeSize});
             this.dgvMakeBinary.Location = new System.Drawing.Point(19, 38);
             this.dgvMakeBinary.Name = "dgvMakeBinary";
             this.dgvMakeBinary.RowHeadersVisible = false;
             this.dgvMakeBinary.RowTemplate.Height = 23;
             this.dgvMakeBinary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMakeBinary.Size = new System.Drawing.Size(481, 168);
+            this.dgvMakeBinary.Size = new System.Drawing.Size(481, 191);
             this.dgvMakeBinary.TabIndex = 14;
+            this.dgvMakeBinary.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMakeBinary_CellContentClick);
             this.dgvMakeBinary.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMakeBinary_CellValueChanged);
             // 
             // colMakeSelect
@@ -1098,32 +1155,47 @@ namespace Firmware_Editor
             this.colMakeSelect.HeaderText = "Sel";
             this.colMakeSelect.Name = "colMakeSelect";
             this.colMakeSelect.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.colMakeSelect.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colMakeSelect.Width = 48;
+            this.colMakeSelect.Width = 29;
             // 
             // colMakeName
             // 
+            this.colMakeName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colMakeName.HeaderText = "Name";
             this.colMakeName.Name = "colMakeName";
             this.colMakeName.ReadOnly = true;
+            this.colMakeName.Width = 64;
             // 
             // colMakeOffset
             // 
+            this.colMakeOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colMakeOffset.HeaderText = "Offset";
             this.colMakeOffset.Name = "colMakeOffset";
             this.colMakeOffset.ReadOnly = true;
+            this.colMakeOffset.Width = 62;
             // 
-            // colMakeAddr
+            // colMakeVAddr
             // 
-            this.colMakeAddr.HeaderText = "Address";
-            this.colMakeAddr.Name = "colMakeAddr";
-            this.colMakeAddr.ReadOnly = true;
+            this.colMakeVAddr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colMakeVAddr.HeaderText = "Virtual Address";
+            this.colMakeVAddr.Name = "colMakeVAddr";
+            this.colMakeVAddr.ReadOnly = true;
+            this.colMakeVAddr.Width = 106;
+            // 
+            // colMakePAddr
+            // 
+            this.colMakePAddr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colMakePAddr.HeaderText = "Physical Address";
+            this.colMakePAddr.Name = "colMakePAddr";
+            this.colMakePAddr.ReadOnly = true;
+            this.colMakePAddr.Width = 119;
             // 
             // colMakeSize
             // 
+            this.colMakeSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.colMakeSize.HeaderText = "Size";
             this.colMakeSize.Name = "colMakeSize";
             this.colMakeSize.ReadOnly = true;
+            this.colMakeSize.Width = 55;
             // 
             // tabCompare
             // 
@@ -1257,6 +1329,145 @@ namespace Firmware_Editor
             this.tableLayoutPanel4.Size = new System.Drawing.Size(865, 30);
             this.tableLayoutPanel4.TabIndex = 22;
             // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.76101F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.23899F));
+            this.tableLayoutPanel5.Controls.Add(this.cbBinaryPadding, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.panel1, 1, 1);
+            this.tableLayoutPanel5.Controls.Add(this.panelMakePadding, 1, 0);
+            this.tableLayoutPanel5.Controls.Add(this.btnCalcultaeCrc32, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.checkBox1, 0, 2);
+            this.tableLayoutPanel5.Controls.Add(this.checkBox2, 0, 3);
+            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel1, 1, 2);
+            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel2, 1, 3);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(506, 38);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 4;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(318, 191);
+            this.tableLayoutPanel5.TabIndex = 37;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(3, 136);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(92, 16);
+            this.checkBox1.TabIndex = 16;
+            this.checkBox1.Text = "Set CRC (1)";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.cbBinaryPadding_CheckedChanged);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(3, 167);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(92, 16);
+            this.checkBox2.TabIndex = 16;
+            this.checkBox2.Text = "Set CRC (2)";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.cbBinaryPadding_CheckedChanged);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(40, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(55, 21);
+            this.textBox2.TabIndex = 37;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.label1);
+            this.flowLayoutPanel1.Controls.Add(this.textBox2);
+            this.flowLayoutPanel1.Controls.Add(this.label14);
+            this.flowLayoutPanel1.Controls.Add(this.textBox3);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(103, 131);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(212, 26);
+            this.flowLayoutPanel1.TabIndex = 37;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.label20);
+            this.flowLayoutPanel2.Controls.Add(this.textBox4);
+            this.flowLayoutPanel2.Controls.Add(this.label21);
+            this.flowLayoutPanel2.Controls.Add(this.textBox5);
+            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(103, 163);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(212, 25);
+            this.flowLayoutPanel2.TabIndex = 38;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(138, 3);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(55, 21);
+            this.textBox3.TabIndex = 38;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(40, 3);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(55, 21);
+            this.textBox4.TabIndex = 0;
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(138, 3);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(55, 21);
+            this.textBox5.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 12);
+            this.label1.TabIndex = 39;
+            this.label1.Text = "Addr";
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(101, 7);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(31, 12);
+            this.label14.TabIndex = 40;
+            this.label14.Text = "CRC";
+            // 
+            // label20
+            // 
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(3, 7);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(31, 12);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "Addr";
+            // 
+            // label21
+            // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(101, 7);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(31, 12);
+            this.label21.TabIndex = 40;
+            this.label21.Text = "CRC";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -1297,6 +1508,8 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.dgvProgramHeader)).EndInit();
             this.tabFirmwareBinary.ResumeLayout(false);
             this.tabFirmwareBinary.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panelMakePadding.ResumeLayout(false);
             this.panelMakePadding.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -1310,6 +1523,12 @@ namespace Firmware_Editor
             this.statusStrip1.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1330,8 +1549,6 @@ namespace Firmware_Editor
         private System.Windows.Forms.RichTextBox txtCompareResult;
         private System.Windows.Forms.CheckBox cbShowDifference;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtCRC32;
-        private System.Windows.Forms.Button btnCRC32;
         private System.Windows.Forms.ListBox listMismatch;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblSelectedIndex;
@@ -1344,7 +1561,6 @@ namespace Firmware_Editor
         private System.Windows.Forms.TextBox txtMismatchedNumber;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtElfFilePath;
         private System.Windows.Forms.Button btnLoadELF;
@@ -1392,17 +1608,11 @@ namespace Firmware_Editor
         private System.Windows.Forms.FlowLayoutPanel customCompareRange;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView dgvMakeBinary;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn colMakeSelect;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeOffset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeAddr;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeSize;
         private System.Windows.Forms.CheckBox cbBinaryPadding;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtBinaryNamePrefix;
         private System.Windows.Forms.Button btnMakeBinary;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label15;
@@ -1411,6 +1621,34 @@ namespace Firmware_Editor
         private System.Windows.Forms.CheckBox cbMakeFileSizeFormat;
         private System.Windows.Forms.TextBox txtMakeFileSize;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colMakeSelect;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeOffset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeVAddr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakePAddr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMakeSize;
+        private System.Windows.Forms.TextBox txtResultCrc32;
+        private System.Windows.Forms.Button btnCalcultaeCrc32;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtEndOffsetCrc32;
+        private System.Windows.Forms.TextBox txtStartOffsetCrc32;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
     }
 }
 
