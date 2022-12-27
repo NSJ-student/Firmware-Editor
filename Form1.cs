@@ -24,6 +24,7 @@ namespace Firmware_Editor
         List<BinaryGenArg> listBinaryArea;
         int genBinaryStartPhAddr;
         int genBinarySize;
+        byte[] genBinaryData;
         // Compare Tab
         byte[] workingData;
         byte[] referenceData;
@@ -121,7 +122,7 @@ namespace Firmware_Editor
                                 }
                                 txtCompareResult.SelectionColor = compareArg.textColor;
                                 txtCompareResult.AppendText(compareArg.textContent);
-                                txtMismatchedNumber.Text = mismatchedCount.ToString();
+                                nMismatchedNumber.Value = mismatchedCount;
                             }));
                             prev_color = textcolor;
                             refresh_cnt = 0;
@@ -157,7 +158,7 @@ namespace Firmware_Editor
                             }
                             txtCompareResult.SelectionColor = compareArg.textColor;
                             txtCompareResult.AppendText(compareArg.textContent);
-                            txtMismatchedNumber.Text = mismatchedCount.ToString();
+                            nMismatchedNumber.Value = mismatchedCount;
                         }));
                         prev_color = textcolor;
                         refresh_cnt = 0;
@@ -173,7 +174,7 @@ namespace Firmware_Editor
                         {
                             txtCompareResult.SelectionColor = compareArg.textColor;
                             txtCompareResult.AppendText(compareArg.textContent);
-                            txtMismatchedNumber.Text = mismatchedCount.ToString();
+                            nMismatchedNumber.Value = mismatchedCount;
                         }));
                         refresh_cnt = 0;
                         text = "";
@@ -204,7 +205,7 @@ namespace Firmware_Editor
         private void CompareDatas_Work_Complete(object obj, RunWorkerCompletedEventArgs arg)
         {
             btnCompareDatas.Text = "Compare";
-            txtMismatchedNumber.Text = mismatchedCount.ToString();
+            nMismatchedNumber.Value = mismatchedCount;
         }
 
         private void btnOpenFirmware_Click(object sender, EventArgs e)
@@ -224,6 +225,19 @@ namespace Firmware_Editor
 
                 workingData = new byte[file.Length];
                 reader.Read(workingData, 0, (int)file.Length);
+
+                if (referenceData != null)
+                {
+                    nCompareStopAddr.Value = Math.Min(file.Length, referenceData.Length);
+                }
+                else
+                {
+                    nCompareStopAddr.Value = file.Length;
+                }
+
+                reader.Close();
+                file.Close();
+
             }
         }
 
@@ -242,6 +256,19 @@ namespace Firmware_Editor
 
                 referenceData = new byte[file.Length];
                 reader.Read(referenceData, 0, (int)file.Length);
+
+                if(workingData != null)
+                {
+                    nCompareStopAddr.Value = Math.Min(file.Length, workingData.Length);
+                }
+                else
+                {
+                    nCompareStopAddr.Value = file.Length;
+                }
+
+                reader.Close();
+                file.Close();
+
             }
         }
 
@@ -259,8 +286,8 @@ namespace Firmware_Editor
             }
             if ((referenceData.Length > 0) && (workingData.Length > 0))
             {
-                int start_pos = Convert.ToInt32(txtCompareStartAddr.Text, 16);
-                int end_pos = Convert.ToInt32(txtCompareStopAddr.Text, 16);
+                int start_pos = (int)nCompareStartAddr.Value;
+                int end_pos = (int)nCompareStopAddr.Value;
 
                 if (referenceData.Length < (end_pos - start_pos))
                 {
@@ -273,6 +300,9 @@ namespace Firmware_Editor
                     MessageBox.Show("working data length is too short");
                     return;
                 }
+
+                lblCompareOriginFile.Text = Path.GetFileName(txtFirmwareBinPath.Text);
+                lblCompareRefFile.Text = Path.GetFileName(txtReferencePath.Text);
 
                 compareArg.textSize = end_pos;
                 progressWork.Value = 0;
@@ -289,7 +319,7 @@ namespace Firmware_Editor
 
         private void btnSaveUpdateArea_Click(object sender, EventArgs e)
         {
-            int end_pos = Convert.ToInt32(txtCompareStopAddr.Text, 16);
+            int end_pos = (int)nCompareStopAddr.Value;
 
             if (workingData == null)
             {
@@ -320,6 +350,7 @@ namespace Firmware_Editor
         {
             lblSelectedIndex.Text = listMismatch.SelectedIndex.ToString();
         }
+ 
         private void listMismatch_DoubleClick(object sender, EventArgs e)
         {
             int start_pos = Convert.ToInt32(listMismatch.SelectedItems[0].ToString(), 16);
@@ -346,122 +377,18 @@ namespace Firmware_Editor
             txtReferenceVal.Text = reference_text;
         }
 
-        private void makeCRC_32_Table(UInt32 polynomial)
+        private void cbCompareAddrFormat_CheckedChanged(object sender, EventArgs e)
         {
-            const UInt32 V = (0x80000000);
-            UInt32 i, j;
-            UInt32 c;
-
-            l_ulCRCtable[0] = 0;
-
-            for (i = 0; i < 256; i++)
+            nCompareStartAddr.Hexadecimal = !cbCompareAddrFormat.Checked;
+            nCompareStopAddr.Hexadecimal = !cbCompareAddrFormat.Checked;
+            if(cbCompareAddrFormat.Checked)
             {
-                for (c = i << 24, j = 8; j > 0; --j)
-                    c = ((c & V) > 0) ? ((c << 1) ^ 0x04c11db7) : (c << 1);
-                l_ulCRCtable[i] = c;
+                cbCompareAddrFormat.Text = "DEC";
             }
-
-        }
-
-        UInt32 update_CRC_32(UInt32 p_ulCRC, byte[] p_cpBuffer, int p_uiLen)
-        {
-            UInt32 crc = p_ulCRC;
-            UInt32 pos = 0;
-
-            while ((p_uiLen--) > 0)
+            else
             {
-                crc = (crc << 8) ^ l_ulCRCtable[((crc >> 24) ^ p_cpBuffer[pos]) & 255];
-                pos++;
+                cbCompareAddrFormat.Text = "HEX";
             }
-            return crc;
-        }
-
-        private void btnCRC32_Click(object sender, EventArgs e)
-        {
-            int end_pos = Convert.ToInt32(txtCompareStopAddr.Text, 16);
-
-            if (workingData == null)
-            {
-                return;
-            }
-            if (workingData.Length < end_pos)
-            {
-                MessageBox.Show("working data length is too short");
-                return;
-            }
-
-            UInt32 result = update_CRC_32(0, workingData, workingData.Length);
-            txtResultCrc32.Text = "0x" + result.ToString("X8");
-        }
-
-        private void btnOpenConfig_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog open_config = new OpenFileDialog();
-            open_config.Filter = "Config File(*.xml)|*.xml";
-
-            if (DialogResult.OK == open_config.ShowDialog())
-            {
-                txtConfigPath.Text = open_config.FileName;
-                txtConfigPath.Select(txtConfigPath.Text.Length, 0);
-
-                btnParseConfig.Enabled = true;
-            }
-        }
-
-        private void btnParseConfig_Click(object sender, EventArgs e)
-        {
-            LoadConfig(txtConfigPath.Text);
-        }
-
-        private bool LoadConfig(string config_path)
-        {
-            if ((config_path == null) || (config_path == ""))
-            {
-                return false;
-            }
-
-            try
-            {
-                if (File.Exists(config_path))
-                {
-                    string local_dir = System.IO.Path.GetDirectoryName(config_path);
-                    Console.WriteLine(String.Format("    base dir: {0}", local_dir));
-
-                    var xdoc = XDocument.Load(config_path);
-
-                    dgvInformation.Rows.Clear();
-                    var xelements = xdoc.Root.Elements("element");
-                    //dgvInformation.RowCount = 0;
-                    foreach (var xList in xelements)
-                    {
-                        XElement element;
-
-                        element = xList.Element("name");
-                        if (element == null)
-                        {
-                            continue;
-                        }
-                        string name = element.Value;
-
-                        element = xList.Element("contents");
-                        if (element == null)
-                        {
-                            continue;
-                        }
-                        string contents = element.Value;
-
-                        dgvInformation.Rows.Add(name, contents);
-                    }
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return false;
         }
 
         ////////////////////////////////////////
@@ -492,10 +419,14 @@ namespace Firmware_Editor
                 elfData = new byte[file.Length];
                 reader.Read(elfData, 0, (int)file.Length);
 
+                listBinaryArea.Clear();
                 txtBinaryNamePrefix.Text = Path.GetFileNameWithoutExtension(open_elf.FileName);
                 progressWork.Value = 0;
                 rtbElfHeader.Clear();
                 dgvElfHeader.Rows.Clear();
+                dgvSectionHeader.Rows.Clear();
+                dgvProgramHeader.Rows.Clear();
+                dgvMakeBinary.Rows.Clear();
                 WorkerElfParse.RunWorkerAsync();
             }
         }
@@ -509,11 +440,12 @@ namespace Firmware_Editor
             int program_offset;
             int program_entry_size;
             int program_entry_counts;
+            int string_index;
             // Parse ELF Header
             listElfHeader.Clear();
 
             ElfHeader component = new ElfHeader("Magic", 
-                String.Format("{0:X2} {1:X2} {2:X2} {2:X2}", 
+                String.Format("{0:X2} {1:X2} {2:X2} {3:X2}", 
                 elfData[0], elfData[1], elfData[2], elfData[3]));
             listElfHeader.Add(component);
 
@@ -591,7 +523,8 @@ namespace Firmware_Editor
             component = new ElfHeader("SH Entries", section_entry_counts);
             listElfHeader.Add(component);
 
-            component = new ElfHeader("String Index", BitConverter.ToInt16(elfData, 0x32));
+            string_index = BitConverter.ToInt16(elfData, 0x32);
+            component = new ElfHeader("String Index", string_index);
             listElfHeader.Add(component);
 
             elfDataTempString = "";
@@ -614,7 +547,9 @@ namespace Firmware_Editor
             }
 
             // Parse Section Header
-            int shstrtab = BitConverter.ToInt32(elfData, section_offset + (15 * section_entry_size) + 16);
+            listSectionHeader.Clear();
+
+            int shstrtab = BitConverter.ToInt32(elfData, section_offset + (string_index * section_entry_size) + 16);
             for (int cnt=0; cnt<section_entry_counts; cnt++)
             {
                 SectionHeader s_component = new SectionHeader(elfData, section_offset + cnt * section_entry_size, section_entry_size);
@@ -641,6 +576,8 @@ namespace Firmware_Editor
             }
 
             // Parse Program Header
+            listProgramHeader.Clear();
+
             for (int cnt = 0; cnt < program_entry_counts; cnt++)
             {
                 ProgramHeader p_component = new ProgramHeader(elfData, program_offset + (cnt * program_entry_size), program_entry_size);
@@ -668,12 +605,15 @@ namespace Firmware_Editor
             this.Invoke(new Action(() =>
             {
                 dgvElfHeader.Rows.Clear();
+                dgvSectionHeader.Rows.Clear();
+                dgvProgramHeader.Rows.Clear();
+                dgvMakeBinary.Rows.Clear();
+
                 foreach (ElfHeader header in listElfHeader)
                 {
                     dgvElfHeader.Rows.Add(header.name, header.str_value);
                 }
 
-                dgvSectionHeader.Rows.Clear();
                 int index = 0;
                 foreach (SectionHeader header in listSectionHeader)
                 {
@@ -681,7 +621,7 @@ namespace Firmware_Editor
                         header.name, header.type, header.flags,
                         header.virtual_address, header.offset, header.size, header.link);
                     index++;
-                    if ((header.Type == 1) || (header.Type == 9))
+                    if ((header.Type == 1) || (header.Type == 9) || (header.Type == 0x70000001))
                     {
                         int v_addr = Convert.ToInt32(header.virtual_address, 16);
                         if(v_addr!=0)
@@ -692,7 +632,6 @@ namespace Firmware_Editor
                     }
                 }
 
-                dgvProgramHeader.Rows.Clear();
                 foreach (ProgramHeader header in listProgramHeader)
                 {
                     dgvProgramHeader.Rows.Add(
@@ -769,41 +708,54 @@ namespace Firmware_Editor
                 return;
             }
 
-            FolderBrowserDialog save_dialog = new FolderBrowserDialog();
+            SaveFileDialog save_dialog = new SaveFileDialog();
+            save_dialog.Title = "Save Binary";
+            save_dialog.AddExtension = true;
+            save_dialog.DefaultExt = "bin";
+            save_dialog.Filter = "Bin File(*.bin)|*.bin";
+            save_dialog.FileName = txtBinaryNamePrefix.Text;
 
             if (DialogResult.OK == save_dialog.ShowDialog())
             {
-                string fileName = txtBinaryNamePrefix.Text;
-                FileStream file = File.Create(save_dialog.SelectedPath + "\\" + fileName + ".bin");
+                FileStream file = File.Create(save_dialog.FileName);
                 BinaryWriter writer = new BinaryWriter(file);
 
-
-                byte[] write_data = new byte[genBinarySize];
-                Array.Clear(write_data, 0, genBinarySize);
-
-                foreach (DataGridViewRow row in dgvMakeBinary.Rows)
+                if (makeGenDataBuffer())
                 {
-                    DataGridViewCheckBoxCell sel = row.Cells[0] as DataGridViewCheckBoxCell;
-
-                    if ((bool)sel.Value)
+                    int file_size = (int)nMakeBinarySize.Value;
+                    if (cbSectionCRC1.Checked)
                     {
-                        string offset = row.Cells[2].Value.ToString();
-                        int i_offset = Convert.ToInt32(offset, 16);
-                        string ph_addr = row.Cells[4].Value.ToString();
-                        int ip_addr = Convert.ToInt32(ph_addr, 16);
-                        string size = row.Cells[5].Value.ToString();
-                        int i_size = Convert.ToInt32(size);
-
-                        int dest_pos = ip_addr - genBinaryStartPhAddr;
-                        if(dest_pos < 0)
+                        int offset = (int)nSectionCRC1Addr.Value;
+                        int value = (int)nSectionCRC1Value.Value;
+                        if (offset + 4 <= file_size)
                         {
-                            continue;
+                            byte[] converted = BitConverter.GetBytes(value);
+                            genBinaryData[offset + 0] = converted[0];
+                            genBinaryData[offset + 1] = converted[1];
+                            genBinaryData[offset + 2] = converted[2];
+                            genBinaryData[offset + 3] = converted[3];
                         }
-                        Array.Copy(elfData, i_offset, write_data, dest_pos, i_size);
                     }
-                }
+                    if (cbSectionCRC2.Checked)
+                    {
+                        int offset = (int)nSectionCRC2Addr.Value;
+                        int value = (int)nSectionCRC2Value.Value;
+                        if (offset + 4 <= file_size)
+                        {
+                            byte[] converted = BitConverter.GetBytes(value);
+                            genBinaryData[offset + 0] = converted[0];
+                            genBinaryData[offset + 1] = converted[1];
+                            genBinaryData[offset + 2] = converted[2];
+                            genBinaryData[offset + 3] = converted[3];
+                        }
+                    }
 
-                writer.Write(write_data, 0, genBinarySize);
+                    writer.Write(genBinaryData, 0, file_size);
+                }
+                else
+                {
+                    MessageBox.Show("fail to make data");
+                }
 
                 writer.Close();
                 file.Close();
@@ -847,48 +799,20 @@ namespace Firmware_Editor
                 listBinaryArea.Remove(exist);
             }
 
-            genBinarySize = calculateGenerateBinarySize();
-            if (cbMakeFileSizeFormat.Checked)
+            if(makeGenDataBuffer())
             {
-                cbMakeFileSizeFormat.Text = "KB";
-                double converted = (double)genBinarySize / (double)1024;
-                txtMakeFileSize.Text = converted.ToString("N2");
-            }
-            else
-            {
-                cbMakeFileSizeFormat.Text = "BYTE";
-                txtMakeFileSize.Text = genBinarySize.ToString("N0");
-            }
-        }
-
-        private int calculateGenerateBinarySize()
-        {
-            int size = 0;
-            int start_addr = 0x7FFFFFFF;
-            int end_addr = 0;
-            int end_size = 0;
-
-            foreach (BinaryGenArg arg in listBinaryArea)
-            {
-                if(arg.PhysicalAddress <= start_addr)
+                if (cbMakeFileSizeFormat.Checked)
                 {
-                    start_addr = arg.PhysicalAddress;
+                    cbMakeFileSizeFormat.Text = "KB";
+                    double converted = (double)genBinarySize / (double)1024;
+                    txtMakeFileSize.Text = converted.ToString("N2");
                 }
-                if (arg.PhysicalAddress >= end_addr)
+                else
                 {
-                    end_addr = arg.PhysicalAddress;
-                    end_size = arg.Size;
+                    cbMakeFileSizeFormat.Text = "BYTE";
+                    txtMakeFileSize.Text = genBinarySize.ToString("N0");
                 }
             }
-
-            if(end_addr < start_addr)
-            {
-                return 0;
-            }
-
-            genBinaryStartPhAddr = start_addr;
-            size = (end_addr - start_addr) + end_size;
-            return size;
         }
 
         private void cbBinaryPadding_CheckedChanged(object sender, EventArgs e)
@@ -913,8 +837,218 @@ namespace Firmware_Editor
 
         private void btnCalcultaeCrc32_Click(object sender, EventArgs e)
         {
+            int start_pos = (int)nStartOffsetCrc32.Value;
+            int end_pos = (int)nEndOffsetCrc32.Value;
+
+            if (end_pos <= start_pos)
+            {
+                MessageBox.Show("invalid range");
+                return;
+            }
+
+            if (makeGenDataBuffer())
+            {
+                UInt32 result = update_CRC_32(0, genBinaryData, start_pos, end_pos - start_pos);
+                nResultCrc32.Value = result;
+            }
+        }
+
+        private void cbBinarySizeEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            nMakeBinarySize.Enabled = cbBinarySizeEnable.Checked;
+        }
+
+        private void cbDisplayFormat_CheckedChanged(object sender, EventArgs e)
+        {
+            nMakeBinarySize.Hexadecimal = cbDisplayFormat.Checked;
+            nStartOffsetCrc32.Hexadecimal = cbDisplayFormat.Checked;
+            nEndOffsetCrc32.Hexadecimal = cbDisplayFormat.Checked;
+            if (cbDisplayFormat.Checked)
+            {
+                cbDisplayFormat.Text = "HEX";
+            }
+            else
+            {
+                cbDisplayFormat.Text = "DEC";
+            }
+        }
+
+        ////////////////////////////////////////
+        // Parameter Tab
+        ////////////////////////////////////////
+
+        private void btnOpenConfig_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open_config = new OpenFileDialog();
+            open_config.Filter = "Config File(*.xml)|*.xml";
+
+            if (DialogResult.OK == open_config.ShowDialog())
+            {
+                txtConfigPath.Text = open_config.FileName;
+                txtConfigPath.Select(txtConfigPath.Text.Length, 0);
+
+                btnParseConfig.Enabled = true;
+            }
+        }
+
+        private void btnParseConfig_Click(object sender, EventArgs e)
+        {
+            LoadConfig(txtConfigPath.Text);
+        }
+
+        private bool LoadConfig(string config_path)
+        {
+            if ((config_path == null) || (config_path == ""))
+            {
+                return false;
+            }
+
+            try
+            {
+                if (File.Exists(config_path))
+                {
+                    string local_dir = System.IO.Path.GetDirectoryName(config_path);
+                    Console.WriteLine(String.Format("    base dir: {0}", local_dir));
+
+                    var xdoc = XDocument.Load(config_path);
+
+                    dgvInformation.Rows.Clear();
+                    var xelements = xdoc.Root.Elements("element");
+                    //dgvInformation.RowCount = 0;
+                    foreach (var xList in xelements)
+                    {
+                        XElement element;
+
+                        element = xList.Element("name");
+                        if (element == null)
+                        {
+                            continue;
+                        }
+                        string name = element.Value;
+
+                        element = xList.Element("contents");
+                        if (element == null)
+                        {
+                            continue;
+                        }
+                        string contents = element.Value;
+
+                        dgvInformation.Rows.Add(name, contents);
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return false;
+        }
+
+        ////////////////////////////////////////
+        // User Function
+        ////////////////////////////////////////
+
+        private int calculateGenerateBinarySize()
+        {
+            int size = 0;
+            int start_addr = 0x7FFFFFFF;
+            int end_addr = 0;
+            int end_size = 0;
+
+            foreach (BinaryGenArg arg in listBinaryArea)
+            {
+                if (arg.PhysicalAddress <= start_addr)
+                {
+                    start_addr = arg.PhysicalAddress;
+                }
+                if (arg.PhysicalAddress >= end_addr)
+                {
+                    end_addr = arg.PhysicalAddress;
+                    end_size = arg.Size;
+                }
+            }
+
+            if (end_addr < start_addr)
+            {
+                return 0;
+            }
+
+            size = (end_addr - start_addr) + end_size;
+            genBinaryStartPhAddr = start_addr;
+            nEndOffsetCrc32.Minimum = size;
+            nMakeBinarySize.Minimum = size;
+            return size;
+        }
+
+        private bool makeGenDataBuffer()
+        {
+            genBinarySize = calculateGenerateBinarySize();
+            if(genBinarySize == 0)
+            {
+                return false;
+            }
+            genBinaryData = new byte[(int)nMakeBinarySize.Value];
+
+            Array.Clear(genBinaryData, (int)nMakeBinaryFill.Value, (int)nMakeBinarySize.Value);
+
+            foreach (DataGridViewRow row in dgvMakeBinary.Rows)
+            {
+                DataGridViewCheckBoxCell sel = row.Cells[0] as DataGridViewCheckBoxCell;
+
+                if ((bool)sel.Value)
+                {
+                    string offset = row.Cells[2].Value.ToString();
+                    int i_offset = Convert.ToInt32(offset, 16);
+                    string ph_addr = row.Cells[4].Value.ToString();
+                    int ip_addr = Convert.ToInt32(ph_addr, 16);
+                    string size = row.Cells[5].Value.ToString();
+                    int i_size = Convert.ToInt32(size);
+
+                    int dest_pos = ip_addr - genBinaryStartPhAddr;
+                    if (dest_pos < 0)
+                    {
+                        continue;
+                    }
+                    Array.Copy(elfData, i_offset, genBinaryData, dest_pos, i_size);
+                }
+            }
+
+            return true;
+        }
+
+        private void makeCRC_32_Table(UInt32 polynomial)
+        {
+            const UInt32 V = (0x80000000);
+            UInt32 i, j;
+            UInt32 c;
+
+            l_ulCRCtable[0] = 0;
+
+            for (i = 0; i < 256; i++)
+            {
+                for (c = i << 24, j = 8; j > 0; --j)
+                    c = ((c & V) > 0) ? ((c << 1) ^ 0x04c11db7) : (c << 1);
+                l_ulCRCtable[i] = c;
+            }
 
         }
+
+        UInt32 update_CRC_32(UInt32 p_ulCRC, byte[] p_cpBuffer, int offset, int p_uiLen)
+        {
+            UInt32 crc = p_ulCRC;
+            UInt32 pos = 0;
+
+            while ((p_uiLen--) > 0)
+            {
+                crc = (crc << 8) ^ l_ulCRCtable[((crc >> 24) ^ p_cpBuffer[pos+ offset]) & 255];
+                pos++;
+            }
+            return crc;
+        }
+
     }
 
     public class CompareWorkArg
