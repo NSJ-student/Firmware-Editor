@@ -63,6 +63,7 @@ namespace Firmware_Editor
             this.btnLoadELF = new System.Windows.Forms.Button();
             this.tabMainControl = new System.Windows.Forms.TabControl();
             this.tabELF = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tabElfParse = new System.Windows.Forms.TabControl();
             this.tabElfHeader = new System.Windows.Forms.TabPage();
@@ -102,16 +103,6 @@ namespace Firmware_Editor
             this.label17 = new System.Windows.Forms.Label();
             this.cbSectionCRC1 = new System.Windows.Forms.CheckBox();
             this.cbSectionCRC2 = new System.Windows.Forms.CheckBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nSectionCRC1Addr = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
-            this.nSectionCRC1Value = new System.Windows.Forms.NumericUpDown();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.nSectionCRC2Addr = new System.Windows.Forms.NumericUpDown();
-            this.label21 = new System.Windows.Forms.Label();
-            this.nSectionCRC2Value = new System.Windows.Forms.NumericUpDown();
             this.btnCalcultaeCrc32 = new System.Windows.Forms.Button();
             this.cbBinaryPadding = new System.Windows.Forms.CheckBox();
             this.panelMakePadding = new System.Windows.Forms.FlowLayoutPanel();
@@ -119,6 +110,12 @@ namespace Firmware_Editor
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.nSectionCRC1Value = new System.Windows.Forms.NumericUpDown();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.nSectionCRC2Value = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.nMakeBinarySize = new System.Windows.Forms.NumericUpDown();
@@ -148,9 +145,25 @@ namespace Firmware_Editor
             this.btnOpenConfig = new System.Windows.Forms.Button();
             this.btnParseConfig = new System.Windows.Forms.Button();
             this.txtConfigPath = new System.Windows.Forms.TextBox();
+            this.tabCombine = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.nMakeCombineBinaryFill = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtCombineBinarySize = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtCombineBinaryNamePrefix = new System.Windows.Forms.TextBox();
+            this.btnMakeCombineBinary = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.dgvCombineBinaries = new System.Windows.Forms.DataGridView();
+            this.colOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBinPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnAddBinary = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progressWork = new System.Windows.Forms.ToolStripProgressBar();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnRemoveBinary = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.workPanel.SuspendLayout();
             this.customCompareRange.SuspendLayout();
@@ -164,6 +177,7 @@ namespace Firmware_Editor
             this.splitContainer1.SuspendLayout();
             this.tabMainControl.SuspendLayout();
             this.tabELF.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -182,14 +196,12 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.nResultCrc32)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nEndOffsetCrc32)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nStartOffsetCrc32)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC1Addr)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC1Value)).BeginInit();
-            this.flowLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC2Addr)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC2Value)).BeginInit();
             this.panelMakePadding.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC1Value)).BeginInit();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC2Value)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nMakeBinarySize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nMakeBinaryFill)).BeginInit();
@@ -198,8 +210,12 @@ namespace Firmware_Editor
             this.tabParameter.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).BeginInit();
+            this.tabCombine.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nMakeCombineBinaryFill)).BeginInit();
+            this.tableLayoutPanel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCombineBinaries)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label7
@@ -220,7 +236,7 @@ namespace Firmware_Editor
             this.cbShowDifference.Checked = true;
             this.cbShowDifference.CheckState = System.Windows.Forms.CheckState.Checked;
             this.workPanel.SetColumnSpan(this.cbShowDifference, 2);
-            this.cbShowDifference.Location = new System.Drawing.Point(467, 46);
+            this.cbShowDifference.Location = new System.Drawing.Point(418, 46);
             this.cbShowDifference.Name = "cbShowDifference";
             this.cbShowDifference.Size = new System.Drawing.Size(78, 16);
             this.cbShowDifference.TabIndex = 8;
@@ -236,7 +252,7 @@ namespace Firmware_Editor
             this.txtCompareResult.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.txtCompareResult.Name = "txtCompareResult";
             this.txtCompareResult.ReadOnly = true;
-            this.txtCompareResult.Size = new System.Drawing.Size(530, 317);
+            this.txtCompareResult.Size = new System.Drawing.Size(481, 303);
             this.txtCompareResult.TabIndex = 5;
             this.txtCompareResult.Text = "";
             this.txtCompareResult.WordWrap = false;
@@ -245,7 +261,7 @@ namespace Firmware_Editor
             // 
             this.btnSaveUpdateArea.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSaveUpdateArea.Location = new System.Drawing.Point(451, 13);
+            this.btnSaveUpdateArea.Location = new System.Drawing.Point(402, 13);
             this.btnSaveUpdateArea.Name = "btnSaveUpdateArea";
             this.btnSaveUpdateArea.Size = new System.Drawing.Size(94, 25);
             this.btnSaveUpdateArea.TabIndex = 4;
@@ -258,7 +274,7 @@ namespace Firmware_Editor
             this.btnCompareDatas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCompareDatas.Location = new System.Drawing.Point(351, 13);
+            this.btnCompareDatas.Location = new System.Drawing.Point(302, 13);
             this.btnCompareDatas.Name = "btnCompareDatas";
             this.btnCompareDatas.Size = new System.Drawing.Size(94, 25);
             this.btnCompareDatas.TabIndex = 4;
@@ -283,7 +299,7 @@ namespace Firmware_Editor
             this.txtFirmwareBinPath.Location = new System.Drawing.Point(112, 9);
             this.txtFirmwareBinPath.Name = "txtFirmwareBinPath";
             this.txtFirmwareBinPath.ReadOnly = true;
-            this.txtFirmwareBinPath.Size = new System.Drawing.Size(373, 21);
+            this.txtFirmwareBinPath.Size = new System.Drawing.Size(324, 21);
             this.txtFirmwareBinPath.TabIndex = 3;
             // 
             // btnOpenFirmware
@@ -291,7 +307,7 @@ namespace Firmware_Editor
             this.btnOpenFirmware.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenFirmware.Location = new System.Drawing.Point(491, 8);
+            this.btnOpenFirmware.Location = new System.Drawing.Point(442, 8);
             this.btnOpenFirmware.Name = "btnOpenFirmware";
             this.btnOpenFirmware.Size = new System.Drawing.Size(75, 23);
             this.btnOpenFirmware.TabIndex = 4;
@@ -315,7 +331,7 @@ namespace Firmware_Editor
             this.txtReferencePath.Location = new System.Drawing.Point(112, 38);
             this.txtReferencePath.Name = "txtReferencePath";
             this.txtReferencePath.ReadOnly = true;
-            this.txtReferencePath.Size = new System.Drawing.Size(373, 21);
+            this.txtReferencePath.Size = new System.Drawing.Size(324, 21);
             this.txtReferencePath.TabIndex = 3;
             // 
             // btnOpenReference
@@ -323,7 +339,7 @@ namespace Firmware_Editor
             this.btnOpenReference.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenReference.Location = new System.Drawing.Point(491, 37);
+            this.btnOpenReference.Location = new System.Drawing.Point(442, 37);
             this.btnOpenReference.Name = "btnOpenReference";
             this.btnOpenReference.Size = new System.Drawing.Size(75, 23);
             this.btnOpenReference.TabIndex = 4;
@@ -349,7 +365,7 @@ namespace Firmware_Editor
             this.listMismatch.ItemHeight = 12;
             this.listMismatch.Location = new System.Drawing.Point(3, 26);
             this.listMismatch.Name = "listMismatch";
-            this.listMismatch.Size = new System.Drawing.Size(265, 390);
+            this.listMismatch.Size = new System.Drawing.Size(243, 376);
             this.listMismatch.TabIndex = 6;
             this.listMismatch.SelectedIndexChanged += new System.EventHandler(this.listMismatch_SelectedIndexChanged);
             this.listMismatch.DoubleClick += new System.EventHandler(this.listMismatch_DoubleClick);
@@ -381,26 +397,26 @@ namespace Firmware_Editor
             // txtReferenceVal
             // 
             this.txtReferenceVal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtReferenceVal.Location = new System.Drawing.Point(76, 449);
+            this.txtReferenceVal.Location = new System.Drawing.Point(76, 435);
             this.txtReferenceVal.Name = "txtReferenceVal";
             this.txtReferenceVal.ReadOnly = true;
-            this.txtReferenceVal.Size = new System.Drawing.Size(192, 21);
+            this.txtReferenceVal.Size = new System.Drawing.Size(170, 21);
             this.txtReferenceVal.TabIndex = 9;
             // 
             // txtOriginalVal
             // 
             this.txtOriginalVal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtOriginalVal.Location = new System.Drawing.Point(76, 422);
+            this.txtOriginalVal.Location = new System.Drawing.Point(76, 408);
             this.txtOriginalVal.Name = "txtOriginalVal";
             this.txtOriginalVal.ReadOnly = true;
-            this.txtOriginalVal.Size = new System.Drawing.Size(192, 21);
+            this.txtOriginalVal.Size = new System.Drawing.Size(170, 21);
             this.txtOriginalVal.TabIndex = 9;
             // 
             // lblCompareOriginFile
             // 
             this.lblCompareOriginFile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblCompareOriginFile.AutoSize = true;
-            this.lblCompareOriginFile.Location = new System.Drawing.Point(3, 426);
+            this.lblCompareOriginFile.Location = new System.Drawing.Point(3, 412);
             this.lblCompareOriginFile.Margin = new System.Windows.Forms.Padding(3);
             this.lblCompareOriginFile.Name = "lblCompareOriginFile";
             this.lblCompareOriginFile.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
@@ -412,7 +428,7 @@ namespace Firmware_Editor
             // 
             this.lblCompareRefFile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblCompareRefFile.AutoSize = true;
-            this.lblCompareRefFile.Location = new System.Drawing.Point(3, 453);
+            this.lblCompareRefFile.Location = new System.Drawing.Point(3, 439);
             this.lblCompareRefFile.Margin = new System.Windows.Forms.Padding(3);
             this.lblCompareRefFile.Name = "lblCompareRefFile";
             this.lblCompareRefFile.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
@@ -441,7 +457,7 @@ namespace Firmware_Editor
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(574, 473);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(525, 459);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
             // workPanel
@@ -471,7 +487,7 @@ namespace Firmware_Editor
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.workPanel.Size = new System.Drawing.Size(558, 399);
+            this.workPanel.Size = new System.Drawing.Size(509, 385);
             this.workPanel.TabIndex = 13;
             // 
             // customCompareRange
@@ -483,7 +499,7 @@ namespace Firmware_Editor
             this.customCompareRange.Controls.Add(this.cbCompareAddrFormat);
             this.customCompareRange.Location = new System.Drawing.Point(94, 13);
             this.customCompareRange.Name = "customCompareRange";
-            this.customCompareRange.Size = new System.Drawing.Size(225, 25);
+            this.customCompareRange.Size = new System.Drawing.Size(202, 25);
             this.customCompareRange.TabIndex = 13;
             // 
             // nCompareStartAddr
@@ -504,7 +520,7 @@ namespace Firmware_Editor
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(79, 8);
+            this.label5.Location = new System.Drawing.Point(79, 7);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 12);
             this.label5.TabIndex = 2;
@@ -529,7 +545,7 @@ namespace Firmware_Editor
             this.cbCompareAddrFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCompareAddrFormat.Appearance = System.Windows.Forms.Appearance.Button;
             this.cbCompareAddrFormat.AutoSize = true;
-            this.cbCompareAddrFormat.Location = new System.Drawing.Point(175, 3);
+            this.cbCompareAddrFormat.Location = new System.Drawing.Point(3, 30);
             this.cbCompareAddrFormat.Name = "cbCompareAddrFormat";
             this.cbCompareAddrFormat.Size = new System.Drawing.Size(39, 22);
             this.cbCompareAddrFormat.TabIndex = 3;
@@ -572,7 +588,7 @@ namespace Firmware_Editor
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(271, 473);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(249, 459);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // splitContainer1
@@ -588,8 +604,8 @@ namespace Firmware_Editor
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel2);
-            this.splitContainer1.Size = new System.Drawing.Size(849, 473);
-            this.splitContainer1.SplitterDistance = 574;
+            this.splitContainer1.Size = new System.Drawing.Size(778, 459);
+            this.splitContainer1.SplitterDistance = 525;
             this.splitContainer1.TabIndex = 15;
             // 
             // label4
@@ -609,13 +625,13 @@ namespace Firmware_Editor
             this.txtElfFilePath.Location = new System.Drawing.Point(76, 4);
             this.txtElfFilePath.Name = "txtElfFilePath";
             this.txtElfFilePath.ReadOnly = true;
-            this.txtElfFilePath.Size = new System.Drawing.Size(705, 21);
+            this.txtElfFilePath.Size = new System.Drawing.Size(612, 21);
             this.txtElfFilePath.TabIndex = 16;
             // 
             // btnLoadELF
             // 
             this.btnLoadELF.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnLoadELF.Location = new System.Drawing.Point(787, 4);
+            this.btnLoadELF.Location = new System.Drawing.Point(694, 4);
             this.btnLoadELF.Name = "btnLoadELF";
             this.btnLoadELF.Size = new System.Drawing.Size(75, 21);
             this.btnLoadELF.TabIndex = 17;
@@ -632,30 +648,50 @@ namespace Firmware_Editor
             this.tabMainControl.Controls.Add(this.tabFirmwareBinary);
             this.tabMainControl.Controls.Add(this.tabCompare);
             this.tabMainControl.Controls.Add(this.tabParameter);
-            this.tabMainControl.Enabled = false;
+            this.tabMainControl.Controls.Add(this.tabCombine);
             this.tabMainControl.ItemSize = new System.Drawing.Size(100, 20);
-            this.tabMainControl.Location = new System.Drawing.Point(5, 36);
+            this.tabMainControl.Location = new System.Drawing.Point(0, 0);
             this.tabMainControl.Name = "tabMainControl";
             this.tabMainControl.SelectedIndex = 0;
-            this.tabMainControl.Size = new System.Drawing.Size(857, 501);
+            this.tabMainControl.Size = new System.Drawing.Size(786, 487);
             this.tabMainControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabMainControl.TabIndex = 20;
             // 
             // tabELF
             // 
+            this.tabELF.Controls.Add(this.tableLayoutPanel4);
             this.tabELF.Controls.Add(this.splitContainer2);
             this.tabELF.Location = new System.Drawing.Point(4, 24);
             this.tabELF.Name = "tabELF";
             this.tabELF.Padding = new System.Windows.Forms.Padding(3);
-            this.tabELF.Size = new System.Drawing.Size(849, 473);
+            this.tabELF.Size = new System.Drawing.Size(778, 459);
             this.tabELF.TabIndex = 0;
             this.tabELF.Text = "ELF Parser";
             this.tabELF.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.txtElfFilePath, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.btnLoadELF, 2, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(772, 30);
+            this.tableLayoutPanel4.TabIndex = 22;
+            // 
             // splitContainer2
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(3, 34);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -665,8 +701,8 @@ namespace Firmware_Editor
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.rtbElfHeader);
-            this.splitContainer2.Size = new System.Drawing.Size(843, 467);
-            this.splitContainer2.SplitterDistance = 526;
+            this.splitContainer2.Size = new System.Drawing.Size(777, 429);
+            this.splitContainer2.SplitterDistance = 484;
             this.splitContainer2.TabIndex = 1;
             // 
             // tabElfParse
@@ -676,13 +712,14 @@ namespace Firmware_Editor
             this.tabElfParse.Controls.Add(this.tabSectionHeader);
             this.tabElfParse.Controls.Add(this.tabProgramHeader);
             this.tabElfParse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabElfParse.Enabled = false;
             this.tabElfParse.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.tabElfParse.ItemSize = new System.Drawing.Size(120, 30);
             this.tabElfParse.Location = new System.Drawing.Point(0, 0);
             this.tabElfParse.Name = "tabElfParse";
             this.tabElfParse.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tabElfParse.SelectedIndex = 0;
-            this.tabElfParse.Size = new System.Drawing.Size(526, 467);
+            this.tabElfParse.Size = new System.Drawing.Size(484, 429);
             this.tabElfParse.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabElfParse.TabIndex = 0;
             this.tabElfParse.SelectedIndexChanged += new System.EventHandler(this.tabElfParse_SelectedIndexChanged);
@@ -693,7 +730,7 @@ namespace Firmware_Editor
             this.tabElfHeader.Location = new System.Drawing.Point(4, 4);
             this.tabElfHeader.Name = "tabElfHeader";
             this.tabElfHeader.Padding = new System.Windows.Forms.Padding(3);
-            this.tabElfHeader.Size = new System.Drawing.Size(518, 429);
+            this.tabElfHeader.Size = new System.Drawing.Size(476, 391);
             this.tabElfHeader.TabIndex = 0;
             this.tabElfHeader.Text = "ELF Header";
             this.tabElfHeader.UseVisualStyleBackColor = true;
@@ -717,7 +754,7 @@ namespace Firmware_Editor
             this.dgvElfHeader.RowHeadersVisible = false;
             this.dgvElfHeader.RowTemplate.Height = 23;
             this.dgvElfHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvElfHeader.Size = new System.Drawing.Size(512, 423);
+            this.dgvElfHeader.Size = new System.Drawing.Size(470, 385);
             this.dgvElfHeader.TabIndex = 0;
             // 
             // colElfName
@@ -743,7 +780,7 @@ namespace Firmware_Editor
             this.tabSectionHeader.Location = new System.Drawing.Point(4, 4);
             this.tabSectionHeader.Name = "tabSectionHeader";
             this.tabSectionHeader.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSectionHeader.Size = new System.Drawing.Size(518, 429);
+            this.tabSectionHeader.Size = new System.Drawing.Size(476, 391);
             this.tabSectionHeader.TabIndex = 1;
             this.tabSectionHeader.Text = "Section Header";
             this.tabSectionHeader.UseVisualStyleBackColor = true;
@@ -773,7 +810,7 @@ namespace Firmware_Editor
             this.dgvSectionHeader.RowHeadersVisible = false;
             this.dgvSectionHeader.RowTemplate.Height = 23;
             this.dgvSectionHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSectionHeader.Size = new System.Drawing.Size(512, 423);
+            this.dgvSectionHeader.Size = new System.Drawing.Size(470, 385);
             this.dgvSectionHeader.TabIndex = 1;
             // 
             // colSectionIndex
@@ -838,7 +875,7 @@ namespace Firmware_Editor
             this.tabProgramHeader.Controls.Add(this.dgvProgramHeader);
             this.tabProgramHeader.Location = new System.Drawing.Point(4, 4);
             this.tabProgramHeader.Name = "tabProgramHeader";
-            this.tabProgramHeader.Size = new System.Drawing.Size(518, 429);
+            this.tabProgramHeader.Size = new System.Drawing.Size(476, 391);
             this.tabProgramHeader.TabIndex = 2;
             this.tabProgramHeader.Text = "Program Header";
             this.tabProgramHeader.UseVisualStyleBackColor = true;
@@ -867,7 +904,7 @@ namespace Firmware_Editor
             this.dgvProgramHeader.RowHeadersVisible = false;
             this.dgvProgramHeader.RowTemplate.Height = 23;
             this.dgvProgramHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProgramHeader.Size = new System.Drawing.Size(518, 429);
+            this.dgvProgramHeader.Size = new System.Drawing.Size(476, 391);
             this.dgvProgramHeader.TabIndex = 2;
             // 
             // colProgramType
@@ -926,7 +963,7 @@ namespace Firmware_Editor
             this.rtbElfHeader.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.rtbElfHeader.Location = new System.Drawing.Point(0, 0);
             this.rtbElfHeader.Name = "rtbElfHeader";
-            this.rtbElfHeader.Size = new System.Drawing.Size(313, 467);
+            this.rtbElfHeader.Size = new System.Drawing.Size(289, 429);
             this.rtbElfHeader.TabIndex = 0;
             this.rtbElfHeader.Text = "";
             this.rtbElfHeader.WordWrap = false;
@@ -945,7 +982,7 @@ namespace Firmware_Editor
             this.tabFirmwareBinary.Location = new System.Drawing.Point(4, 24);
             this.tabFirmwareBinary.Name = "tabFirmwareBinary";
             this.tabFirmwareBinary.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFirmwareBinary.Size = new System.Drawing.Size(849, 473);
+            this.tabFirmwareBinary.Size = new System.Drawing.Size(778, 459);
             this.tabFirmwareBinary.TabIndex = 1;
             this.tabFirmwareBinary.Text = "Make Binary";
             this.tabFirmwareBinary.UseVisualStyleBackColor = true;
@@ -978,11 +1015,11 @@ namespace Firmware_Editor
             this.tableLayoutPanel5.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.cbSectionCRC1, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.cbSectionCRC2, 0, 3);
-            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel1, 1, 2);
-            this.tableLayoutPanel5.Controls.Add(this.flowLayoutPanel2, 1, 3);
             this.tableLayoutPanel5.Controls.Add(this.btnCalcultaeCrc32, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.cbBinaryPadding, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.panelMakePadding, 1, 1);
+            this.tableLayoutPanel5.Controls.Add(this.panel2, 1, 2);
+            this.tableLayoutPanel5.Controls.Add(this.panel3, 1, 3);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -991,6 +1028,7 @@ namespace Firmware_Editor
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(396, 181);
             this.tableLayoutPanel5.TabIndex = 37;
             // 
@@ -1012,7 +1050,7 @@ namespace Firmware_Editor
             // 
             this.nResultCrc32.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nResultCrc32.Hexadecimal = true;
-            this.nResultCrc32.Location = new System.Drawing.Point(66, 34);
+            this.nResultCrc32.Location = new System.Drawing.Point(66, 44);
             this.nResultCrc32.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -1103,130 +1141,6 @@ namespace Firmware_Editor
             this.cbSectionCRC2.Text = "Set CRC (2)";
             this.cbSectionCRC2.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.label1);
-            this.flowLayoutPanel1.Controls.Add(this.nSectionCRC1Addr);
-            this.flowLayoutPanel1.Controls.Add(this.label14);
-            this.flowLayoutPanel1.Controls.Add(this.nSectionCRC1Value);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(128, 110);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(265, 31);
-            this.flowLayoutPanel1.TabIndex = 37;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 12);
-            this.label1.TabIndex = 39;
-            this.label1.Text = "Offset";
-            // 
-            // nSectionCRC1Addr
-            // 
-            this.nSectionCRC1Addr.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nSectionCRC1Addr.Hexadecimal = true;
-            this.nSectionCRC1Addr.Location = new System.Drawing.Point(46, 3);
-            this.nSectionCRC1Addr.Maximum = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.nSectionCRC1Addr.Name = "nSectionCRC1Addr";
-            this.nSectionCRC1Addr.Size = new System.Drawing.Size(80, 21);
-            this.nSectionCRC1Addr.TabIndex = 41;
-            this.nSectionCRC1Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label14
-            // 
-            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(132, 7);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(31, 12);
-            this.label14.TabIndex = 40;
-            this.label14.Text = "CRC";
-            // 
-            // nSectionCRC1Value
-            // 
-            this.nSectionCRC1Value.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nSectionCRC1Value.Hexadecimal = true;
-            this.nSectionCRC1Value.Location = new System.Drawing.Point(169, 3);
-            this.nSectionCRC1Value.Maximum = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.nSectionCRC1Value.Name = "nSectionCRC1Value";
-            this.nSectionCRC1Value.Size = new System.Drawing.Size(80, 21);
-            this.nSectionCRC1Value.TabIndex = 41;
-            this.nSectionCRC1Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.Controls.Add(this.label20);
-            this.flowLayoutPanel2.Controls.Add(this.nSectionCRC2Addr);
-            this.flowLayoutPanel2.Controls.Add(this.label21);
-            this.flowLayoutPanel2.Controls.Add(this.nSectionCRC2Value);
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(128, 147);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(265, 31);
-            this.flowLayoutPanel2.TabIndex = 38;
-            // 
-            // label20
-            // 
-            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 7);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(37, 12);
-            this.label20.TabIndex = 39;
-            this.label20.Text = "Offset";
-            // 
-            // nSectionCRC2Addr
-            // 
-            this.nSectionCRC2Addr.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nSectionCRC2Addr.Hexadecimal = true;
-            this.nSectionCRC2Addr.Location = new System.Drawing.Point(46, 3);
-            this.nSectionCRC2Addr.Maximum = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.nSectionCRC2Addr.Name = "nSectionCRC2Addr";
-            this.nSectionCRC2Addr.Size = new System.Drawing.Size(80, 21);
-            this.nSectionCRC2Addr.TabIndex = 41;
-            this.nSectionCRC2Addr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label21
-            // 
-            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(132, 7);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(31, 12);
-            this.label21.TabIndex = 40;
-            this.label21.Text = "CRC";
-            // 
-            // nSectionCRC2Value
-            // 
-            this.nSectionCRC2Value.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.nSectionCRC2Value.Hexadecimal = true;
-            this.nSectionCRC2Value.Location = new System.Drawing.Point(169, 3);
-            this.nSectionCRC2Value.Maximum = new decimal(new int[] {
-            -1,
-            0,
-            0,
-            0});
-            this.nSectionCRC2Value.Name = "nSectionCRC2Value";
-            this.nSectionCRC2Value.Size = new System.Drawing.Size(80, 21);
-            this.nSectionCRC2Value.TabIndex = 41;
-            this.nSectionCRC2Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // btnCalcultaeCrc32
             // 
             this.btnCalcultaeCrc32.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1307,6 +1221,76 @@ namespace Firmware_Editor
             this.numericUpDown1.TabIndex = 28;
             this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDown1.ThousandsSeparator = true;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label14);
+            this.panel2.Controls.Add(this.nSectionCRC1Value);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(128, 110);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(265, 31);
+            this.panel2.TabIndex = 40;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(5, 9);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(31, 12);
+            this.label14.TabIndex = 40;
+            this.label14.Text = "CRC";
+            // 
+            // nSectionCRC1Value
+            // 
+            this.nSectionCRC1Value.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.nSectionCRC1Value.Hexadecimal = true;
+            this.nSectionCRC1Value.Location = new System.Drawing.Point(42, 5);
+            this.nSectionCRC1Value.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.nSectionCRC1Value.Name = "nSectionCRC1Value";
+            this.nSectionCRC1Value.Size = new System.Drawing.Size(80, 21);
+            this.nSectionCRC1Value.TabIndex = 41;
+            this.nSectionCRC1Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.label21);
+            this.panel3.Controls.Add(this.nSectionCRC2Value);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(128, 147);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(265, 31);
+            this.panel3.TabIndex = 41;
+            // 
+            // label21
+            // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(5, 9);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(31, 12);
+            this.label21.TabIndex = 40;
+            this.label21.Text = "CRC";
+            // 
+            // nSectionCRC2Value
+            // 
+            this.nSectionCRC2Value.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.nSectionCRC2Value.Hexadecimal = true;
+            this.nSectionCRC2Value.Location = new System.Drawing.Point(42, 5);
+            this.nSectionCRC2Value.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.nSectionCRC2Value.Name = "nSectionCRC2Value";
+            this.nSectionCRC2Value.Size = new System.Drawing.Size(80, 21);
+            this.nSectionCRC2Value.TabIndex = 41;
+            this.nSectionCRC2Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label16
             // 
@@ -1404,9 +1388,9 @@ namespace Firmware_Editor
             this.cbBinarySizeEnable.AutoSize = true;
             this.cbBinarySizeEnable.Location = new System.Drawing.Point(18, 30);
             this.cbBinarySizeEnable.Name = "cbBinarySizeEnable";
-            this.cbBinarySizeEnable.Size = new System.Drawing.Size(49, 16);
+            this.cbBinarySizeEnable.Size = new System.Drawing.Size(74, 16);
             this.cbBinarySizeEnable.TabIndex = 16;
-            this.cbBinarySizeEnable.Text = "Size";
+            this.cbBinarySizeEnable.Text = "Edit Size";
             this.cbBinarySizeEnable.UseVisualStyleBackColor = true;
             this.cbBinarySizeEnable.CheckedChanged += new System.EventHandler(this.cbBinarySizeEnable_CheckedChanged);
             // 
@@ -1526,7 +1510,7 @@ namespace Firmware_Editor
             this.tabCompare.Controls.Add(this.splitContainer1);
             this.tabCompare.Location = new System.Drawing.Point(4, 24);
             this.tabCompare.Name = "tabCompare";
-            this.tabCompare.Size = new System.Drawing.Size(849, 473);
+            this.tabCompare.Size = new System.Drawing.Size(778, 459);
             this.tabCompare.TabIndex = 2;
             this.tabCompare.Text = "Compare";
             this.tabCompare.UseVisualStyleBackColor = true;
@@ -1536,7 +1520,7 @@ namespace Firmware_Editor
             this.tabParameter.Controls.Add(this.tableLayoutPanel3);
             this.tabParameter.Location = new System.Drawing.Point(4, 24);
             this.tabParameter.Name = "tabParameter";
-            this.tabParameter.Size = new System.Drawing.Size(849, 473);
+            this.tabParameter.Size = new System.Drawing.Size(778, 459);
             this.tabParameter.TabIndex = 3;
             this.tabParameter.Text = "Parameter";
             this.tabParameter.UseVisualStyleBackColor = true;
@@ -1550,7 +1534,7 @@ namespace Firmware_Editor
             this.tableLayoutPanel3.Controls.Add(this.btnOpenConfig, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.btnParseConfig, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.txtConfigPath, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(443, 26);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(8, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -1620,14 +1604,189 @@ namespace Firmware_Editor
             this.txtConfigPath.Size = new System.Drawing.Size(145, 21);
             this.txtConfigPath.TabIndex = 4;
             // 
+            // tabCombine
+            // 
+            this.tabCombine.Controls.Add(this.groupBox3);
+            this.tabCombine.Controls.Add(this.tableLayoutPanel6);
+            this.tabCombine.Location = new System.Drawing.Point(4, 24);
+            this.tabCombine.Name = "tabCombine";
+            this.tabCombine.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCombine.Size = new System.Drawing.Size(778, 459);
+            this.tabCombine.TabIndex = 4;
+            this.tabCombine.Text = "Combine";
+            this.tabCombine.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.nMakeCombineBinaryFill);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.txtCombineBinarySize);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtCombineBinaryNamePrefix);
+            this.groupBox3.Controls.Add(this.btnMakeCombineBinary);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Location = new System.Drawing.Point(454, 20);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(230, 162);
+            this.groupBox3.TabIndex = 39;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Generate Binary";
+            // 
+            // nMakeCombineBinaryFill
+            // 
+            this.nMakeCombineBinaryFill.Hexadecimal = true;
+            this.nMakeCombineBinaryFill.Location = new System.Drawing.Point(92, 58);
+            this.nMakeCombineBinaryFill.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nMakeCombineBinaryFill.Name = "nMakeCombineBinaryFill";
+            this.nMakeCombineBinaryFill.Size = new System.Drawing.Size(119, 21);
+            this.nMakeCombineBinaryFill.TabIndex = 40;
+            this.nMakeCombineBinaryFill.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 12);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Size";
+            // 
+            // txtCombineBinarySize
+            // 
+            this.txtCombineBinarySize.Location = new System.Drawing.Point(92, 28);
+            this.txtCombineBinarySize.Name = "txtCombineBinarySize";
+            this.txtCombineBinarySize.ReadOnly = true;
+            this.txtCombineBinarySize.Size = new System.Drawing.Size(119, 21);
+            this.txtCombineBinarySize.TabIndex = 18;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(16, 62);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(21, 12);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "Fill";
+            // 
+            // txtCombineBinaryNamePrefix
+            // 
+            this.txtCombineBinaryNamePrefix.Location = new System.Drawing.Point(92, 86);
+            this.txtCombineBinaryNamePrefix.Name = "txtCombineBinaryNamePrefix";
+            this.txtCombineBinaryNamePrefix.Size = new System.Drawing.Size(119, 21);
+            this.txtCombineBinaryNamePrefix.TabIndex = 18;
+            // 
+            // btnMakeCombineBinary
+            // 
+            this.btnMakeCombineBinary.Location = new System.Drawing.Point(18, 117);
+            this.btnMakeCombineBinary.Name = "btnMakeCombineBinary";
+            this.btnMakeCombineBinary.Size = new System.Drawing.Size(193, 23);
+            this.btnMakeCombineBinary.TabIndex = 22;
+            this.btnMakeCombineBinary.Text = "Generate";
+            this.btnMakeCombineBinary.UseVisualStyleBackColor = true;
+            this.btnMakeCombineBinary.Click += new System.EventHandler(this.btnMakeCombineBinary_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(16, 89);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 12);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "File Name";
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 2;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.Controls.Add(this.btnRemoveBinary, 1, 1);
+            this.tableLayoutPanel6.Controls.Add(this.dgvCombineBinaries, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.btnAddBinary, 0, 1);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(15, 17);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(421, 403);
+            this.tableLayoutPanel6.TabIndex = 2;
+            // 
+            // dgvCombineBinaries
+            // 
+            this.dgvCombineBinaries.AllowUserToAddRows = false;
+            this.dgvCombineBinaries.AllowUserToDeleteRows = false;
+            this.dgvCombineBinaries.AllowUserToOrderColumns = true;
+            this.dgvCombineBinaries.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvCombineBinaries.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCombineBinaries.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colOffset,
+            this.colFileName,
+            this.colSize,
+            this.colBinPath});
+            this.tableLayoutPanel6.SetColumnSpan(this.dgvCombineBinaries, 2);
+            this.dgvCombineBinaries.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCombineBinaries.Location = new System.Drawing.Point(3, 3);
+            this.dgvCombineBinaries.Name = "dgvCombineBinaries";
+            this.dgvCombineBinaries.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgvCombineBinaries.RowHeadersVisible = false;
+            this.dgvCombineBinaries.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.dgvCombineBinaries.RowTemplate.Height = 23;
+            this.dgvCombineBinaries.Size = new System.Drawing.Size(415, 368);
+            this.dgvCombineBinaries.TabIndex = 1;
+            // 
+            // colOffset
+            // 
+            this.colOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colOffset.HeaderText = "Offset(Hex)";
+            this.colOffset.Name = "colOffset";
+            this.colOffset.Width = 94;
+            // 
+            // colFileName
+            // 
+            this.colFileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colFileName.HeaderText = "File Name";
+            this.colFileName.Name = "colFileName";
+            this.colFileName.ReadOnly = true;
+            this.colFileName.Width = 88;
+            // 
+            // colSize
+            // 
+            this.colSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colSize.HeaderText = "Size(Dec)";
+            this.colSize.Name = "colSize";
+            this.colSize.ReadOnly = true;
+            this.colSize.Width = 87;
+            // 
+            // colBinPath
+            // 
+            this.colBinPath.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colBinPath.HeaderText = "Path";
+            this.colBinPath.Name = "colBinPath";
+            this.colBinPath.ReadOnly = true;
+            this.colBinPath.Width = 55;
+            // 
+            // btnAddBinary
+            // 
+            this.btnAddBinary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnAddBinary.Location = new System.Drawing.Point(3, 377);
+            this.btnAddBinary.Name = "btnAddBinary";
+            this.btnAddBinary.Size = new System.Drawing.Size(204, 23);
+            this.btnAddBinary.TabIndex = 3;
+            this.btnAddBinary.Text = "Add Binaries";
+            this.btnAddBinary.UseVisualStyleBackColor = true;
+            this.btnAddBinary.Click += new System.EventHandler(this.btnAddBinary_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.progressWork});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 540);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 490);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.statusStrip1.Size = new System.Drawing.Size(865, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(786, 22);
             this.statusStrip1.TabIndex = 21;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1636,29 +1795,22 @@ namespace Firmware_Editor
             this.progressWork.Name = "progressWork";
             this.progressWork.Size = new System.Drawing.Size(100, 16);
             // 
-            // tableLayoutPanel4
+            // btnRemoveBinary
             // 
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.Controls.Add(this.txtElfFilePath, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label4, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.btnLoadELF, 2, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(865, 30);
-            this.tableLayoutPanel4.TabIndex = 22;
+            this.btnRemoveBinary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemoveBinary.Location = new System.Drawing.Point(213, 377);
+            this.btnRemoveBinary.Name = "btnRemoveBinary";
+            this.btnRemoveBinary.Size = new System.Drawing.Size(205, 23);
+            this.btnRemoveBinary.TabIndex = 40;
+            this.btnRemoveBinary.Text = "Remove All Binaries";
+            this.btnRemoveBinary.UseVisualStyleBackColor = true;
+            this.btnRemoveBinary.Click += new System.EventHandler(this.btnRemoveBinary_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 562);
-            this.Controls.Add(this.tableLayoutPanel4);
+            this.ClientSize = new System.Drawing.Size(786, 512);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabMainControl);
             this.MaximizeBox = false;
@@ -1683,6 +1835,8 @@ namespace Firmware_Editor
             this.splitContainer1.ResumeLayout(false);
             this.tabMainControl.ResumeLayout(false);
             this.tabELF.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -1704,17 +1858,15 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.nResultCrc32)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nEndOffsetCrc32)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nStartOffsetCrc32)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC1Addr)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC1Value)).EndInit();
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC2Addr)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC2Value)).EndInit();
             this.panelMakePadding.ResumeLayout(false);
             this.panelMakePadding.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC1Value)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nSectionCRC2Value)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nMakeBinarySize)).EndInit();
@@ -1725,10 +1877,14 @@ namespace Firmware_Editor
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInformation)).EndInit();
+            this.tabCombine.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nMakeCombineBinaryFill)).EndInit();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCombineBinaries)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1810,11 +1966,7 @@ namespace Firmware_Editor
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.CheckBox cbSectionCRC1;
         private System.Windows.Forms.CheckBox cbSectionCRC2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -1826,9 +1978,7 @@ namespace Firmware_Editor
         private System.Windows.Forms.NumericUpDown nStartOffsetCrc32;
         private System.Windows.Forms.CheckBox cbDisplayFormat;
         private System.Windows.Forms.FlowLayoutPanel panelMakePadding;
-        private System.Windows.Forms.NumericUpDown nSectionCRC1Addr;
         private System.Windows.Forms.NumericUpDown nSectionCRC1Value;
-        private System.Windows.Forms.NumericUpDown nSectionCRC2Addr;
         private System.Windows.Forms.NumericUpDown nSectionCRC2Value;
         private System.Windows.Forms.NumericUpDown nResultCrc32;
         private System.Windows.Forms.Label label23;
@@ -1857,6 +2007,25 @@ namespace Firmware_Editor
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramMemorySize;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProgramFlags;
         private System.Windows.Forms.NumericUpDown nMismatchedNumber;
+        private System.Windows.Forms.TabPage tabCombine;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.DataGridView dgvCombineBinaries;
+        private System.Windows.Forms.Button btnAddBinary;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colOffset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colBinPath;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.NumericUpDown nMakeCombineBinaryFill;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtCombineBinaryNamePrefix;
+        private System.Windows.Forms.Button btnMakeCombineBinary;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtCombineBinarySize;
+        private System.Windows.Forms.Button btnRemoveBinary;
     }
 }
 
