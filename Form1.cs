@@ -32,6 +32,9 @@ namespace Firmware_Editor
         CompareWorkArg compareArg;
         bool compareCancel;
         int mismatchedCount;
+        // Combine Tab
+        byte[] combineBinaryData;
+        int combineBinarySize;
 
 
         public Form1()
@@ -66,6 +69,7 @@ namespace Firmware_Editor
             WorkerElfParse.DoWork += new DoWorkEventHandler(ElfParse_Work);
             WorkerElfParse.ProgressChanged += new ProgressChangedEventHandler(UpdateProgressBar);
 
+            dgvCombineBinaries.Columns[0].ValueType = ((int)0).GetType();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -405,7 +409,7 @@ namespace Firmware_Editor
                 txtElfFilePath.Text = open_elf.FileName;
                 txtElfFilePath.Select(txtElfFilePath.Text.Length, 0);
 
-                tabMainControl.Enabled = true;
+                tabElfParse.Enabled = true;
 
                 FileStream file = File.OpenRead(open_elf.FileName);
                 BinaryReader reader = new BinaryReader(file);
@@ -700,6 +704,84 @@ namespace Firmware_Editor
         // Make Binary Tab
         ////////////////////////////////////////
 
+        private int calculateGenerateBinarySize()
+        {
+            int size = 0;
+            int start_addr = 0x7FFFFFFF;
+            int end_addr = 0;
+            int end_size = 0;
+
+            foreach (BinaryGenArg arg in listBinaryArea)
+            {
+                if (arg.PhysicalAddress <= start_addr)
+                {
+                    start_addr = arg.PhysicalAddress;
+                }
+                if (arg.PhysicalAddress >= end_addr)
+                {
+                    end_addr = arg.PhysicalAddress;
+                    end_size = arg.Size;
+                }
+            }
+
+            if (end_addr < start_addr)
+            {
+                return 0;
+            }
+
+            size = (end_addr - start_addr) + end_size;
+            genBinaryStartPhAddr = start_addr;
+            nEndOffsetCrc32.Minimum = size;
+            nMakeBinarySize.Minimum = size;
+            return size;
+        }
+
+        private bool makeGenDataBuffer()
+        {
+            genBinarySize = calculateGenerateBinarySize();
+            if (genBinarySize == 0)
+            {
+                return false;
+            }
+
+            int binary_size = (int)nMakeBinarySize.Value;
+            if (cbSectionCRC1.Checked)
+            {
+                binary_size += 4;
+            }
+            if (cbSectionCRC2.Checked)
+            {
+                binary_size += 4;
+            }
+            genBinaryData = new byte[binary_size];
+
+            Array.Clear(genBinaryData, (int)nMakeBinaryFill.Value, binary_size);
+
+            foreach (DataGridViewRow row in dgvMakeBinary.Rows)
+            {
+                DataGridViewCheckBoxCell sel = row.Cells[0] as DataGridViewCheckBoxCell;
+
+                if ((bool)sel.Value)
+                {
+                    string offset = row.Cells[2].Value.ToString();
+                    int i_offset = Convert.ToInt32(offset, 16);
+                    string ph_addr = row.Cells[4].Value.ToString();
+                    int ip_addr = Convert.ToInt32(ph_addr, 16);
+                    string size = row.Cells[5].Value.ToString();
+                    int i_size = Convert.ToInt32(size);
+
+                    int dest_pos = ip_addr - genBinaryStartPhAddr;
+                    if (dest_pos < 0)
+                    {
+                        continue;
+                    }
+                    Array.Copy(elfData, i_offset, genBinaryData, dest_pos, i_size);
+                }
+            }
+
+            return true;
+        }
+
         private void btnMakeBinary_Click(object sender, EventArgs e)
         {
             if(genBinarySize == 0)
@@ -725,29 +807,25 @@ namespace Firmware_Editor
                     int file_size = (int)nMakeBinarySize.Value;
                     if (cbSectionCRC1.Checked)
                     {
-                        int offset = (int)nSectionCRC1Addr.Value;
+                        int offset = file_size;
                         int value = (int)nSectionCRC1Value.Value;
-                        if (offset + 4 <= file_size)
-                        {
-                            byte[] converted = BitConverter.GetBytes(value);
-                            genBinaryData[offset + 0] = converted[0];
-                            genBinaryData[offset + 1] = converted[1];
-                            genBinaryData[offset + 2] = converted[2];
-                            genBinaryData[offset + 3] = converted[3];
-                        }
+                        byte[] converted = BitConverter.GetBytes(value);
+                        genBinaryData[offset + 0] = converted[0];
+                        genBinaryData[offset + 1] = converted[1];
+                        genBinaryData[offset + 2] = converted[2];
+                        genBinaryData[offset + 3] = converted[3];
+                        file_size += 4;
                     }
                     if (cbSectionCRC2.Checked)
                     {
-                        int offset = (int)nSectionCRC2Addr.Value;
+                        int offset = file_size;
                         int value = (int)nSectionCRC2Value.Value;
-                        if (offset + 4 <= file_size)
-                        {
-                            byte[] converted = BitConverter.GetBytes(value);
-                            genBinaryData[offset + 0] = converted[0];
-                            genBinaryData[offset + 1] = converted[1];
-                            genBinaryData[offset + 2] = converted[2];
-                            genBinaryData[offset + 3] = converted[3];
-                        }
+                        byte[] converted = BitConverter.GetBytes(value);
+                        genBinaryData[offset + 0] = converted[0];
+                        genBinaryData[offset + 1] = converted[1];
+                        genBinaryData[offset + 2] = converted[2];
+                        genBinaryData[offset + 3] = converted[3];
+                        file_size += 4;
                     }
 
                     writer.Write(genBinaryData, 0, file_size);
@@ -760,6 +838,8 @@ namespace Firmware_Editor
                 writer.Close();
                 file.Close();
             }
+
+            MessageBox.Show("Complete!!");
         }
 
         private void dgvMakeBinary_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -951,27 +1031,33 @@ namespace Firmware_Editor
         }
 
         ////////////////////////////////////////
-        // User Function
+        // Combine Tab
         ////////////////////////////////////////
 
-        private int calculateGenerateBinarySize()
+        private int calculateCombineBinarySize()
         {
-            int size = 0;
-            int start_addr = 0x7FFFFFFF;
+            int start_addr = 0;
             int end_addr = 0;
-            int end_size = 0;
 
-            foreach (BinaryGenArg arg in listBinaryArea)
+            dgvCombineBinaries.Sort(dgvCombineBinaries.Columns[0], ListSortDirection.Ascending);
+            foreach (DataGridViewRow row in dgvCombineBinaries.Rows)
             {
-                if (arg.PhysicalAddress <= start_addr)
+                string offset = row.Cells[0].Value.ToString();
+                int i_offset = Convert.ToInt32(offset, 16);
+
+                string size = row.Cells[2].Value.ToString();
+                int i_size = Convert.ToInt32(size);
+
+                if (i_offset < end_addr)
                 {
-                    start_addr = arg.PhysicalAddress;
+                    return 0;
                 }
-                if (arg.PhysicalAddress >= end_addr)
+
+                if (row.Index == 0)
                 {
-                    end_addr = arg.PhysicalAddress;
-                    end_size = arg.Size;
+                    start_addr = i_offset;
                 }
+                end_addr = i_offset + i_size - 1;
             }
 
             if (end_addr < start_addr)
@@ -979,48 +1065,107 @@ namespace Firmware_Editor
                 return 0;
             }
 
-            size = (end_addr - start_addr) + end_size;
-            genBinaryStartPhAddr = start_addr;
-            nEndOffsetCrc32.Minimum = size;
-            nMakeBinarySize.Minimum = size;
-            return size;
+            int total_size = end_addr + 1;
+            txtCombineBinarySize.Text = total_size.ToString();
+            return total_size;
         }
 
-        private bool makeGenDataBuffer()
+        private bool makeCombineDataBuffer()
         {
-            genBinarySize = calculateGenerateBinarySize();
-            if(genBinarySize == 0)
+            combineBinarySize = calculateCombineBinarySize();
+            if (combineBinarySize == 0)
             {
                 return false;
             }
-            genBinaryData = new byte[(int)nMakeBinarySize.Value];
 
-            Array.Clear(genBinaryData, (int)nMakeBinaryFill.Value, (int)nMakeBinarySize.Value);
+            combineBinaryData = new byte[combineBinarySize];
+            Array.Clear(combineBinaryData, (int)nMakeCombineBinaryFill.Value, combineBinarySize);
 
-            foreach (DataGridViewRow row in dgvMakeBinary.Rows)
+            foreach (DataGridViewRow row in dgvCombineBinaries.Rows)
             {
-                DataGridViewCheckBoxCell sel = row.Cells[0] as DataGridViewCheckBoxCell;
+                string offset = row.Cells[0].Value.ToString();
+                int i_offset = Convert.ToInt32(offset, 16);
 
-                if ((bool)sel.Value)
-                {
-                    string offset = row.Cells[2].Value.ToString();
-                    int i_offset = Convert.ToInt32(offset, 16);
-                    string ph_addr = row.Cells[4].Value.ToString();
-                    int ip_addr = Convert.ToInt32(ph_addr, 16);
-                    string size = row.Cells[5].Value.ToString();
-                    int i_size = Convert.ToInt32(size);
+                string size = row.Cells[2].Value.ToString();
+                int i_size = Convert.ToInt32(size);
 
-                    int dest_pos = ip_addr - genBinaryStartPhAddr;
-                    if (dest_pos < 0)
-                    {
-                        continue;
-                    }
-                    Array.Copy(elfData, i_offset, genBinaryData, dest_pos, i_size);
-                }
+                string file_path = row.Cells[3].Value.ToString();
+
+                FileStream file = File.OpenRead(file_path);
+                BinaryReader reader = new BinaryReader(file);
+
+                byte[] data = new byte[file.Length];
+                reader.Read(data, 0, (int)file.Length);
+
+                Array.Copy(data, 0, combineBinaryData, i_offset, i_size);
             }
 
             return true;
         }
+
+        private void btnAddBinary_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog load_bin = new OpenFileDialog();
+            load_bin.Filter = "BIN File(*.bin)|*.bin";
+            load_bin.Multiselect = true;
+
+            if (DialogResult.OK == load_bin.ShowDialog())
+            {
+                int total = load_bin.FileNames.Length;
+
+                for(int cnt=0; cnt<total; cnt++)
+                {
+                    FileStream file = File.OpenRead(load_bin.FileNames[cnt]);
+                    dgvCombineBinaries.Rows.Add(
+                        0,
+                        load_bin.SafeFileNames[cnt], 
+                        file.Length, 
+                        load_bin.FileNames[cnt]
+                    );
+                    file.Close();
+                }
+
+            }
+        }
+
+        private void btnRemoveBinary_Click(object sender, EventArgs e)
+        {
+            dgvCombineBinaries.Rows.Clear();
+        }
+
+        private void btnMakeCombineBinary_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog save_dialog = new SaveFileDialog();
+            save_dialog.Title = "Save Binary";
+            save_dialog.AddExtension = true;
+            save_dialog.DefaultExt = "bin";
+            save_dialog.Filter = "Bin File(*.bin)|*.bin";
+            save_dialog.FileName = txtCombineBinaryNamePrefix.Text;
+
+            if (DialogResult.OK == save_dialog.ShowDialog())
+            {
+                FileStream file = File.Create(save_dialog.FileName);
+                BinaryWriter writer = new BinaryWriter(file);
+
+                if (makeCombineDataBuffer())
+                {
+                    writer.Write(combineBinaryData, 0, combineBinarySize);
+                }
+                else
+                {
+                    MessageBox.Show("fail to combine data");
+                }
+
+                writer.Close();
+                file.Close();
+            }
+
+            MessageBox.Show("Complete!!");
+        }
+
+        ////////////////////////////////////////
+        // User Function
+        ////////////////////////////////////////
 
         private void makeCRC_32_Table(UInt32 polynomial)
         {
