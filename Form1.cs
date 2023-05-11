@@ -801,6 +801,9 @@ namespace Firmware_Editor
 
             if(makeGenDataBuffer())
             {
+                nEndOffsetCrc32.Maximum = genBinarySize;
+                nEndOffsetCrc32.Value = genBinarySize;
+                nMakeBinarySize.Value = genBinarySize;
                 if (cbMakeFileSizeFormat.Checked)
                 {
                     cbMakeFileSizeFormat.Text = "KB";
