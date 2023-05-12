@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Firmware_Editor
 {
@@ -111,26 +112,6 @@ namespace Firmware_Editor
                         if (pos != 0)
                         {
                             text += "\n";
-                        }
-
-                        textcolor = Color.Black;
-
-                        if (prev_color != textcolor)
-                        {
-                            args.setProperty(textcolor, text);
-                            this.Invoke(new Action(() =>
-                            {
-                                if (compareArg.textColor == Color.Red)
-                                {
-                                    listMismatch.Items.Add("0x" + compareArg.startAddr.ToString("X8"));
-                                }
-                                txtCompareResult.SelectionColor = compareArg.textColor;
-                                txtCompareResult.AppendText(compareArg.textContent);
-                                nMismatchedNumber.Value = mismatchedCount;
-                            }));
-                            prev_color = textcolor;
-                            refresh_cnt = 0;
-                            text = "";
                         }
 
                         text += (pos & 0xFFFFFFF0).ToString("X8") + ": ";
@@ -753,9 +734,8 @@ namespace Firmware_Editor
             {
                 binary_size += 4;
             }
-            genBinaryData = new byte[binary_size];
 
-            Array.Clear(genBinaryData, (int)nMakeBinaryFill.Value, binary_size);
+            genBinaryData = Enumerable.Repeat((byte)nMakeBinaryFill.Value, binary_size).ToArray();
 
             foreach (DataGridViewRow row in dgvMakeBinary.Rows)
             {
@@ -808,7 +788,7 @@ namespace Firmware_Editor
                     if (cbSectionCRC1.Checked)
                     {
                         int offset = file_size;
-                        int value = (int)nSectionCRC1Value.Value;
+                        UInt32 value = Convert.ToUInt32(txtSectionCRC1Value.Text, 16);
                         byte[] converted = BitConverter.GetBytes(value);
                         genBinaryData[offset + 0] = converted[0];
                         genBinaryData[offset + 1] = converted[1];
@@ -819,7 +799,7 @@ namespace Firmware_Editor
                     if (cbSectionCRC2.Checked)
                     {
                         int offset = file_size;
-                        int value = (int)nSectionCRC2Value.Value;
+                        UInt32 value = Convert.ToUInt32(txtSectionCRC2Value.Text, 16);
                         byte[] converted = BitConverter.GetBytes(value);
                         genBinaryData[offset + 0] = converted[0];
                         genBinaryData[offset + 1] = converted[1];
@@ -933,6 +913,7 @@ namespace Firmware_Editor
             {
                 UInt32 result = update_CRC_32(0, genBinaryData, start_pos, end_pos - start_pos);
                 nResultCrc32.Value = result;
+                txtSectionCRC1Value.Text = result.ToString("X8");
             }
         }
 
@@ -1078,8 +1059,7 @@ namespace Firmware_Editor
                 return false;
             }
 
-            combineBinaryData = new byte[combineBinarySize];
-            Array.Clear(combineBinaryData, (int)nMakeCombineBinaryFill.Value, combineBinarySize);
+            combineBinaryData = Enumerable.Repeat((byte)nMakeCombineBinaryFill.Value, combineBinarySize).ToArray();
 
             foreach (DataGridViewRow row in dgvCombineBinaries.Rows)
             {
