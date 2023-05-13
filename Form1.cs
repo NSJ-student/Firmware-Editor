@@ -406,6 +406,9 @@ namespace Firmware_Editor
                 elfData = new byte[file.Length];
                 reader.Read(elfData, 0, (int)file.Length);
 
+                reader.Close();
+                file.Close();
+
                 listBinaryArea.Clear();
                 txtBinaryNamePrefix.Text = Path.GetFileNameWithoutExtension(open_elf.FileName);
                 progressWork.Value = 0;
@@ -841,6 +844,21 @@ namespace Firmware_Editor
             }
 
             DataGridViewCheckBoxCell sel = dgvMakeBinary.Rows[e.RowIndex].Cells[0] as DataGridViewCheckBoxCell;
+            if(dgvMakeBinary.Rows[e.RowIndex].Cells[2].Value.ToString() == "")
+            {
+                sel.Value = false;
+                return;
+            }
+            if (dgvMakeBinary.Rows[e.RowIndex].Cells[3].Value.ToString() == "")
+            {
+                sel.Value = false;
+                return;
+            }
+            if (dgvMakeBinary.Rows[e.RowIndex].Cells[5].Value.ToString() == "")
+            {
+                sel.Value = false;
+                return;
+            }
             string offset = dgvMakeBinary.Rows[e.RowIndex].Cells[2].Value.ToString();
             string va_addr = dgvMakeBinary.Rows[e.RowIndex].Cells[3].Value.ToString();
             string size = dgvMakeBinary.Rows[e.RowIndex].Cells[5].Value.ToString();
@@ -848,6 +866,11 @@ namespace Firmware_Editor
             int i_offset = Convert.ToInt32(offset, 16);
             int v_addr = Convert.ToInt32(va_addr, 16);
             ProgramHeader ph = listProgramHeader.Find(x => (Convert.ToInt32(x.virtual_address, 16) == v_addr));
+            if(ph == null)
+            {
+                sel.Value = false;
+                return;
+            }
             int p_addr = Convert.ToInt32(ph.physical_address, 16);
             int i_size = Convert.ToInt32(size);
 
@@ -940,80 +963,6 @@ namespace Firmware_Editor
         }
 
         ////////////////////////////////////////
-        // Parameter Tab
-        ////////////////////////////////////////
-
-        private void btnOpenConfig_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog open_config = new OpenFileDialog();
-            open_config.Filter = "Config File(*.xml)|*.xml";
-
-            if (DialogResult.OK == open_config.ShowDialog())
-            {
-                txtConfigPath.Text = open_config.FileName;
-                txtConfigPath.Select(txtConfigPath.Text.Length, 0);
-
-                btnParseConfig.Enabled = true;
-            }
-        }
-
-        private void btnParseConfig_Click(object sender, EventArgs e)
-        {
-            LoadConfig(txtConfigPath.Text);
-        }
-
-        private bool LoadConfig(string config_path)
-        {
-            if ((config_path == null) || (config_path == ""))
-            {
-                return false;
-            }
-
-            try
-            {
-                if (File.Exists(config_path))
-                {
-                    string local_dir = System.IO.Path.GetDirectoryName(config_path);
-                    Console.WriteLine(String.Format("    base dir: {0}", local_dir));
-
-                    var xdoc = XDocument.Load(config_path);
-
-                    dgvInformation.Rows.Clear();
-                    var xelements = xdoc.Root.Elements("element");
-                    //dgvInformation.RowCount = 0;
-                    foreach (var xList in xelements)
-                    {
-                        XElement element;
-
-                        element = xList.Element("name");
-                        if (element == null)
-                        {
-                            continue;
-                        }
-                        string name = element.Value;
-
-                        element = xList.Element("contents");
-                        if (element == null)
-                        {
-                            continue;
-                        }
-                        string contents = element.Value;
-
-                        dgvInformation.Rows.Add(name, contents);
-                    }
-
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return false;
-        }
-
-        ////////////////////////////////////////
         // Combine Tab
         ////////////////////////////////////////
 
@@ -1022,7 +971,6 @@ namespace Firmware_Editor
             int start_addr = 0;
             int end_addr = 0;
 
-            dgvCombineBinaries.Sort(dgvCombineBinaries.Columns[0], ListSortDirection.Ascending);
             foreach (DataGridViewRow row in dgvCombineBinaries.Rows)
             {
                 string offset = row.Cells[0].Value.ToString();
@@ -1181,6 +1129,75 @@ namespace Firmware_Editor
             }
 
             MessageBox.Show("Complete!!");
+        }
+
+        ////////////////////////////////////////
+        // Extract Tab
+        ////////////////////////////////////////
+
+        private void btnOpenExtractFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open_bin = new OpenFileDialog();
+            open_bin.Filter = "BIN File(*.bin)|*.bin";
+
+            if (DialogResult.OK == open_bin.ShowDialog())
+            {
+                txtExtractFileName.Text = open_bin.FileName;
+            }
+        }
+
+        private void btnExtractFile_Click(object sender, EventArgs e)
+        {
+            if(txtExtractFileName.Text == "")
+            {
+                return;
+            }
+            if (txtExtractStartAddr.Text == "")
+            {
+                return;
+            }
+            if (txtExtractLength.Text == "")
+            {
+                return;
+            }
+
+            SaveFileDialog save_dialog = new SaveFileDialog();
+            save_dialog.Title = "Save Binary";
+            save_dialog.AddExtension = true;
+            save_dialog.DefaultExt = "bin";
+            save_dialog.Filter = "Bin File(*.bin)|*.bin";
+
+            if (DialogResult.OK == save_dialog.ShowDialog())
+            {
+                FileStream file_r = File.OpenRead(txtExtractFileName.Text);
+                BinaryReader reader = new BinaryReader(file_r);
+
+                int i_offset = Convert.ToInt32(txtExtractStartAddr.Text, 16);
+                int i_length = Convert.ToInt32(txtExtractLength.Text, 16);
+
+                if ((i_offset < file_r.Length) &&
+                    (i_offset + i_length <= file_r.Length))
+                {
+                    byte[] readAll = new byte[file_r.Length];
+                    reader.Read(readAll, 0, (int)file_r.Length);
+
+                    byte[] readData = new byte[i_length];
+
+                    Array.Copy(readAll, i_offset, readData, 0, i_length);
+
+                    FileStream file_w = File.Create(save_dialog.FileName);
+                    BinaryWriter writer = new BinaryWriter(file_w);
+
+                    writer.Write(readData, 0, i_length);
+
+                    writer.Close();
+                    file_w.Close();
+                }
+
+                reader.Close();
+                file_r.Close();
+                MessageBox.Show("Complete!!");
+            }
         }
 
         ////////////////////////////////////////
