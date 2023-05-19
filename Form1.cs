@@ -73,6 +73,19 @@ namespace Firmware_Editor
             WorkerElfParse.ProgressChanged += new ProgressChangedEventHandler(UpdateProgressBar);
 
             dgvCombineBinaries.Columns[0].ValueType = ((int)0).GetType();
+
+            // Etc Tab
+            cbEtcEtcExtractDisplayFormat.Checked = true;
+            nEtcExtractStartAddr.Hexadecimal = cbEtcEtcExtractDisplayFormat.Checked;
+            nEtcExtractLength.Hexadecimal = cbEtcEtcExtractDisplayFormat.Checked;
+            if (cbEtcEtcExtractDisplayFormat.Checked)
+            {
+                cbEtcEtcExtractDisplayFormat.Text = "HEX";
+            }
+            else
+            {
+                cbEtcEtcExtractDisplayFormat.Text = "DEC";
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -822,9 +835,9 @@ namespace Firmware_Editor
 
                 writer.Close();
                 file.Close();
+                MessageBox.Show("Complete!!");
             }
 
-            MessageBox.Show("Complete!!");
         }
 
         private void dgvMakeBinary_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1011,26 +1024,60 @@ namespace Firmware_Editor
 
             combineBinaryData = Enumerable.Repeat((byte)nMakeCombineBinaryFill.Value, combineBinarySize).ToArray();
 
-            foreach (DataGridViewRow row in dgvCombineBinaries.Rows)
+            ///////////// copy bootloader
+            DataGridViewRow row_bootloader = dgvCombineBinaries.Rows[0];
+            string offset1 = row_bootloader.Cells[0].Value.ToString();
+            int i_offset1 = Convert.ToInt32(offset1, 16);
+
+            string size1 = row_bootloader.Cells[2].Value.ToString();
+            int i_size1 = Convert.ToInt32(size1);
+
+            string file_path1 = row_bootloader.Cells[3].Value.ToString();
+
+            FileStream file1 = File.OpenRead(file_path1);
+            BinaryReader reader1 = new BinaryReader(file1);
+
+            byte[] data1 = new byte[file1.Length];
+            reader1.Read(data1, 0, (int)file1.Length);
+
+            Array.Copy(data1, 0, combineBinaryData, i_offset1, i_size1);
+
+            ///////////// copy firmware
+            DataGridViewRow row_firmware = dgvCombineBinaries.Rows[1];
+            string offset2 = row_firmware.Cells[0].Value.ToString();
+            int i_offset2 = Convert.ToInt32(offset2, 16);
+
+            string size2 = row_firmware.Cells[2].Value.ToString();
+            int i_size2 = Convert.ToInt32(size2);
+
+            string file_path2 = row_firmware.Cells[3].Value.ToString();
+
+            FileStream file2 = File.OpenRead(file_path2);
+            BinaryReader reader2 = new BinaryReader(file2);
+
+            byte[] data2 = new byte[file2.Length];
+            reader2.Read(data2, 0, (int)file2.Length);
+
+            Array.Copy(data2, 0, combineBinaryData, i_offset2, i_size2);
+
+
+            if (cbCombineAddParameter.Checked)
             {
-                string offset = row.Cells[0].Value.ToString();
-                int i_offset = Convert.ToInt32(offset, 16);
+                // calculate CRC32
+                int firmware_size = i_size2 - 4;
+                UInt32 result = update_CRC_32(0, data2, 0, i_size2 - 4);
 
-                string size = row.Cells[2].Value.ToString();
-                int i_size = Convert.ToInt32(size);
-
-                string file_path = row.Cells[3].Value.ToString();
-
-                FileStream file = File.OpenRead(file_path);
-                BinaryReader reader = new BinaryReader(file);
-
-                byte[] data = new byte[file.Length];
-                reader.Read(data, 0, (int)file.Length);
-
-                Array.Copy(data, 0, combineBinaryData, i_offset, i_size);
+                combineBinaryData[0x2000] = (byte)((firmware_size >> 0) & 0xFF);
+                combineBinaryData[0x2001] = (byte)((firmware_size >> 8) & 0xFF);
+                combineBinaryData[0x2002] = (byte)((firmware_size >> 16) & 0xFF);
+                combineBinaryData[0x2003] = (byte)((firmware_size >> 24) & 0xFF);
+                combineBinaryData[0x2004] = (byte)((result >> 0) & 0xFF);
+                combineBinaryData[0x2005] = (byte)((result >> 8) & 0xFF);
+                combineBinaryData[0x2006] = (byte)((result >> 16) & 0xFF);
+                combineBinaryData[0x2007] = (byte)((result >> 24) & 0xFF);
             }
 
-            if(cbOverrideBinary.Checked)
+            if (cbOverrideBinary.Checked)
             {
                 int override_offset = Convert.ToInt32(txtOverrideOffset.Text, 16);
                 byte[] override_data = KeyParser.HexStringToHexByte(txtOverrideBinary.Text);
@@ -1058,7 +1105,7 @@ namespace Firmware_Editor
             if (DialogResult.OK == load_bin.ShowDialog())
             {
                 FileStream file = File.OpenRead(load_bin.FileName);
-                dgvCombineBinaries.Rows.Add(
+                dgvCombineBinaries.Rows.Insert(0,
                     0,
                     load_bin.SafeFileName,
                     file.Length,
@@ -1078,7 +1125,7 @@ namespace Firmware_Editor
             if (DialogResult.OK == load_bin.ShowDialog())
             {
                 FileStream file = File.OpenRead(load_bin.FileName);
-                dgvCombineBinaries.Rows.Add(
+                dgvCombineBinaries.Rows.Insert(1,
                     "20000",
                     load_bin.SafeFileName,
                     file.Length,
@@ -1103,6 +1150,10 @@ namespace Firmware_Editor
 
         private void btnMakeCombineBinary_Click(object sender, EventArgs e)
         {
+            if (dgvCombineBinaries.Rows.Count != 2)
+            {
+                return;
+            }
             SaveFileDialog save_dialog = new SaveFileDialog();
             save_dialog.Title = "Save Binary";
             save_dialog.AddExtension = true;
@@ -1126,15 +1177,29 @@ namespace Firmware_Editor
 
                 writer.Close();
                 file.Close();
+                MessageBox.Show("Complete!!");
             }
 
-            MessageBox.Show("Complete!!");
         }
 
         ////////////////////////////////////////
         // Extract Tab
         ////////////////////////////////////////
 
+        private void cbExtractDisplayFormat_CheckedChanged(object sender, EventArgs e)
+        {
+            nEtcExtractStartAddr.Hexadecimal = cbEtcEtcExtractDisplayFormat.Checked;
+            nEtcExtractLength.Hexadecimal = cbEtcEtcExtractDisplayFormat.Checked;
+            if (cbEtcEtcExtractDisplayFormat.Checked)
+            {
+                cbEtcEtcExtractDisplayFormat.Text = "HEX";
+            }
+            else
+            {
+                cbEtcEtcExtractDisplayFormat.Text = "DEC";
+            }
+        }
+        
         private void btnOpenExtractFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog open_bin = new OpenFileDialog();
@@ -1142,21 +1207,17 @@ namespace Firmware_Editor
 
             if (DialogResult.OK == open_bin.ShowDialog())
             {
-                txtExtractFileName.Text = open_bin.FileName;
+                txtEtcExtractFilePath.Text = open_bin.FileName;
             }
         }
 
         private void btnExtractFile_Click(object sender, EventArgs e)
         {
-            if(txtExtractFileName.Text == "")
+            if(txtEtcExtractFilePath.Text == "")
             {
                 return;
             }
-            if (txtExtractStartAddr.Text == "")
-            {
-                return;
-            }
-            if (txtExtractLength.Text == "")
+            if (nEtcExtractLength.Value == 0)
             {
                 return;
             }
@@ -1169,11 +1230,11 @@ namespace Firmware_Editor
 
             if (DialogResult.OK == save_dialog.ShowDialog())
             {
-                FileStream file_r = File.OpenRead(txtExtractFileName.Text);
+                FileStream file_r = File.OpenRead(txtEtcExtractFilePath.Text);
                 BinaryReader reader = new BinaryReader(file_r);
 
-                int i_offset = Convert.ToInt32(txtExtractStartAddr.Text, 16);
-                int i_length = Convert.ToInt32(txtExtractLength.Text, 16);
+                int i_offset = (int)nEtcExtractStartAddr.Value;
+                int i_length = (int)nEtcExtractLength.Value;
 
                 if ((i_offset < file_r.Length) &&
                     (i_offset + i_length <= file_r.Length))
@@ -1196,6 +1257,75 @@ namespace Firmware_Editor
 
                 reader.Close();
                 file_r.Close();
+                MessageBox.Show("Complete!!");
+            }
+        }
+
+        private void btnEtcOpenCrc32Firmware_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open_bin = new OpenFileDialog();
+            open_bin.Filter = "BIN File(*.bin)|*.bin";
+
+            if (DialogResult.OK == open_bin.ShowDialog())
+            {
+                txtEtcCrc32FirmwarePath.Text = open_bin.FileName;
+            }
+        }
+
+        private void btnEtcGenerateCrc32Firmware_Click(object sender, EventArgs e)
+        {
+            if (txtEtcCrc32FirmwarePath.Text == "")
+            {
+                return;
+            }
+
+            SaveFileDialog save_dialog = new SaveFileDialog();
+            save_dialog.Title = "Save Binary";
+            save_dialog.AddExtension = true;
+            save_dialog.DefaultExt = "bin";
+            save_dialog.Filter = "Bin File(*.bin)|*.bin";
+
+            if (DialogResult.OK == save_dialog.ShowDialog())
+            {
+                // read
+                FileStream file_r = File.OpenRead(txtEtcCrc32FirmwarePath.Text);
+                BinaryReader reader = new BinaryReader(file_r);
+
+                byte[] readAll = new byte[file_r.Length];
+                reader.Read(readAll, 0, (int)file_r.Length);
+
+                // copy
+                int aligned_size = (int)file_r.Length;
+                if (file_r.Length % 4 > 0)
+                {
+                    aligned_size += (4- (int)(file_r.Length % 4));
+                }
+
+                byte[] copy_data = new byte[aligned_size + 4];
+
+                Array.Copy(readAll, 0, copy_data, 0, file_r.Length);
+
+                // calculate CRC32
+                UInt32 result = update_CRC_32(0, copy_data, 0, aligned_size);
+                lblEtcCrc32Result.Text = result.ToString("X8");
+
+                copy_data[aligned_size]   = (byte)((result >> 0) & 0xFF);
+                copy_data[aligned_size+1] = (byte)((result >> 8) & 0xFF);
+                copy_data[aligned_size+2] = (byte)((result >> 16) & 0xFF);
+                copy_data[aligned_size+3] = (byte)((result >> 24) & 0xFF);
+
+                // save
+                FileStream file_w = File.Create(save_dialog.FileName);
+                BinaryWriter writer = new BinaryWriter(file_w);
+
+                writer.Write(copy_data, 0, aligned_size + 4);
+
+                writer.Close();
+                file_w.Close();
+
+                reader.Close();
+                file_r.Close();
+
                 MessageBox.Show("Complete!!");
             }
         }

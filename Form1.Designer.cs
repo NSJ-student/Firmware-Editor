@@ -31,7 +31,6 @@ namespace Firmware_Editor
         {
             this.label7 = new System.Windows.Forms.Label();
             this.cbShowDifference = new System.Windows.Forms.CheckBox();
-            this.txtCompareResult = new System.Windows.Forms.RichTextBox();
             this.btnSaveUpdateArea = new System.Windows.Forms.Button();
             this.btnCompareDatas = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,6 +55,8 @@ namespace Firmware_Editor
             this.nCompareStopAddr = new System.Windows.Forms.NumericUpDown();
             this.cbCompareAddrFormat = new System.Windows.Forms.CheckBox();
             this.nMismatchedNumber = new System.Windows.Forms.NumericUpDown();
+            this.txtCompareResult = new System.Windows.Forms.RichTextBox();
+            this.txtCompareHeader = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label4 = new System.Windows.Forms.Label();
@@ -161,17 +162,27 @@ namespace Firmware_Editor
             this.colBinPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAddBootloader = new System.Windows.Forms.Button();
             this.btnAddUserFirmware = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.progressWork = new System.Windows.Forms.ToolStripProgressBar();
             this.tabExtract = new System.Windows.Forms.TabPage();
-            this.txtExtractFileName = new System.Windows.Forms.TextBox();
-            this.btnOpenExtractFile = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lblEtcCrc32Result = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.txtEtcCrc32FirmwarePath = new System.Windows.Forms.TextBox();
+            this.btnEtcOpenCrc32Firmware = new System.Windows.Forms.Button();
+            this.btnEtcGenerateCrc32Firmware = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.nEtcExtractStartAddr = new System.Windows.Forms.NumericUpDown();
+            this.nEtcExtractLength = new System.Windows.Forms.NumericUpDown();
+            this.txtEtcExtractFilePath = new System.Windows.Forms.TextBox();
+            this.cbEtcEtcExtractDisplayFormat = new System.Windows.Forms.CheckBox();
+            this.btnEtcOpenExtractFile = new System.Windows.Forms.Button();
+            this.btnEtcExtractFile = new System.Windows.Forms.Button();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.txtExtractStartAddr = new System.Windows.Forms.TextBox();
-            this.txtExtractLength = new System.Windows.Forms.TextBox();
-            this.btnExtractFile = new System.Windows.Forms.Button();
-            this.label27 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.progressWork = new System.Windows.Forms.ToolStripProgressBar();
+            this.cbCombineAddParameter = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.workPanel.SuspendLayout();
             this.customCompareRange.SuspendLayout();
@@ -219,8 +230,12 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.nMakeCombineBinaryFill)).BeginInit();
             this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCombineBinaries)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.tabExtract.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractStartAddr)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractLength)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label7
@@ -247,20 +262,6 @@ namespace Firmware_Editor
             this.cbShowDifference.TabIndex = 8;
             this.cbShowDifference.Text = "hexaview";
             this.cbShowDifference.UseVisualStyleBackColor = true;
-            // 
-            // txtCompareResult
-            // 
-            this.workPanel.SetColumnSpan(this.txtCompareResult, 6);
-            this.txtCompareResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCompareResult.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.txtCompareResult.Location = new System.Drawing.Point(14, 70);
-            this.txtCompareResult.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.txtCompareResult.Name = "txtCompareResult";
-            this.txtCompareResult.ReadOnly = true;
-            this.txtCompareResult.Size = new System.Drawing.Size(479, 299);
-            this.txtCompareResult.TabIndex = 5;
-            this.txtCompareResult.Text = "";
-            this.txtCompareResult.WordWrap = false;
             // 
             // btnSaveUpdateArea
             // 
@@ -477,21 +478,22 @@ namespace Firmware_Editor
             this.workPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.workPanel.Controls.Add(this.label3, 0, 0);
             this.workPanel.Controls.Add(this.label7, 0, 1);
-            this.workPanel.Controls.Add(this.txtCompareResult, 0, 2);
             this.workPanel.Controls.Add(this.cbShowDifference, 4, 1);
             this.workPanel.Controls.Add(this.customCompareRange, 1, 0);
             this.workPanel.Controls.Add(this.btnSaveUpdateArea, 5, 0);
             this.workPanel.Controls.Add(this.btnCompareDatas, 4, 0);
             this.workPanel.Controls.Add(this.nMismatchedNumber, 1, 1);
+            this.workPanel.Controls.Add(this.txtCompareResult, 0, 3);
+            this.workPanel.Controls.Add(this.txtCompareHeader, 0, 2);
             this.workPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.workPanel.Location = new System.Drawing.Point(8, 70);
             this.workPanel.Name = "workPanel";
             this.workPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.workPanel.RowCount = 3;
+            this.workPanel.RowCount = 2;
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.workPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.workPanel.Size = new System.Drawing.Size(507, 381);
             this.workPanel.TabIndex = 13;
             // 
@@ -504,7 +506,7 @@ namespace Firmware_Editor
             this.customCompareRange.Controls.Add(this.cbCompareAddrFormat);
             this.customCompareRange.Location = new System.Drawing.Point(94, 13);
             this.customCompareRange.Name = "customCompareRange";
-            this.customCompareRange.Size = new System.Drawing.Size(191, 25);
+            this.customCompareRange.Size = new System.Drawing.Size(175, 25);
             this.customCompareRange.TabIndex = 13;
             // 
             // nCompareStartAddr
@@ -571,6 +573,33 @@ namespace Firmware_Editor
             this.nMismatchedNumber.Size = new System.Drawing.Size(64, 21);
             this.nMismatchedNumber.TabIndex = 14;
             this.nMismatchedNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtCompareResult
+            // 
+            this.workPanel.SetColumnSpan(this.txtCompareResult, 6);
+            this.txtCompareResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCompareResult.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtCompareResult.Location = new System.Drawing.Point(14, 95);
+            this.txtCompareResult.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.txtCompareResult.Name = "txtCompareResult";
+            this.txtCompareResult.ReadOnly = true;
+            this.txtCompareResult.Size = new System.Drawing.Size(479, 274);
+            this.txtCompareResult.TabIndex = 5;
+            this.txtCompareResult.Text = "";
+            this.txtCompareResult.WordWrap = false;
+            // 
+            // txtCompareHeader
+            // 
+            this.workPanel.SetColumnSpan(this.txtCompareHeader, 6);
+            this.txtCompareHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCompareHeader.Font = new System.Drawing.Font("Courier New", 10F);
+            this.txtCompareHeader.Location = new System.Drawing.Point(14, 70);
+            this.txtCompareHeader.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.txtCompareHeader.Name = "txtCompareHeader";
+            this.txtCompareHeader.ReadOnly = true;
+            this.txtCompareHeader.Size = new System.Drawing.Size(479, 21);
+            this.txtCompareHeader.TabIndex = 15;
+            this.txtCompareHeader.Text = "        | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F";
             // 
             // tableLayoutPanel2
             // 
@@ -1552,6 +1581,7 @@ namespace Firmware_Editor
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.gbOverrideCombineBin);
+            this.groupBox3.Controls.Add(this.cbCombineAddParameter);
             this.groupBox3.Controls.Add(this.cbOverrideBinary);
             this.groupBox3.Controls.Add(this.nMakeCombineBinaryFill);
             this.groupBox3.Controls.Add(this.label1);
@@ -1560,9 +1590,9 @@ namespace Firmware_Editor
             this.groupBox3.Controls.Add(this.txtCombineBinaryNamePrefix);
             this.groupBox3.Controls.Add(this.btnMakeCombineBinary);
             this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Location = new System.Drawing.Point(454, 20);
+            this.groupBox3.Location = new System.Drawing.Point(15, 250);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(230, 272);
+            this.groupBox3.Size = new System.Drawing.Size(491, 166);
             this.groupBox3.TabIndex = 39;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Generate Binary";
@@ -1573,7 +1603,8 @@ namespace Firmware_Editor
             this.gbOverrideCombineBin.Controls.Add(this.label20);
             this.gbOverrideCombineBin.Controls.Add(this.txtOverrideOffset);
             this.gbOverrideCombineBin.Controls.Add(this.txtOverrideBinary);
-            this.gbOverrideCombineBin.Location = new System.Drawing.Point(18, 137);
+            this.gbOverrideCombineBin.Enabled = false;
+            this.gbOverrideCombineBin.Location = new System.Drawing.Point(256, 33);
             this.gbOverrideCombineBin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbOverrideCombineBin.Name = "gbOverrideCombineBin";
             this.gbOverrideCombineBin.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1618,7 +1649,7 @@ namespace Firmware_Editor
             // cbOverrideBinary
             // 
             this.cbOverrideBinary.AutoSize = true;
-            this.cbOverrideBinary.Location = new System.Drawing.Point(18, 122);
+            this.cbOverrideBinary.Location = new System.Drawing.Point(256, 19);
             this.cbOverrideBinary.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbOverrideBinary.Name = "cbOverrideBinary";
             this.cbOverrideBinary.Size = new System.Drawing.Size(109, 16);
@@ -1677,9 +1708,9 @@ namespace Firmware_Editor
             // 
             // btnMakeCombineBinary
             // 
-            this.btnMakeCombineBinary.Location = new System.Drawing.Point(18, 231);
+            this.btnMakeCombineBinary.Location = new System.Drawing.Point(131, 127);
             this.btnMakeCombineBinary.Name = "btnMakeCombineBinary";
-            this.btnMakeCombineBinary.Size = new System.Drawing.Size(192, 23);
+            this.btnMakeCombineBinary.Size = new System.Drawing.Size(317, 23);
             this.btnMakeCombineBinary.TabIndex = 22;
             this.btnMakeCombineBinary.Text = "Generate";
             this.btnMakeCombineBinary.UseVisualStyleBackColor = true;
@@ -1696,6 +1727,8 @@ namespace Firmware_Editor
             // 
             // tableLayoutPanel6
             // 
+            this.tableLayoutPanel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -1709,15 +1742,15 @@ namespace Firmware_Editor
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(421, 403);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(741, 210);
             this.tableLayoutPanel6.TabIndex = 2;
             // 
             // btnRemoveBinary
             // 
             this.btnRemoveBinary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRemoveBinary.Location = new System.Drawing.Point(283, 377);
+            this.btnRemoveBinary.Location = new System.Drawing.Point(497, 184);
             this.btnRemoveBinary.Name = "btnRemoveBinary";
-            this.btnRemoveBinary.Size = new System.Drawing.Size(135, 23);
+            this.btnRemoveBinary.Size = new System.Drawing.Size(241, 23);
             this.btnRemoveBinary.TabIndex = 40;
             this.btnRemoveBinary.Text = "Remove All Binaries";
             this.btnRemoveBinary.UseVisualStyleBackColor = true;
@@ -1743,7 +1776,7 @@ namespace Firmware_Editor
             this.dgvCombineBinaries.RowHeadersVisible = false;
             this.dgvCombineBinaries.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvCombineBinaries.RowTemplate.Height = 23;
-            this.dgvCombineBinaries.Size = new System.Drawing.Size(415, 368);
+            this.dgvCombineBinaries.Size = new System.Drawing.Size(735, 175);
             this.dgvCombineBinaries.TabIndex = 1;
             // 
             // colOffset
@@ -1784,9 +1817,9 @@ namespace Firmware_Editor
             // btnAddBootloader
             // 
             this.btnAddBootloader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAddBootloader.Location = new System.Drawing.Point(3, 377);
+            this.btnAddBootloader.Location = new System.Drawing.Point(3, 184);
             this.btnAddBootloader.Name = "btnAddBootloader";
-            this.btnAddBootloader.Size = new System.Drawing.Size(134, 23);
+            this.btnAddBootloader.Size = new System.Drawing.Size(241, 23);
             this.btnAddBootloader.TabIndex = 3;
             this.btnAddBootloader.Text = "Add Bootloader";
             this.btnAddBootloader.UseVisualStyleBackColor = true;
@@ -1795,14 +1828,199 @@ namespace Firmware_Editor
             // btnAddUserFirmware
             // 
             this.btnAddUserFirmware.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAddUserFirmware.Location = new System.Drawing.Point(143, 376);
+            this.btnAddUserFirmware.Location = new System.Drawing.Point(250, 183);
             this.btnAddUserFirmware.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddUserFirmware.Name = "btnAddUserFirmware";
-            this.btnAddUserFirmware.Size = new System.Drawing.Size(134, 25);
+            this.btnAddUserFirmware.Size = new System.Drawing.Size(241, 25);
             this.btnAddUserFirmware.TabIndex = 41;
             this.btnAddUserFirmware.Text = "Add User Firmware";
             this.btnAddUserFirmware.UseVisualStyleBackColor = true;
             this.btnAddUserFirmware.Click += new System.EventHandler(this.btnAddUserFirmware_Click);
+            // 
+            // tabExtract
+            // 
+            this.tabExtract.Controls.Add(this.groupBox5);
+            this.tabExtract.Controls.Add(this.groupBox4);
+            this.tabExtract.Location = new System.Drawing.Point(4, 24);
+            this.tabExtract.Name = "tabExtract";
+            this.tabExtract.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtract.Size = new System.Drawing.Size(778, 459);
+            this.tabExtract.TabIndex = 5;
+            this.tabExtract.Text = "ETC";
+            this.tabExtract.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.lblEtcCrc32Result);
+            this.groupBox5.Controls.Add(this.label28);
+            this.groupBox5.Controls.Add(this.txtEtcCrc32FirmwarePath);
+            this.groupBox5.Controls.Add(this.btnEtcOpenCrc32Firmware);
+            this.groupBox5.Controls.Add(this.btnEtcGenerateCrc32Firmware);
+            this.groupBox5.Controls.Add(this.label29);
+            this.groupBox5.Location = new System.Drawing.Point(17, 189);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(399, 125);
+            this.groupBox5.TabIndex = 35;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "CRC32 Firmware";
+            // 
+            // lblEtcCrc32Result
+            // 
+            this.lblEtcCrc32Result.AutoSize = true;
+            this.lblEtcCrc32Result.Location = new System.Drawing.Point(93, 83);
+            this.lblEtcCrc32Result.Name = "lblEtcCrc32Result";
+            this.lblEtcCrc32Result.Size = new System.Drawing.Size(24, 12);
+            this.lblEtcCrc32Result.TabIndex = 6;
+            this.lblEtcCrc32Result.Text = "0x0";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(18, 39);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(72, 12);
+            this.label28.TabIndex = 2;
+            this.label28.Text = "Original File";
+            // 
+            // txtEtcCrc32FirmwarePath
+            // 
+            this.txtEtcCrc32FirmwarePath.Location = new System.Drawing.Point(95, 36);
+            this.txtEtcCrc32FirmwarePath.Name = "txtEtcCrc32FirmwarePath";
+            this.txtEtcCrc32FirmwarePath.ReadOnly = true;
+            this.txtEtcCrc32FirmwarePath.Size = new System.Drawing.Size(199, 21);
+            this.txtEtcCrc32FirmwarePath.TabIndex = 0;
+            // 
+            // btnEtcOpenCrc32Firmware
+            // 
+            this.btnEtcOpenCrc32Firmware.Location = new System.Drawing.Point(301, 34);
+            this.btnEtcOpenCrc32Firmware.Name = "btnEtcOpenCrc32Firmware";
+            this.btnEtcOpenCrc32Firmware.Size = new System.Drawing.Size(75, 23);
+            this.btnEtcOpenCrc32Firmware.TabIndex = 1;
+            this.btnEtcOpenCrc32Firmware.Text = "Open";
+            this.btnEtcOpenCrc32Firmware.UseVisualStyleBackColor = true;
+            this.btnEtcOpenCrc32Firmware.Click += new System.EventHandler(this.btnEtcOpenCrc32Firmware_Click);
+            // 
+            // btnEtcGenerateCrc32Firmware
+            // 
+            this.btnEtcGenerateCrc32Firmware.Location = new System.Drawing.Point(301, 80);
+            this.btnEtcGenerateCrc32Firmware.Name = "btnEtcGenerateCrc32Firmware";
+            this.btnEtcGenerateCrc32Firmware.Size = new System.Drawing.Size(75, 22);
+            this.btnEtcGenerateCrc32Firmware.TabIndex = 5;
+            this.btnEtcGenerateCrc32Firmware.Text = "Generate";
+            this.btnEtcGenerateCrc32Firmware.UseVisualStyleBackColor = true;
+            this.btnEtcGenerateCrc32Firmware.Click += new System.EventHandler(this.btnEtcGenerateCrc32Firmware_Click);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(18, 83);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(43, 12);
+            this.label29.TabIndex = 2;
+            this.label29.Text = "CRC32";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label27);
+            this.groupBox4.Controls.Add(this.nEtcExtractStartAddr);
+            this.groupBox4.Controls.Add(this.nEtcExtractLength);
+            this.groupBox4.Controls.Add(this.txtEtcExtractFilePath);
+            this.groupBox4.Controls.Add(this.cbEtcEtcExtractDisplayFormat);
+            this.groupBox4.Controls.Add(this.btnEtcOpenExtractFile);
+            this.groupBox4.Controls.Add(this.btnEtcExtractFile);
+            this.groupBox4.Controls.Add(this.label25);
+            this.groupBox4.Controls.Add(this.label26);
+            this.groupBox4.Location = new System.Drawing.Point(17, 16);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(399, 155);
+            this.groupBox4.TabIndex = 35;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Extract Binary";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(18, 39);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(72, 12);
+            this.label27.TabIndex = 2;
+            this.label27.Text = "Original File";
+            // 
+            // nEtcExtractStartAddr
+            // 
+            this.nEtcExtractStartAddr.Location = new System.Drawing.Point(95, 80);
+            this.nEtcExtractStartAddr.Name = "nEtcExtractStartAddr";
+            this.nEtcExtractStartAddr.Size = new System.Drawing.Size(153, 21);
+            this.nEtcExtractStartAddr.TabIndex = 34;
+            this.nEtcExtractStartAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // nEtcExtractLength
+            // 
+            this.nEtcExtractLength.Location = new System.Drawing.Point(95, 107);
+            this.nEtcExtractLength.Name = "nEtcExtractLength";
+            this.nEtcExtractLength.Size = new System.Drawing.Size(153, 21);
+            this.nEtcExtractLength.TabIndex = 34;
+            this.nEtcExtractLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtEtcExtractFilePath
+            // 
+            this.txtEtcExtractFilePath.Location = new System.Drawing.Point(95, 36);
+            this.txtEtcExtractFilePath.Name = "txtEtcExtractFilePath";
+            this.txtEtcExtractFilePath.ReadOnly = true;
+            this.txtEtcExtractFilePath.Size = new System.Drawing.Size(199, 21);
+            this.txtEtcExtractFilePath.TabIndex = 0;
+            // 
+            // cbEtcEtcExtractDisplayFormat
+            // 
+            this.cbEtcEtcExtractDisplayFormat.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cbEtcEtcExtractDisplayFormat.AutoSize = true;
+            this.cbEtcEtcExtractDisplayFormat.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.cbEtcEtcExtractDisplayFormat.Location = new System.Drawing.Point(254, 80);
+            this.cbEtcEtcExtractDisplayFormat.Name = "cbEtcEtcExtractDisplayFormat";
+            this.cbEtcEtcExtractDisplayFormat.Size = new System.Drawing.Size(40, 22);
+            this.cbEtcEtcExtractDisplayFormat.TabIndex = 33;
+            this.cbEtcEtcExtractDisplayFormat.Text = "DEC";
+            this.cbEtcEtcExtractDisplayFormat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cbEtcEtcExtractDisplayFormat.UseVisualStyleBackColor = false;
+            this.cbEtcEtcExtractDisplayFormat.CheckedChanged += new System.EventHandler(this.cbExtractDisplayFormat_CheckedChanged);
+            // 
+            // btnEtcOpenExtractFile
+            // 
+            this.btnEtcOpenExtractFile.Location = new System.Drawing.Point(301, 34);
+            this.btnEtcOpenExtractFile.Name = "btnEtcOpenExtractFile";
+            this.btnEtcOpenExtractFile.Size = new System.Drawing.Size(75, 23);
+            this.btnEtcOpenExtractFile.TabIndex = 1;
+            this.btnEtcOpenExtractFile.Text = "Open";
+            this.btnEtcOpenExtractFile.UseVisualStyleBackColor = true;
+            this.btnEtcOpenExtractFile.Click += new System.EventHandler(this.btnOpenExtractFile_Click);
+            // 
+            // btnEtcExtractFile
+            // 
+            this.btnEtcExtractFile.Location = new System.Drawing.Point(301, 80);
+            this.btnEtcExtractFile.Name = "btnEtcExtractFile";
+            this.btnEtcExtractFile.Size = new System.Drawing.Size(75, 46);
+            this.btnEtcExtractFile.TabIndex = 5;
+            this.btnEtcExtractFile.Text = "Generate";
+            this.btnEtcExtractFile.UseVisualStyleBackColor = true;
+            this.btnEtcExtractFile.Click += new System.EventHandler(this.btnExtractFile_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(18, 83);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(60, 12);
+            this.label25.TabIndex = 2;
+            this.label25.Text = "Start Addr";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(18, 114);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(43, 12);
+            this.label26.TabIndex = 3;
+            this.label26.Text = "Length";
             // 
             // statusStrip1
             // 
@@ -1821,92 +2039,17 @@ namespace Firmware_Editor
             this.progressWork.Name = "progressWork";
             this.progressWork.Size = new System.Drawing.Size(100, 16);
             // 
-            // tabExtract
+            // cbCombineAddParameter
             // 
-            this.tabExtract.Controls.Add(this.btnExtractFile);
-            this.tabExtract.Controls.Add(this.txtExtractLength);
-            this.tabExtract.Controls.Add(this.txtExtractStartAddr);
-            this.tabExtract.Controls.Add(this.label26);
-            this.tabExtract.Controls.Add(this.label27);
-            this.tabExtract.Controls.Add(this.label25);
-            this.tabExtract.Controls.Add(this.btnOpenExtractFile);
-            this.tabExtract.Controls.Add(this.txtExtractFileName);
-            this.tabExtract.Location = new System.Drawing.Point(4, 24);
-            this.tabExtract.Name = "tabExtract";
-            this.tabExtract.Padding = new System.Windows.Forms.Padding(3);
-            this.tabExtract.Size = new System.Drawing.Size(778, 459);
-            this.tabExtract.TabIndex = 5;
-            this.tabExtract.Text = "Extract";
-            this.tabExtract.UseVisualStyleBackColor = true;
-            // 
-            // txtExtractFileName
-            // 
-            this.txtExtractFileName.Location = new System.Drawing.Point(95, 20);
-            this.txtExtractFileName.Name = "txtExtractFileName";
-            this.txtExtractFileName.ReadOnly = true;
-            this.txtExtractFileName.Size = new System.Drawing.Size(199, 21);
-            this.txtExtractFileName.TabIndex = 0;
-            // 
-            // btnOpenExtractFile
-            // 
-            this.btnOpenExtractFile.Location = new System.Drawing.Point(301, 18);
-            this.btnOpenExtractFile.Name = "btnOpenExtractFile";
-            this.btnOpenExtractFile.Size = new System.Drawing.Size(75, 23);
-            this.btnOpenExtractFile.TabIndex = 1;
-            this.btnOpenExtractFile.Text = "Open";
-            this.btnOpenExtractFile.UseVisualStyleBackColor = true;
-            this.btnOpenExtractFile.Click += new System.EventHandler(this.btnOpenExtractFile_Click);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(18, 76);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(96, 12);
-            this.label25.TabIndex = 2;
-            this.label25.Text = "Start Addr (Hex)";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(18, 107);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(79, 12);
-            this.label26.TabIndex = 3;
-            this.label26.Text = "Length (Hex)";
-            // 
-            // txtExtractStartAddr
-            // 
-            this.txtExtractStartAddr.Location = new System.Drawing.Point(132, 73);
-            this.txtExtractStartAddr.Name = "txtExtractStartAddr";
-            this.txtExtractStartAddr.Size = new System.Drawing.Size(162, 21);
-            this.txtExtractStartAddr.TabIndex = 4;
-            // 
-            // txtExtractLength
-            // 
-            this.txtExtractLength.Location = new System.Drawing.Point(132, 100);
-            this.txtExtractLength.Name = "txtExtractLength";
-            this.txtExtractLength.Size = new System.Drawing.Size(162, 21);
-            this.txtExtractLength.TabIndex = 4;
-            // 
-            // btnExtractFile
-            // 
-            this.btnExtractFile.Location = new System.Drawing.Point(301, 73);
-            this.btnExtractFile.Name = "btnExtractFile";
-            this.btnExtractFile.Size = new System.Drawing.Size(75, 46);
-            this.btnExtractFile.TabIndex = 5;
-            this.btnExtractFile.Text = "Generate";
-            this.btnExtractFile.UseVisualStyleBackColor = true;
-            this.btnExtractFile.Click += new System.EventHandler(this.btnExtractFile_Click);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(18, 23);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(72, 12);
-            this.label27.TabIndex = 2;
-            this.label27.Text = "Original File";
+            this.cbCombineAddParameter.AutoSize = true;
+            this.cbCombineAddParameter.Location = new System.Drawing.Point(18, 131);
+            this.cbCombineAddParameter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbCombineAddParameter.Name = "cbCombineAddParameter";
+            this.cbCombineAddParameter.Size = new System.Drawing.Size(108, 16);
+            this.cbCombineAddParameter.TabIndex = 41;
+            this.cbCombineAddParameter.Text = "Add Parameter";
+            this.cbCombineAddParameter.UseVisualStyleBackColor = true;
+            this.cbCombineAddParameter.CheckedChanged += new System.EventHandler(this.cbOverrideBinary_CheckedChanged);
             // 
             // Form1
             // 
@@ -1981,10 +2124,15 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.nMakeCombineBinaryFill)).EndInit();
             this.tableLayoutPanel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCombineBinaries)).EndInit();
+            this.tabExtract.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractStartAddr)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractLength)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tabExtract.ResumeLayout(false);
-            this.tabExtract.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2000,7 +2148,6 @@ namespace Firmware_Editor
         private System.Windows.Forms.TextBox txtReferencePath;
         private System.Windows.Forms.Button btnOpenReference;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.RichTextBox txtCompareResult;
         private System.Windows.Forms.CheckBox cbShowDifference;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ListBox listMismatch;
@@ -2127,13 +2274,25 @@ namespace Firmware_Editor
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TabPage tabExtract;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Button btnOpenExtractFile;
-        private System.Windows.Forms.TextBox txtExtractFileName;
-        private System.Windows.Forms.Button btnExtractFile;
-        private System.Windows.Forms.TextBox txtExtractLength;
-        private System.Windows.Forms.TextBox txtExtractStartAddr;
+        private System.Windows.Forms.Button btnEtcOpenExtractFile;
+        private System.Windows.Forms.TextBox txtEtcExtractFilePath;
+        private System.Windows.Forms.Button btnEtcExtractFile;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.CheckBox cbEtcEtcExtractDisplayFormat;
+        private System.Windows.Forms.RichTextBox txtCompareResult;
+        private System.Windows.Forms.RichTextBox txtCompareHeader;
+        private System.Windows.Forms.NumericUpDown nEtcExtractLength;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown nEtcExtractStartAddr;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox txtEtcCrc32FirmwarePath;
+        private System.Windows.Forms.Button btnEtcOpenCrc32Firmware;
+        private System.Windows.Forms.Button btnEtcGenerateCrc32Firmware;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label lblEtcCrc32Result;
+        private System.Windows.Forms.CheckBox cbCombineAddParameter;
     }
 }
 
