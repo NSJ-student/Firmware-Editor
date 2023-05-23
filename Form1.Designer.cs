@@ -145,6 +145,7 @@ namespace Firmware_Editor
             this.label20 = new System.Windows.Forms.Label();
             this.txtOverrideOffset = new System.Windows.Forms.TextBox();
             this.txtOverrideBinary = new System.Windows.Forms.TextBox();
+            this.cbCombineAddParameter = new System.Windows.Forms.CheckBox();
             this.cbOverrideBinary = new System.Windows.Forms.CheckBox();
             this.nMakeCombineBinaryFill = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -182,7 +183,6 @@ namespace Firmware_Editor
             this.label26 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.progressWork = new System.Windows.Forms.ToolStripProgressBar();
-            this.cbCombineAddParameter = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.workPanel.SuspendLayout();
             this.customCompareRange.SuspendLayout();
@@ -1646,6 +1646,18 @@ namespace Firmware_Editor
             this.txtOverrideBinary.Size = new System.Drawing.Size(119, 21);
             this.txtOverrideBinary.TabIndex = 18;
             // 
+            // cbCombineAddParameter
+            // 
+            this.cbCombineAddParameter.AutoSize = true;
+            this.cbCombineAddParameter.Location = new System.Drawing.Point(18, 131);
+            this.cbCombineAddParameter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbCombineAddParameter.Name = "cbCombineAddParameter";
+            this.cbCombineAddParameter.Size = new System.Drawing.Size(108, 16);
+            this.cbCombineAddParameter.TabIndex = 41;
+            this.cbCombineAddParameter.Text = "Add Parameter";
+            this.cbCombineAddParameter.UseVisualStyleBackColor = true;
+            this.cbCombineAddParameter.CheckedChanged += new System.EventHandler(this.cbOverrideBinary_CheckedChanged);
+            // 
             // cbOverrideBinary
             // 
             this.cbOverrideBinary.AutoSize = true;
@@ -1949,6 +1961,11 @@ namespace Firmware_Editor
             // nEtcExtractStartAddr
             // 
             this.nEtcExtractStartAddr.Location = new System.Drawing.Point(95, 80);
+            this.nEtcExtractStartAddr.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
             this.nEtcExtractStartAddr.Name = "nEtcExtractStartAddr";
             this.nEtcExtractStartAddr.Size = new System.Drawing.Size(153, 21);
             this.nEtcExtractStartAddr.TabIndex = 34;
@@ -1957,6 +1974,11 @@ namespace Firmware_Editor
             // nEtcExtractLength
             // 
             this.nEtcExtractLength.Location = new System.Drawing.Point(95, 107);
+            this.nEtcExtractLength.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
             this.nEtcExtractLength.Name = "nEtcExtractLength";
             this.nEtcExtractLength.Size = new System.Drawing.Size(153, 21);
             this.nEtcExtractLength.TabIndex = 34;
@@ -2038,18 +2060,6 @@ namespace Firmware_Editor
             // 
             this.progressWork.Name = "progressWork";
             this.progressWork.Size = new System.Drawing.Size(100, 16);
-            // 
-            // cbCombineAddParameter
-            // 
-            this.cbCombineAddParameter.AutoSize = true;
-            this.cbCombineAddParameter.Location = new System.Drawing.Point(18, 131);
-            this.cbCombineAddParameter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cbCombineAddParameter.Name = "cbCombineAddParameter";
-            this.cbCombineAddParameter.Size = new System.Drawing.Size(108, 16);
-            this.cbCombineAddParameter.TabIndex = 41;
-            this.cbCombineAddParameter.Text = "Add Parameter";
-            this.cbCombineAddParameter.UseVisualStyleBackColor = true;
-            this.cbCombineAddParameter.CheckedChanged += new System.EventHandler(this.cbOverrideBinary_CheckedChanged);
             // 
             // Form1
             // 
