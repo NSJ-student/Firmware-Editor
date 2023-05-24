@@ -29,6 +29,7 @@ namespace Firmware_Editor
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label7 = new System.Windows.Forms.Label();
             this.cbShowDifference = new System.Windows.Forms.CheckBox();
             this.btnSaveUpdateArea = new System.Windows.Forms.Button();
@@ -2068,6 +2069,7 @@ namespace Firmware_Editor
             this.ClientSize = new System.Drawing.Size(786, 512);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabMainControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

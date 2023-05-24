@@ -44,6 +44,8 @@ namespace Firmware_Editor
         {
             InitializeComponent();
 
+            this.Icon = Properties.Resources.magic_wand1;
+
             l_ulCRCtable = new UInt32[256];
             makeCRC_32_Table(0x04C11DB7);
 
