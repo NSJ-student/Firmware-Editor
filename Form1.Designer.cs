@@ -166,11 +166,17 @@ namespace Firmware_Editor
             this.btnAddUserFirmware = new System.Windows.Forms.Button();
             this.tabExtract = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnCalculateCrc32 = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.lblCrc32TestResult = new System.Windows.Forms.Label();
+            this.nCrc32Size = new System.Windows.Forms.NumericUpDown();
+            this.nCrc32StartOffset = new System.Windows.Forms.NumericUpDown();
             this.lblEtcCrc32Result = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.txtEtcCrc32FirmwarePath = new System.Windows.Forms.TextBox();
             this.btnEtcOpenCrc32Firmware = new System.Windows.Forms.Button();
             this.btnEtcGenerateCrc32Firmware = new System.Windows.Forms.Button();
+            this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label27 = new System.Windows.Forms.Label();
@@ -233,6 +239,9 @@ namespace Firmware_Editor
             ((System.ComponentModel.ISupportInitialize)(this.dgvCombineBinaries)).BeginInit();
             this.tabExtract.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nCrc32Size)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nCrc32StartOffset)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractStartAddr)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractLength)).BeginInit();
@@ -1864,23 +1873,83 @@ namespace Firmware_Editor
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnCalculateCrc32);
+            this.groupBox5.Controls.Add(this.panel4);
             this.groupBox5.Controls.Add(this.lblEtcCrc32Result);
             this.groupBox5.Controls.Add(this.label28);
             this.groupBox5.Controls.Add(this.txtEtcCrc32FirmwarePath);
             this.groupBox5.Controls.Add(this.btnEtcOpenCrc32Firmware);
             this.groupBox5.Controls.Add(this.btnEtcGenerateCrc32Firmware);
+            this.groupBox5.Controls.Add(this.label30);
             this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Location = new System.Drawing.Point(17, 189);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(399, 125);
+            this.groupBox5.Size = new System.Drawing.Size(399, 213);
             this.groupBox5.TabIndex = 35;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "CRC32 Firmware";
             // 
+            // btnCalculateCrc32
+            // 
+            this.btnCalculateCrc32.Location = new System.Drawing.Point(301, 75);
+            this.btnCalculateCrc32.Name = "btnCalculateCrc32";
+            this.btnCalculateCrc32.Size = new System.Drawing.Size(75, 23);
+            this.btnCalculateCrc32.TabIndex = 37;
+            this.btnCalculateCrc32.Text = "Calculate";
+            this.btnCalculateCrc32.UseVisualStyleBackColor = true;
+            this.btnCalculateCrc32.Click += new System.EventHandler(this.btnCalculateCrc32_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.lblCrc32TestResult);
+            this.panel4.Controls.Add(this.nCrc32Size);
+            this.panel4.Controls.Add(this.nCrc32StartOffset);
+            this.panel4.Location = new System.Drawing.Point(103, 73);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(191, 59);
+            this.panel4.TabIndex = 36;
+            // 
+            // lblCrc32TestResult
+            // 
+            this.lblCrc32TestResult.AutoSize = true;
+            this.lblCrc32TestResult.Location = new System.Drawing.Point(85, 9);
+            this.lblCrc32TestResult.Name = "lblCrc32TestResult";
+            this.lblCrc32TestResult.Size = new System.Drawing.Size(24, 12);
+            this.lblCrc32TestResult.TabIndex = 6;
+            this.lblCrc32TestResult.Text = "0x0";
+            // 
+            // nCrc32Size
+            // 
+            this.nCrc32Size.Hexadecimal = true;
+            this.nCrc32Size.Location = new System.Drawing.Point(3, 32);
+            this.nCrc32Size.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.nCrc32Size.Name = "nCrc32Size";
+            this.nCrc32Size.Size = new System.Drawing.Size(63, 21);
+            this.nCrc32Size.TabIndex = 7;
+            this.nCrc32Size.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // nCrc32StartOffset
+            // 
+            this.nCrc32StartOffset.Hexadecimal = true;
+            this.nCrc32StartOffset.Location = new System.Drawing.Point(3, 5);
+            this.nCrc32StartOffset.Maximum = new decimal(new int[] {
+            -1,
+            0,
+            0,
+            0});
+            this.nCrc32StartOffset.Name = "nCrc32StartOffset";
+            this.nCrc32StartOffset.Size = new System.Drawing.Size(63, 21);
+            this.nCrc32StartOffset.TabIndex = 7;
+            this.nCrc32StartOffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // lblEtcCrc32Result
             // 
             this.lblEtcCrc32Result.AutoSize = true;
-            this.lblEtcCrc32Result.Location = new System.Drawing.Point(93, 83);
+            this.lblEtcCrc32Result.Location = new System.Drawing.Point(101, 163);
             this.lblEtcCrc32Result.Name = "lblEtcCrc32Result";
             this.lblEtcCrc32Result.Size = new System.Drawing.Size(24, 12);
             this.lblEtcCrc32Result.TabIndex = 6;
@@ -1897,10 +1966,10 @@ namespace Firmware_Editor
             // 
             // txtEtcCrc32FirmwarePath
             // 
-            this.txtEtcCrc32FirmwarePath.Location = new System.Drawing.Point(95, 36);
+            this.txtEtcCrc32FirmwarePath.Location = new System.Drawing.Point(103, 36);
             this.txtEtcCrc32FirmwarePath.Name = "txtEtcCrc32FirmwarePath";
             this.txtEtcCrc32FirmwarePath.ReadOnly = true;
-            this.txtEtcCrc32FirmwarePath.Size = new System.Drawing.Size(199, 21);
+            this.txtEtcCrc32FirmwarePath.Size = new System.Drawing.Size(191, 21);
             this.txtEtcCrc32FirmwarePath.TabIndex = 0;
             // 
             // btnEtcOpenCrc32Firmware
@@ -1915,7 +1984,7 @@ namespace Firmware_Editor
             // 
             // btnEtcGenerateCrc32Firmware
             // 
-            this.btnEtcGenerateCrc32Firmware.Location = new System.Drawing.Point(301, 80);
+            this.btnEtcGenerateCrc32Firmware.Location = new System.Drawing.Point(301, 160);
             this.btnEtcGenerateCrc32Firmware.Name = "btnEtcGenerateCrc32Firmware";
             this.btnEtcGenerateCrc32Firmware.Size = new System.Drawing.Size(75, 22);
             this.btnEtcGenerateCrc32Firmware.TabIndex = 5;
@@ -1923,10 +1992,19 @@ namespace Firmware_Editor
             this.btnEtcGenerateCrc32Firmware.UseVisualStyleBackColor = true;
             this.btnEtcGenerateCrc32Firmware.Click += new System.EventHandler(this.btnEtcGenerateCrc32Firmware_Click);
             // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(18, 82);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(79, 12);
+            this.label30.TabIndex = 2;
+            this.label30.Text = "CRC32 TEST";
+            // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(18, 83);
+            this.label29.Location = new System.Drawing.Point(18, 163);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(43, 12);
             this.label29.TabIndex = 2;
@@ -2139,6 +2217,10 @@ namespace Firmware_Editor
             this.tabExtract.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nCrc32Size)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nCrc32StartOffset)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nEtcExtractStartAddr)).EndInit();
@@ -2305,6 +2387,12 @@ namespace Firmware_Editor
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label lblEtcCrc32Result;
         private System.Windows.Forms.CheckBox cbCombineAddParameter;
+        private System.Windows.Forms.Label lblCrc32TestResult;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.NumericUpDown nCrc32Size;
+        private System.Windows.Forms.NumericUpDown nCrc32StartOffset;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button btnCalculateCrc32;
     }
 }
 

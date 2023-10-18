@@ -113,7 +113,7 @@ namespace Firmware_Editor
             string text = "";
             UInt32 refresh_cnt = 0;
 
-            for (int pos = 0; pos < compareArg.textSize; pos++)
+            for (int pos = compareArg.startAddr; pos < compareArg.startAddr + compareArg.textSize; pos++)
             {
                 if (compareCancel)
                 {
@@ -121,6 +121,19 @@ namespace Firmware_Editor
                     arg.Cancel = true;
                     break;
                 }
+                if(referenceData.Length <= pos)
+                {
+                    compareCancel = false;
+                    arg.Cancel = true;
+                    break;
+                }
+                if (workingData.Length <= pos)
+                {
+                    compareCancel = false;
+                    arg.Cancel = true;
+                    break;
+                }
+
                 if (cbShowDifference.Checked)
                 {
                     refresh_cnt++;
@@ -132,7 +145,8 @@ namespace Firmware_Editor
                         }
 
                         text += (pos & 0xFFFFFFF0).ToString("X8") + ": ";
-                        WorkerBinaryComare.ReportProgress((int)(pos * 100 / compareArg.textSize));
+                        int offset = pos - compareArg.startAddr;
+                        WorkerBinaryComare.ReportProgress((int)(offset * 100 / compareArg.textSize));
                     }
 
                     if (referenceData[pos] != workingData[pos])
@@ -306,7 +320,8 @@ namespace Firmware_Editor
                 lblCompareOriginFile.Text = Path.GetFileName(txtFirmwareBinPath.Text);
                 lblCompareRefFile.Text = Path.GetFileName(txtReferencePath.Text);
 
-                compareArg.textSize = end_pos;
+                compareArg.startAddr = start_pos;
+                compareArg.textSize = end_pos - start_pos;
                 progressWork.Value = 0;
                 txtCompareResult.Clear();
                 listMismatch.Items.Clear();
@@ -1271,6 +1286,9 @@ namespace Firmware_Editor
             if (DialogResult.OK == open_bin.ShowDialog())
             {
                 txtEtcCrc32FirmwarePath.Text = open_bin.FileName;
+                FileStream file_r = File.OpenRead(txtEtcCrc32FirmwarePath.Text);
+                nCrc32Size.Value = file_r.Length;
+                file_r.Close();
             }
         }
 
@@ -1330,6 +1348,44 @@ namespace Firmware_Editor
 
                 MessageBox.Show("Complete!!");
             }
+        }
+
+        private void btnCalculateCrc32_Click(object sender, EventArgs e)
+        {
+            if (txtEtcCrc32FirmwarePath.Text == "")
+            {
+                return;
+            }
+
+            // read
+            FileStream file_r = File.OpenRead(txtEtcCrc32FirmwarePath.Text);
+            BinaryReader reader = new BinaryReader(file_r);
+
+            byte[] readAll = new byte[file_r.Length];
+            reader.Read(readAll, 0, (int)file_r.Length);
+
+            // copy
+            int aligned_size = (int)file_r.Length;
+            if (file_r.Length % 4 > 0)
+            {
+                aligned_size += (4 - (int)(file_r.Length % 4));
+            }
+
+            byte[] copy_data = new byte[aligned_size + 4];
+
+            Array.Copy(readAll, 0, copy_data, 0, file_r.Length);
+
+            reader.Close();
+            file_r.Close();
+
+            if (aligned_size < nCrc32Size.Value)
+            {
+                return;
+            }
+
+            // calculate CRC32
+            UInt32 result = update_CRC_32(0, copy_data, (int)nCrc32StartOffset.Value, (int)nCrc32Size.Value);
+            lblCrc32TestResult.Text = result.ToString("X8");
         }
 
         ////////////////////////////////////////
